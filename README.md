@@ -1,4 +1,4 @@
-# IMsoftware
+i# IMsoftware
 ## 要求
 1. 局域网信息接受
 2. 发送（200人规模）
@@ -15,4 +15,10 @@
 =======
 
 范沛源源源
+<<<<<<< HEAD
 >>>>>>> d504dca8128767bad2cbb0d39be652e093b92e7b
+=======
+
+lihao
+shuaifanfan
+>>>>>>> fadcbc222f777b5091c5042f66c74604c75e0dd2

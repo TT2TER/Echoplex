@@ -18,6 +18,11 @@ def handle_client(socket, address):
             socket.sendall(json_data)
         except Exception as e:
             print("连接异常，原因是：" + str(e))
+        finally:
+            try:
+                socket.close()
+            except Exception as e:
+                print("socket关闭异常，原因是：" + str(e))
 
 
 if __name__ == "__main__":

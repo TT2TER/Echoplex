@@ -10,11 +10,15 @@ def handle_client(socket, address):
             data = socket.recv(1024)
             if not data:
                 break
-
             received_data = json.loads(data.decode('utf-8'))
-            print("收到消息：",received_data)
+            print("收到消息：", received_data)
+            name = received_data['content']
+            hello_msg = {'type': 'message', 'content': 'Hello' + name}
+            json_data = json.dumps(hello_msg).encode('utf-8')
+            socket.sendall(json_data)
         except Exception as e:
-            print("连接异常，原因是："+str(e))
+            print("连接异常，原因是：?" + str(e))
+
 
 if __name__ == "__main__":
     try:
@@ -24,15 +28,15 @@ if __name__ == "__main__":
         server_address = ('127.0.0.1', 13579)
         server_socket.bind(server_address)
 
-        # 开始 TCP 监听。
-        # backlog 指定在拒绝连接之前，操作系统可以挂起的最大连接数量。
-        # 该值至少为 1，
-        # 大部分应用程序设为 5 就可以了。
+        # TCP 监听
+        # backlog 指定在拒绝连接之前，操作系统可以挂起的最大连接数量�?
+        # 该值至少为 1
+        # 大部分应用程序设5就可以了
         server_socket.listen(5)
-        print("服务器等待连接 O.o")
+        print("服务器等待连接？O.o")
         while True:
             client_socket, client_address = server_socket.accept()
-            client_handler = threading.Thread(target=handle_client, args=(client_socket,client_address))
+            client_handler = threading.Thread(target=handle_client, args=(client_socket, client_address))
             client_handler.start()
     except Exception as e:
-        print("服务器寄了，原因是" + str(e))
+        print("服务器寄了，原因是：" + str(e))

@@ -37,7 +37,8 @@ if __name__ == "__main__":
         # backlog 指定在拒绝连接之前，操作系统可以挂起的最大连接数量�?
         # 该值至少为 1
         # 大部分应用程序设5就可以了
-        server_socket.listen(5)
+        backlog = 5
+        server_socket.listen(backlog)
         print("服务器等待连接？O.o")
         while True:
             client_socket, client_address = server_socket.accept()

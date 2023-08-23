@@ -11,6 +11,9 @@ def user_register():
     username = input("Username: ")
     userpwd = input("Password: ")
     user_repwd = input("Retype Password: ")
+    # username = "asuna"
+    # userpwd = "123456"
+    # user_repwd = "123456"
     if userpwd != user_repwd:
         print("两次密码不一致")
     else:

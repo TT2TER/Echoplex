@@ -59,7 +59,7 @@ if __name__ == "__main__":
         # 创建socket对象
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # 绑定地址和端口
-        server_address = ('127.0.0.1', 13579)
+        server_address = ('127.0.0.1', 13582)
         server_socket.bind(server_address)
 
         # TCP 监听

@@ -6,14 +6,14 @@ from db.DataDB import select_table
 
 def user_login(data, socket, address, con):
 
-    res = select_table(con,"user",user_id=data["content"]["userid"])
+    res = select_table(con,"user",user_id=data["content"]["user_id"])
     if res == None:
         back_data = {
             'back_data': "0003"
             }
         result = "Failed"
     else:
-        if data["content"]["userpwd"] == res[2]:
+        if data["content"]["user_pwd"] == res[2]:
             back_data = {
                 'back_data': "0002"
                 }

@@ -1,6 +1,33 @@
 import socket
 import threading
 import json
+from user_register import user_register
+from user_login import user_login
+
+
+def process_message(message_type, information, address, conn, database):
+    message_handlers = {
+        'user_register': user_register,
+        'user_login': user_login,
+    }
+    try:
+        handler = message_handlers.get(message_type)
+        if handler:
+            succ = handler(information, address, conn, database)
+            print(succ)
+
+    except Exception as e:
+        print(str(address) + " 连接异常，准备断开: " + str(e))
+        # 退出用户记录
+        ONLINE_USERS.remove((conn, address))
+        _sql = "update login_info set is_online = 0 where ip = ?"
+        c.execute(_sql, address[0].split(" "))
+        database.commit()
+    finally:
+        try:
+            conn.close()
+        except:
+            print(str(address) + "连接关闭异常")
 
 
 def handle_client(socket, address):
@@ -12,6 +39,7 @@ def handle_client(socket, address):
                 break
             received_data = json.loads(data.decode('utf-8'))
             print("收到消息：", received_data)
+
             name = received_data['content']
             hello_msg = {'type': 'message', 'content': 'Hello' + name}
             json_data = json.dumps(hello_msg).encode('utf-8')

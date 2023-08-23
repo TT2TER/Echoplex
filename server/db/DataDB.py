@@ -1,8 +1,8 @@
 import sqlite3 as sql
 from sqlite3 import Error
-from table_user import *
-from table_user_friend import *
-from table_user_chat import *
+# from table_user import *
+# from table_user_friend import *
+# from table_user_chat import *
 
 
 def sql_connection(database_name="testDB.db"):

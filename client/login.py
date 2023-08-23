@@ -31,7 +31,6 @@ class Login:
         # 在此以下完成逻辑部分
         # 下一行是测试用假设正确的密码是 "password123"
         correct_password = "password123"
-
         #以下部分是信息反馈
         if entered_password == correct_password:
             QMessageBox.about(self.ui, '登录成功', '欢迎进入系统！')

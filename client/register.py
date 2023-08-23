@@ -15,7 +15,25 @@ class Register:
         self.ui.reg_cancel.clicked.connect(self.return_to_login)
 
     def start_registration(self):
-        # 这里实现注册流程
+        #以下是判断密码是否重复
+        entered_password=self.ui.pwd_in.text()
+        entered_password2=self.ui.pwd_check.text()
+        if entered_password==entered_password2:
+             pass
+        else :
+            QMessageBox.warning(self.ui,'注册失败','两次密码不一致，请重新输入！')
+            self.ui.pwd_in.clear()
+            self.ui.pwd_check.clear()
+            return;
+                
+
+        # 以下是用户输入的数据
+        entered_name=self.ui.name_in.text()#姓名
+        entered_ID=self.ui.num_in.text()#id
+        entered_mail=self.ui.mail_in.text()#mail
+        entered_password=self.ui.pwd_in.text()#密码
+        entered_password2=self.ui.pwd_check.text()#重复密码
+
         #TODO:
         # 获取输入的用户名和密码，并进行注册逻辑
         

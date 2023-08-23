@@ -21,8 +21,10 @@ def create_table_user_friend(con,table_name="user-group"):
                   "PRIMARY KEY(user_id,friend_id))")
         con.commit()
         print("table is created")
+        return True
     except:
         print("table "+table_name+" is already exists")
+        return False
 
 
 def insert_table_user_friend(con,table_name,user_id,friend_id,chat_id):
@@ -32,7 +34,9 @@ def insert_table_user_friend(con,table_name,user_id,friend_id,chat_id):
         cursor.execute(sql,(user_id,friend_id,chat_id))
         con.commit()
         print("Successfully Insert")
+        return True
     except:
         print("Insert Failed")
         con.rollback()
+        return False
 

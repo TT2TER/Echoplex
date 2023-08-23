@@ -16,11 +16,13 @@ def create_table_user(con, table_name="user"):
                   "user_name text,"
                   "user_pwd text,"
                   "user_email text,"
-                  "user_image text)")
+                  "user_image BLOB)")
         con.commit()
         print("table is created")
+        return True
     except:
         print("table "+table_name+" is already exists")
+        return False
 
 
 def insert_table_user(con,table_name,id,name,pwd,email,image):
@@ -30,9 +32,11 @@ def insert_table_user(con,table_name,id,name,pwd,email,image):
         cursor.execute(sql,(id,name,pwd,email,image))
         con.commit()
         print("Successfully Insert")
+        return True
     except:
         print("Insert Error")
         con.rollback()
+        return False
 
 def update_table_user(con,table_name,id,index, value):
     """
@@ -48,7 +52,9 @@ def update_table_user(con,table_name,id,index, value):
         cursor.execute(sql,(value,id))
         con.commit()
         print("Successfully Update")
+        return True
     except:
         print("Update Failed")
         con.rollback()
+        return False
 

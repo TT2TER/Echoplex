@@ -27,7 +27,7 @@ class Login:
         entered_password = self.ui.pwd_in.text()
         #entered_ID和entered_password分别为输入的用户名和密码字符串
 
-
+#TODO:
         # 在此以下完成逻辑部分
         # 下一行是测试用假设正确的密码是 "password123"
         correct_password = "password123"
@@ -46,6 +46,7 @@ class Login:
 
     def toggle_day_night_mode(self):
         # 这里可以添加切换日夜模式的逻辑
+        #TODO:
         # 切换界面的颜色、主题等
         pass
 

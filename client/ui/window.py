@@ -7,3 +7,4 @@ class Main_win:
     def __init__(self):
         # 加载界面
         self.ui = QUiLoader().load('./client/ui/window.ui')
+        #TODO:

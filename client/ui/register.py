@@ -16,6 +16,7 @@ class Register:
 
     def start_registration(self):
         # 这里实现注册流程
+        #TODO:
         # 获取输入的用户名和密码，并进行注册逻辑
         
         # 注册完成后可以显示成功消息或错误消息

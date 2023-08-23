@@ -1,5 +1,6 @@
 from PySide2.QtWidgets import QApplication, QMessageBox
 from PySide2.QtUiTools import QUiLoader
+from lib.public import shared_module
 
 class Login:
 
@@ -28,7 +29,8 @@ class Login:
         if entered_password == correct_password:
             QMessageBox.about(self.ui, '登录成功', '欢迎进入系统！')
         else:
-            QMessageBox.about(self.ui, '登录失败', '密码错误，请重试。')
+            QMessageBox.warning(self.ui, '登录失败', '密码错误，请重试。')#待修改错误原因部分
+            return;
 
     def toggle_day_night_mode(self):
         # 这里可以添加切换日夜模式的逻辑
@@ -41,6 +43,6 @@ class Login:
         pass
 
 app = QApplication([])
-login = Login()
-login.ui.show()
+shared_module.login_page = Login()
+shared_module.login_page.ui.show()
 app.exec_()

@@ -8,10 +8,27 @@ client_socket.connect(server_address)
 
 
 def user_register():
-    print("写了个寄吧")
-    # TODO
+    username = input("Username: ")
+    userpwd = input("Password: ")
+    user_repwd = input("Retype Password: ")
+    if userpwd != user_repwd:
+        print("两次密码不一致")
+    else:
+        data={
+            'type': 'user_register',
+            'content': {
+                'username': username,
+                'userpwd': userpwd
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        client_socket.sendall(json_data)
+        back_json_data = client_socket.recv(1024)
+        back_data = json.loads(back_json_data.decode('utf-8'))
+        if back_data["register_back"] == "0000":
+            print("Register Success")
 
 
 if __name__ == "__main__":
-    print("写了个寄吧")
+    user_register()
     # TODO

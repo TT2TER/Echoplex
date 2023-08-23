@@ -23,7 +23,7 @@ def handle_client(socket, address, database):
                 'user_register': user_register,
                 'user_login': user_login,
             }
-            handler = message_handlers.get(received_data)
+            handler = message_handlers.get(received_data['type'])
             if handler:
                 succ = handler(received_data, socket, address, database)
                 print("handler为" + str(handler) + "处理结果：" + succ)

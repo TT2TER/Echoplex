@@ -28,7 +28,7 @@ while True:
     # visible_to = input("输入可见的用户名列表，以逗号分隔: ").split(',')
 
     message = {
-        "type": "message",
+        "type": "register",
         # "timestamp": "2023-08-22T12:34:56",
         # "sender": sender,
         # "group_id": group_id,

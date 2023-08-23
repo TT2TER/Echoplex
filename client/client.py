@@ -17,7 +17,7 @@ def user_register():
     if userpwd != user_repwd:
         print("两次密码不一致")
     else:
-        data={
+        data = {
             'type': 'user_register',
             'content': {
                 'username': username,
@@ -30,6 +30,11 @@ def user_register():
         back_data = json.loads(back_json_data.decode('utf-8'))
         if back_data["register_back"] == "0000":
             print("Register Success")
+
+
+def send_file():
+    BUF_SIZE = 8192
+    # TODO
 
 
 if __name__ == "__main__":

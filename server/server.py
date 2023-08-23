@@ -1,46 +1,46 @@
 import socket
-import sqlite3
 import threading
 import json
 from user_register import user_register
 from user_login import user_login
-from db.DataDB import sql_connection
+from db.DataDB import *
+from db.table_user import *
+import sys
 
 
 def handle_client(socket, address, database):
-    while True:
-        # bufsize 指定要接收的最大数据量
+    # bufsize 指定要接收的最大数据量
+    try:
+        data = socket.recv(1024)
+        received_data = json.loads(data.decode('utf-8'))
+        print("收到客户端消息：", received_data)
+    except Exception as e:
+        print("没收到客户端消息或者收消息过程中寄了，自己看报错吧：" + str(e))
+    try:
+        print("处理ing……")
+        message_handlers = {
+            'user_register': user_register,
+            'user_login': user_login,
+        }
+        handler = message_handlers.get(received_data['type'])
+        if handler:
+            print("handler为" + getattr(handler, "__name__", "unknown_function"))
+            succ = handler(received_data, socket, address, database)
+            print("处理结果：" + str(succ))
+        else:
+            print("收到了服务器不认识的消息类型欸")
+    except Exception as e:
+        print(str(address) + " 连接异常，准备断开: " + str(e))
+    finally:
         try:
-            data = socket.recv(1024)
-            if not data:
-                break
-            received_data = json.loads(data.decode('utf-8'))
-            print("收到客户端消息：", received_data)
+            socket.close()
+            print("服务器完工，顺利下班oVo")
         except Exception as e:
-            print("没收到客户端消息或者收消息过程中寄了，自己看报错吧：" + str(e))
-        try:
-            print("处理ing……")
-            message_handlers = {
-                'user_register': user_register,
-                'user_login': user_login,
-            }
-            handler = message_handlers.get(received_data['type'])
-            if handler:
-                print("handler为" + getattr(handler, "__name__", "unknown_function"))
-                succ = handler(received_data, socket, address, database)
-                print("处理结果：" + str(succ))
-            else:
-                print("收到了服务器不认识的消息类型欸")
-        except Exception as e:
-            print(str(address) + " 连接异常，准备断开: " + str(e))
-            break
-        finally:
-            try:
-                socket.close()
-                print("服务器完工，顺利下班oVo")
-                break
-            except Exception as e:
-                print(str(address) + "连接关闭异常:" + str(e))
+            print(str(address) + "连接关闭异常:" + str(e))
+
+
+def init_server(database):
+    create_table_user(database, )
 
 
 if __name__ == "__main__":
@@ -50,6 +50,11 @@ if __name__ == "__main__":
         # c = database.cursor()
     except Exception as e:
         print("数据库连接失败了，呜呜呜：" + str(e))
+    try:
+        init_server(database)
+    except Exception as e:
+        print("服务器初始化失败:" + str(e))
+        sys.exit()
     try:
         # 创建socket对象
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

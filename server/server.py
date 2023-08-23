@@ -1,59 +1,50 @@
 import socket
+import sqlite3
 import threading
 import json
 from user_register import user_register
 from user_login import user_login
 
 
-def process_message(message_type, information, address, conn, database):
-    message_handlers = {
-        'user_register': user_register,
-        'user_login': user_login,
-    }
-    try:
-        handler = message_handlers.get(message_type)
-        if handler:
-            succ = handler(information, address, conn, database)
-            print(succ)
-
-    except Exception as e:
-        print(str(address) + " 连接异常，准备断开: " + str(e))
-        # 退出用户记录
-        ONLINE_USERS.remove((conn, address))
-        _sql = "update login_info set is_online = 0 where ip = ?"
-        c.execute(_sql, address[0].split(" "))
-        database.commit()
-    finally:
-        try:
-            conn.close()
-        except:
-            print(str(address) + "连接关闭异常")
-
-
-def handle_client(socket, address):
+def handle_client(socket, address, database):
     while True:
+        # bufsize 指定要接收的最大数据量
         try:
-            # bufsize 指定要接收的最大数据量
             data = socket.recv(1024)
             if not data:
                 break
             received_data = json.loads(data.decode('utf-8'))
-            print("收到消息：", received_data)
-
-            name = received_data['content']
-            hello_msg = {'type': 'message', 'content': 'Hello' + name}
-            json_data = json.dumps(hello_msg).encode('utf-8')
-            socket.sendall(json_data)
+            print("收到客户端消息：", received_data)
         except Exception as e:
-            print("连接异常，原因是：" + str(e))
+            print("没收到客户端消息或者收消息过程中寄了，自己看报错吧："+str(e))
+        try:
+            print("处理ing……")
+            message_handlers = {
+                'user_register': user_register,
+                'user_login': user_login,
+            }
+            handler = message_handlers.get(received_data)
+            if handler:
+                succ = handler(received_data, socket, address, database)
+                print("handler为" + str(handler) + "处理结果：" + succ)
+            else:
+                print("收到了服务器不认识的消息类型欸")
+        except Exception as e:
+            print(str(address) + " 连接异常，准备断开: " + str(e))
         finally:
             try:
                 socket.close()
             except Exception as e:
-                print("socket关闭异常，原因是：" + str(e))
+                print(str(address) + "连接关闭异常:" + str(e))
 
 
 if __name__ == "__main__":
+    try:
+        database = sqlite3.connect('server.db')
+        print("数据库打开成功，好耶")
+        # c = database.cursor()
+    except Exception as e:
+        print("数据库连接失败了，呜呜呜：" + str(e))
     try:
         # 创建socket对象
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -70,7 +61,7 @@ if __name__ == "__main__":
         print("服务器等待连接？O.o")
         while True:
             client_socket, client_address = server_socket.accept()
-            client_handler = threading.Thread(target=handle_client, args=(client_socket, client_address))
+            client_handler = threading.Thread(target=handle_client, args=(client_socket, client_address, database))
             client_handler.start()
     except Exception as e:
-        print("服务器寄了，原因是：" + str(e))
+        print("服务器socket寄了，原因是：" + str(e))

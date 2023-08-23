@@ -2,6 +2,8 @@ import socket
 import json
 import threading
 
+class Login:
+    
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = ('127.0.0.1', 13579)
 client_socket.connect(server_address)

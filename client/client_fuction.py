@@ -31,7 +31,7 @@ class Client:
     def user_register(self, user_id, user_name, user_image, user_pwd, user_email):
         if len(user_id) > 15:
             return 2
-        elif len(user_pwd) > 18:
+        elif len(user_pwd) > 25 or len(user_pwd) < 6:
             return 3
         else:
             data = {

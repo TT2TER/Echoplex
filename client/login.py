@@ -3,6 +3,7 @@ from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from window import Main_win
 from register import Register
+from client_fuction import Client
 
 class Login:
 
@@ -27,12 +28,9 @@ class Login:
         entered_password = self.ui.pwd_in.text()
         #entered_ID和entered_password分别为输入的用户名和密码字符串
 
-#TODO:
-        # 在此以下完成逻辑部分
-        # 下一行是测试用假设正确的密码是 "password123"
-        correct_password = "password123"
+        result = shared_module.client.user_login(user_id=entered_ID, user=entered_password)
         #以下部分是信息反馈
-        if entered_password == correct_password:
+        if result == 0:
             QMessageBox.about(self.ui, '登录成功', '欢迎进入系统！')
             # 创建主界面窗口
             shared_module.main_page = Main_win()
@@ -40,7 +38,7 @@ class Login:
             # 关闭自身窗口
             self.ui.close()
         else:
-            QMessageBox.warning(self.ui, '登录失败', '密码错误，请重试。')#待修改错误原因部分
+            QMessageBox.warning(self.ui, '登录失败', '用户名或密码错误，请重试。')#待修改错误原因部分
             return;
 
     def toggle_day_night_mode(self):

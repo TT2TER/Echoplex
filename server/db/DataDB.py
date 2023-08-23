@@ -1,5 +1,8 @@
 import sqlite3 as sql
 from sqlite3 import Error
+from table_user import *
+from table_user_friend import *
+
 
 def sql_connection(database_name="testDB.db"):
     """
@@ -13,27 +16,7 @@ def sql_connection(database_name="testDB.db"):
         print(Error)
     return con
 
-def create_table_user(con, table_name="user"):
-    """
-    用户表：
-    user_id : 用户编号
-    user_name : 用户姓名
-    user_pwd : 用户密码
-    user_email : 邮箱
-    user_image : 用户头像路径
-    """
-    cursor=con.cursor()
-    try:
-        cursor.execute("CREATE TABLE "+ table_name+" ("
-                  "user_id INT PRIMARY KEY,"
-                  "user_name text,"
-                  "user_pwd text,"
-                  "user_email text,"
-                  "user_image text)")
-        con.commit()
-        print("table is created")
-    except:
-        print("table "+table_name+" is already exists")
+
 
 def create_table_group(con,table_name="group"):
     """
@@ -43,6 +26,7 @@ def create_table_group(con,table_name="group"):
     group_leader_id : 群主编号
     group_image : 群头像
     """
+
     cursor=con.cursor()
     try:
         cursor.execute("CREATE TABLE "+ table_name+" ("
@@ -56,43 +40,6 @@ def create_table_group(con,table_name="group"):
     except:
         print("table "+table_name+" is already exists")
 
-def create_table_user_friend(con,table_name="user-group"):
-    """
-    用户好友关系表：        （主要用于好友界面）
-    user_id : 用户编号
-    friend_id : 好友编号
-    chat_id : 用户单聊天编号
-    """
-    cursor=con.cursor()
-    try:
-        cursor.execute("CREATE TABLE "+ table_name+" ("
-                  "user_id INT,"
-                  "friend_id INT,"
-                  "chat_id INT)")
-        con.commit()
-        print("table is created")
-    except:
-        print("table "+table_name+" is already exists")
-
-def create_table_user_chat(con,table_name="user-chat"):
-    """
-    用户聊天表：
-    sender_id : 信息发送者编号
-    reciewer_id : 信息接受者编号
-    chat_time : 信息发送时间
-    chat_content : 信息内容
-    """
-    cursor=con.cursor()
-    try:
-        cursor.execute("CREATE TABLE "+ table_name+" ("
-                  "sender_id INT, "
-                  "reciewer_id INT, "
-                  "chat_time datatime,"
-                  "chat_content text,")
-        con.commit()
-        print("table is created")
-    except:
-        print("table "+table_name+" is already exists")
 
 def create_table_group_chat(con,table_name="group-chat"):
     """
@@ -131,17 +78,6 @@ def create_table_group_member(con,table_name="group-member"):
         print("table "+table_name+" is already exists")
 
 
-def insert_table_user(con,table_name,id,name,pwd,email,image):
-    cursor=con.cursor()
-    try:
-        sql="INSERT INTO "+table_name+" (user_id,user_name,user_pwd,user_email,user_image) VALUES(?,?,?,?,?)"
-        cursor.execute(sql,(id,name,pwd,email,image))
-        con.commit()
-        print("Successfully Insert")
-    except:
-        print("Insert Error")
-        con.rollback()
-
 def insert_table_group(con,table_name,id,name,image,leader_id):
     cursor=con.cursor()
     try:
@@ -153,39 +89,9 @@ def insert_table_group(con,table_name,id,name,image,leader_id):
         print("Insert Error")
         con.rollback()
 
-def insert_table_user_friend(con,table_name,user_id,friend_id,chat_id):
-    cursor=con.cursor()
-    try:
-        sql="INSERT INTO "+table_name+"(user_id,friend_id,chat_id) VALUES(?,?,?,?,?)"
-        cursor.execute(sql,(user_id,friend_id,chat_id))
-        con.commit()
-        print("Successfully Insert")
-    except:
-        print("Insert Failed")
-        con.rollback()
-
-
-def update_table_user(con,table_name,id,index, value):
+def select_table(con,table_name,**kwargs):
     """
-    用户表更新            输入：
-    table_name : 操作的表名
-    id : 需要更新信息的用户的ID
-    index : 需要更新的选项（例如pwd和email）    注：前面需要加uer_
-    value : 更新的值
-    """
-    cursor=con.cursor()
-    try:
-        sql="UPDATE "+ table_name +" set "+index+"=? where user_id=?"
-        cursor.execute(sql,(value,id))
-        con.commit()
-        print("Successfully Update")
-    except:
-        print("Update Failed")
-        con.rollback()
-
-def select_table_user(con,table_name,**kwargs):
-    """
-    用户表查询：
+    任意表查询：
     table_name : 需要查询的表
     **kwargs : 查询条件（例如：user_name="'xa'"和user_id=1002）
 
@@ -198,25 +104,56 @@ def select_table_user(con,table_name,**kwargs):
         for key,value in kwargs.items():
             if flag==1:
                 sql=sql+" AND "
+            sql=sql+key+"="+str(value)
+            flag=1
+        cursor.execute(sql)
+        ret=cursor.fetchall()
+        return ret
+    except:
+        print("Select Failed")
+        return None
+    
+def delete_table_index(con,table_name,**kwargs):
+    cursor=con.cursor()
+    try:
+        sql="DELETE FROM "+table_name+" WHERE "
+        flag=0
+        for key,value in kwargs.items():
+            if flag==1:
+                sql=sql+" AND "
             print(key,value)
             sql=sql+key+"="+str(value)
             flag=1
         print(sql)
         cursor.execute(sql)
-        ret=cursor.fetchone()
-        return ret
+        con.commit()
+        print("Successfully Deleted")
     except:
-        print("Select Failed")
-        return None
-#def select_table_user(con,)
+        print("Delete Failed")
+        con.rollback()
+
+
 '''
-con=sql_connection()
-table_name="user"
-create_table_user(con,table_name)
+
+insert_table_user(con,table_name,id=1004,name="xa",pwd="123456",email="12@qq.com",image="path/to/image")
+select_table(con,table_name,user_name="'xa'",user_id=1004)
+delete_table_index(con,table_name,user_id=1004,user_name="'xa'")
+
 #insert_table_user(con,table_name,id=1002,name="xa",pwd="123456",email="12@qq.com",image="path/to/image")
 update_table_user(con,table_name=table_name,id=1002,index='user_email',value='1234@qq.com')
 a=select_table_user(con,table_name,user_name="'xa'",user_id=1002)
 print(a)
 con.close()
+con=sql_connection()
+table_name="user_friend"
+#create_table_user_friend(con,table_name)
+#insert_table_user_friend(con,table_name,user_id=1002,friend_id=1004,chat_id=1000002)
+ret=select_table(con,table_name,user_id=1005)
+print(ret)
+for id1,id2,chat_id in ret:
+    print(id1,id2,chat_id)
+    if chat_id==None:
+        print("no chat")
 '''
+
 

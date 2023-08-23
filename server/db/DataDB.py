@@ -78,18 +78,7 @@ def create_table_group_member(con,table_name="group-member"):
         print("table "+table_name+" is already exists")
 
 
-def insert_table_group(con,table_name,id,name,image,leader_id):
-    cursor=con.cursor()
-    try:
-        sql="INSERT INTO "+table_name+" (group_id,group_name,group_leader_id,create_time,group_image) VALUES(?,?,?,?,?)"
-        cursor.execute(sql,(id,name,image,leader_id))
-        con.commit()
-        print("Successfully Insert")
-    except:
-        print("Insert Error")
-        con.rollback()
-
-def select_table(con,table_name,**kwargs):
+def select_table(con, table_name, **kwargs):
     """
     任意表查询：
     table_name : 需要查询的表
@@ -97,33 +86,34 @@ def select_table(con,table_name,**kwargs):
 
     返回 一个用户所有信息
     """
-    cursor=con.cursor()
+    cursor = con.cursor()
     try:
-        sql="SELECT * FROM "+table_name+" WHERE "
-        flag=0
-        for key,value in kwargs.items():
-            if flag==1:
-                sql=sql+" AND "
-            sql=sql+key+"="+str(value)
-            flag=1
+        sql = "SELECT * FROM " + table_name + " WHERE "
+        flag = 0
+        for key, value in kwargs.items():
+            if flag == 1:
+                sql = sql + " AND "
+            sql = sql + key + "=" + str(value)
+            flag = 1
         cursor.execute(sql)
-        ret=cursor.fetchall()
+        ret = cursor.fetchall()
         return ret
     except:
         print("Select Failed")
         return None
-    
-def delete_table_index(con,table_name,**kwargs):
-    cursor=con.cursor()
+
+
+def delete_table_index(con, table_name, **kwargs):
+    cursor = con.cursor()
     try:
-        sql="DELETE FROM "+table_name+" WHERE "
-        flag=0
-        for key,value in kwargs.items():
-            if flag==1:
-                sql=sql+" AND "
-            print(key,value)
-            sql=sql+key+"="+str(value)
-            flag=1
+        sql = "DELETE FROM " + table_name + " WHERE "
+        flag = 0
+        for key, value in kwargs.items():
+            if flag == 1:
+                sql = sql + " AND "
+            print(key, value)
+            sql = sql + key + "=" + str(value)
+            flag = 1
         print(sql)
         cursor.execute(sql)
         con.commit()
@@ -132,28 +122,5 @@ def delete_table_index(con,table_name,**kwargs):
         print("Delete Failed")
         con.rollback()
 
-
-'''
-
-insert_table_user(con,table_name,id=1004,name="xa",pwd="123456",email="12@qq.com",image="path/to/image")
-select_table(con,table_name,user_name="'xa'",user_id=1004)
-delete_table_index(con,table_name,user_id=1004,user_name="'xa'")
-
-#insert_table_user(con,table_name,id=1002,name="xa",pwd="123456",email="12@qq.com",image="path/to/image")
-update_table_user(con,table_name=table_name,id=1002,index='user_email',value='1234@qq.com')
-a=select_table_user(con,table_name,user_name="'xa'",user_id=1002)
-print(a)
-con.close()
-con=sql_connection()
-table_name="user_friend"
-#create_table_user_friend(con,table_name)
-#insert_table_user_friend(con,table_name,user_id=1002,friend_id=1004,chat_id=1000002)
-ret=select_table(con,table_name,user_id=1005)
-print(ret)
-for id1,id2,chat_id in ret:
-    print(id1,id2,chat_id)
-    if chat_id==None:
-        print("no chat")
-'''
 
 

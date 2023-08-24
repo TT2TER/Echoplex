@@ -89,6 +89,7 @@ class Client:
         
 
     def user_chat(self, msg, receiver):
+        #发送消息的时间
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
@@ -101,12 +102,15 @@ class Client:
                 "time": timestamp
             }
         }
+        #向服务端发送消息
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
         back_json_data = self.client_socket.recv(2048)
+        #需要服务端返回消息
         back_data = json.loads(back_json_data.decode('utf-8'))
 
     def group_chat(self, msg, group_id):
+        #发送消息的时间
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
@@ -119,12 +123,15 @@ class Client:
                 "time": timestamp
             }
         }
+        #向服务端发送消息
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
         back_json_data = self.client_socket.recv(2048)
+        #需要服务端返回消息
         back_data = json.loads(back_json_data.decode('utf-8'))
 
     def private_group_chat(self, msg, group_id, receiver):
+        #发送消息的时间
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
@@ -138,9 +145,11 @@ class Client:
                 "time": timestamp
             }
         }
+        #向服务端发送消息
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
         back_json_data = self.client_socket.recv(2048)
+        #需要服务端返回消息
         back_data = json.loads(back_json_data.decode('utf-8'))
 
         

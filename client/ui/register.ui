@@ -33,28 +33,28 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="Lable" name="label">
        <property name="text">
         <string>姓名</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="name_in">
+      <widget class="LineEdit" name="name_in">
        <property name="placeholderText">
         <string>您的姓名</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="Lable" name="label_2">
        <property name="text">
         <string>账号</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="num_in">
+      <widget class="LineEdit" name="num_in">
        <property name="placeholderText">
         <string>请输入账号</string>
        </property>
@@ -64,14 +64,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_5">
+      <widget class="Lable" name="label_5">
        <property name="text">
         <string>邮箱</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="mail_in">
+      <widget class="LineEdit" name="mail_in">
        <property name="placeholderText">
         <string>******@example.com</string>
        </property>
@@ -81,14 +81,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="Lable" name="label_3">
        <property name="text">
         <string>密码</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="pwd_in">
+      <widget class="LineEdit" name="pwd_in">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
        <property name="placeholderText">
         <string>请输入密码</string>
        </property>
@@ -98,7 +101,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="pwd_check">
+      <widget class="LineEdit" name="pwd_check">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
        <property name="placeholderText">
         <string>请重复密码</string>
        </property>
@@ -117,14 +123,14 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="reg_cancel">
+        <widget class="PushButton" name="reg_cancel">
          <property name="text">
           <string>返回</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="reg_confirm">
+        <widget class="PushButton" name="reg_confirm">
          <property name="text">
           <string>注册</string>
          </property>
@@ -136,6 +142,23 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>Lable</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>PushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

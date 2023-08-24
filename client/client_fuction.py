@@ -1,6 +1,7 @@
 import socket
 import json
 import threading
+from datetime import datetime
 
 
 class Client:
@@ -8,6 +9,7 @@ class Client:
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_address = ('127.0.0.1', 13582)
         self.client_socket.connect(self.server_address)
+        self.user_id=None
 
     def user_login(self, user_id, user_pwd):
         def isinteger(string):
@@ -16,6 +18,7 @@ class Client:
                 return True
             except ValueError:
                 return False
+        #判断所输入账号是否合法
         if not isinteger(user_id) or len(user_id) != 5:
             print("Login Failed")
             return [2]
@@ -32,6 +35,8 @@ class Client:
         back_data = json.loads(back_json_data.decode('utf-8'))
         if back_data["back_data"] == "0002":
             print("Login Success")
+            #登陆成功后保存本账号
+            self.user_id = int(data["content"]["user_id"])
             return [0]
         elif back_data["back_data"] == "0003":
             print("Login Failed")
@@ -81,6 +86,25 @@ class Client:
             return 1  
         else:
             return 2          #服务端返回值出错
+        
+
+    def user_chat(self, msg, receiver):
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            "type": "user_sendmsg",
+            "content": {
+                "msg": msg,
+                "sender": self.user_id,
+                "receiver": receiver,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        back_json_data = self.client_socket.recv(2048)
+        back_data = json.loads(back_json_data.decode('utf-8'))
+
         
         
 

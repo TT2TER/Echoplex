@@ -4,9 +4,10 @@ import json
 from user_register import user_register
 from user_login import user_login
 from db.DataDB import *
-from db.table_user import *
 import sys
+from user_chat import user_chat
 
+clients = []
 
 def handle_client(socket, address):
     # bufsize 指定要接收的最大数据量
@@ -26,6 +27,7 @@ def handle_client(socket, address):
         message_handlers = {
             'user_register': user_register,
             'user_login': user_login,
+            'user_chat':user_chat
         }
         handler = message_handlers.get(received_data['type'])
         if handler:
@@ -64,7 +66,7 @@ if __name__ == "__main__":
         # 创建socket对象
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # 绑定地址和端口
-        server_address = ('127.0.0.1', 13582)
+        server_address = ('127.0.0.1', 13579)
         server_socket.bind(server_address)
 
         # TCP 监听
@@ -76,7 +78,8 @@ if __name__ == "__main__":
         print("服务器等待连接？O.o")
         while True:
             new_socket, client_address = server_socket.accept()
-            print("服务器连接上了客户端，准备干活！")
+            clients.append((new_socket, client_address))
+            print("服务器连接上了客户端"+client_address+"，准备干活！")
             client_handler = threading.Thread(target=handle_client, args=(new_socket, client_address))
             client_handler.start()
     except Exception as e:

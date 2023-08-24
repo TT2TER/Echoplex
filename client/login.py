@@ -53,7 +53,8 @@ class Login(QWidget):
 
     def toggle_day_night_mode(self):
         # 这里可以添加切换日夜模式的逻辑
-        #TODO:
+        print("pushed")
+        
         # 切换界面的颜色、主题等
         pass
 

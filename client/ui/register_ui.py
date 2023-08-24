@@ -12,6 +12,9 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+from qfluentwidgets import LineEdit
+from qfluentwidgets import PushButton
+
 
 class Ui_reg(object):
     def setupUi(self, reg):
@@ -28,20 +31,57 @@ class Ui_reg(object):
 
         self.label = QLabel(reg)
         self.label.setObjectName(u"label")
+        palette = QPalette()
+        brush = QBrush(QColor(32, 74, 135, 255))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        brush1 = QBrush(QColor(52, 101, 164, 255))
+        brush1.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Text, brush1)
+        brush2 = QBrush(QColor(0, 0, 0, 255))
+        brush2.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.ButtonText, brush2)
+        brush3 = QBrush(QColor(52, 101, 164, 128))
+        brush3.setStyle(Qt.SolidPattern)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush3)
+#endif
+        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Text, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush3)
+#endif
+        brush4 = QBrush(QColor(190, 190, 190, 255))
+        brush4.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush4)
+        palette.setBrush(QPalette.Disabled, QPalette.Text, brush4)
+        palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush4)
+        brush5 = QBrush(QColor(0, 0, 0, 128))
+        brush5.setStyle(Qt.SolidPattern)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush5)
+#endif
+        self.label.setPalette(palette)
 
         self.verticalLayout.addWidget(self.label)
 
-        self.name_in = QLineEdit(reg)
+        self.name_in = LineEdit(reg)
         self.name_in.setObjectName(u"name_in")
 
         self.verticalLayout.addWidget(self.name_in)
 
         self.label_2 = QLabel(reg)
         self.label_2.setObjectName(u"label_2")
+        palette1 = QPalette()
+        palette1.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        palette1.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette1.setBrush(QPalette.Disabled, QPalette.WindowText, brush4)
+        self.label_2.setPalette(palette1)
 
         self.verticalLayout.addWidget(self.label_2)
 
-        self.num_in = QLineEdit(reg)
+        self.num_in = LineEdit(reg)
         self.num_in.setObjectName(u"num_in")
         self.num_in.setClearButtonEnabled(False)
 
@@ -49,10 +89,15 @@ class Ui_reg(object):
 
         self.label_5 = QLabel(reg)
         self.label_5.setObjectName(u"label_5")
+        palette2 = QPalette()
+        palette2.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        palette2.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette2.setBrush(QPalette.Disabled, QPalette.WindowText, brush4)
+        self.label_5.setPalette(palette2)
 
         self.verticalLayout.addWidget(self.label_5)
 
-        self.mail_in = QLineEdit(reg)
+        self.mail_in = LineEdit(reg)
         self.mail_in.setObjectName(u"mail_in")
         self.mail_in.setClearButtonEnabled(True)
 
@@ -60,17 +105,24 @@ class Ui_reg(object):
 
         self.label_3 = QLabel(reg)
         self.label_3.setObjectName(u"label_3")
+        palette3 = QPalette()
+        palette3.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        palette3.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette3.setBrush(QPalette.Disabled, QPalette.WindowText, brush4)
+        self.label_3.setPalette(palette3)
 
         self.verticalLayout.addWidget(self.label_3)
 
-        self.pwd_in = QLineEdit(reg)
+        self.pwd_in = LineEdit(reg)
         self.pwd_in.setObjectName(u"pwd_in")
+        self.pwd_in.setEchoMode(QLineEdit.Password)
         self.pwd_in.setClearButtonEnabled(True)
 
         self.verticalLayout.addWidget(self.pwd_in)
 
-        self.pwd_check = QLineEdit(reg)
+        self.pwd_check = LineEdit(reg)
         self.pwd_check.setObjectName(u"pwd_check")
+        self.pwd_check.setEchoMode(QLineEdit.Password)
         self.pwd_check.setClearButtonEnabled(True)
 
         self.verticalLayout.addWidget(self.pwd_check)
@@ -83,13 +135,98 @@ class Ui_reg(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.reg_cancel = QPushButton(reg)
+        self.reg_cancel = PushButton(reg)
         self.reg_cancel.setObjectName(u"reg_cancel")
+        palette4 = QPalette()
+        palette4.setBrush(QPalette.Active, QPalette.WindowText, brush2)
+        brush6 = QBrush(QColor(239, 239, 239, 255))
+        brush6.setStyle(Qt.SolidPattern)
+        palette4.setBrush(QPalette.Active, QPalette.Button, brush6)
+        brush7 = QBrush(QColor(255, 255, 255, 255))
+        brush7.setStyle(Qt.SolidPattern)
+        palette4.setBrush(QPalette.Active, QPalette.Light, brush7)
+        brush8 = QBrush(QColor(247, 247, 247, 255))
+        brush8.setStyle(Qt.SolidPattern)
+        palette4.setBrush(QPalette.Active, QPalette.Midlight, brush8)
+        brush9 = QBrush(QColor(119, 119, 119, 255))
+        brush9.setStyle(Qt.SolidPattern)
+        palette4.setBrush(QPalette.Active, QPalette.Dark, brush9)
+        brush10 = QBrush(QColor(159, 159, 159, 255))
+        brush10.setStyle(Qt.SolidPattern)
+        palette4.setBrush(QPalette.Active, QPalette.Mid, brush10)
+        palette4.setBrush(QPalette.Active, QPalette.Text, brush2)
+        palette4.setBrush(QPalette.Active, QPalette.BrightText, brush7)
+        palette4.setBrush(QPalette.Active, QPalette.ButtonText, brush2)
+        palette4.setBrush(QPalette.Active, QPalette.Base, brush7)
+        palette4.setBrush(QPalette.Active, QPalette.Window, brush6)
+        palette4.setBrush(QPalette.Active, QPalette.Shadow, brush2)
+        palette4.setBrush(QPalette.Active, QPalette.AlternateBase, brush8)
+        brush11 = QBrush(QColor(255, 255, 220, 255))
+        brush11.setStyle(Qt.SolidPattern)
+        palette4.setBrush(QPalette.Active, QPalette.ToolTipBase, brush11)
+        palette4.setBrush(QPalette.Active, QPalette.ToolTipText, brush2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette4.setBrush(QPalette.Active, QPalette.PlaceholderText, brush5)
+#endif
+        palette4.setBrush(QPalette.Inactive, QPalette.WindowText, brush2)
+        palette4.setBrush(QPalette.Inactive, QPalette.Button, brush6)
+        palette4.setBrush(QPalette.Inactive, QPalette.Light, brush7)
+        palette4.setBrush(QPalette.Inactive, QPalette.Midlight, brush8)
+        palette4.setBrush(QPalette.Inactive, QPalette.Dark, brush9)
+        palette4.setBrush(QPalette.Inactive, QPalette.Mid, brush10)
+        palette4.setBrush(QPalette.Inactive, QPalette.Text, brush2)
+        palette4.setBrush(QPalette.Inactive, QPalette.BrightText, brush7)
+        palette4.setBrush(QPalette.Inactive, QPalette.ButtonText, brush2)
+        palette4.setBrush(QPalette.Inactive, QPalette.Base, brush7)
+        palette4.setBrush(QPalette.Inactive, QPalette.Window, brush6)
+        palette4.setBrush(QPalette.Inactive, QPalette.Shadow, brush2)
+        palette4.setBrush(QPalette.Inactive, QPalette.AlternateBase, brush8)
+        palette4.setBrush(QPalette.Inactive, QPalette.ToolTipBase, brush11)
+        palette4.setBrush(QPalette.Inactive, QPalette.ToolTipText, brush2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette4.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush5)
+#endif
+        palette4.setBrush(QPalette.Disabled, QPalette.WindowText, brush9)
+        palette4.setBrush(QPalette.Disabled, QPalette.Button, brush6)
+        palette4.setBrush(QPalette.Disabled, QPalette.Light, brush7)
+        palette4.setBrush(QPalette.Disabled, QPalette.Midlight, brush8)
+        palette4.setBrush(QPalette.Disabled, QPalette.Dark, brush9)
+        palette4.setBrush(QPalette.Disabled, QPalette.Mid, brush10)
+        palette4.setBrush(QPalette.Disabled, QPalette.Text, brush9)
+        palette4.setBrush(QPalette.Disabled, QPalette.BrightText, brush7)
+        palette4.setBrush(QPalette.Disabled, QPalette.ButtonText, brush9)
+        palette4.setBrush(QPalette.Disabled, QPalette.Base, brush6)
+        palette4.setBrush(QPalette.Disabled, QPalette.Window, brush6)
+        palette4.setBrush(QPalette.Disabled, QPalette.Shadow, brush2)
+        palette4.setBrush(QPalette.Disabled, QPalette.AlternateBase, brush6)
+        palette4.setBrush(QPalette.Disabled, QPalette.ToolTipBase, brush11)
+        palette4.setBrush(QPalette.Disabled, QPalette.ToolTipText, brush2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette4.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush5)
+#endif
+        self.reg_cancel.setPalette(palette4)
 
         self.horizontalLayout.addWidget(self.reg_cancel)
 
-        self.reg_confirm = QPushButton(reg)
+        self.reg_confirm = PushButton(reg)
         self.reg_confirm.setObjectName(u"reg_confirm")
+        palette5 = QPalette()
+        palette5.setBrush(QPalette.Active, QPalette.WindowText, brush2)
+        palette5.setBrush(QPalette.Active, QPalette.Text, brush2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette5.setBrush(QPalette.Active, QPalette.PlaceholderText, brush5)
+#endif
+        palette5.setBrush(QPalette.Inactive, QPalette.WindowText, brush2)
+        palette5.setBrush(QPalette.Inactive, QPalette.Text, brush2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette5.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush5)
+#endif
+        palette5.setBrush(QPalette.Disabled, QPalette.WindowText, brush4)
+        palette5.setBrush(QPalette.Disabled, QPalette.Text, brush4)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette5.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush5)
+#endif
+        self.reg_confirm.setPalette(palette5)
 
         self.horizontalLayout.addWidget(self.reg_confirm)
 

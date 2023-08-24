@@ -92,10 +92,48 @@ class Client:
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
-            "type": "user_sendmsg",
+            "type": "user_chat",
             "content": {
+                "msg_type": "friend_chat",
                 "msg": msg,
                 "sender": self.user_id,
+                "receiver": receiver,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        back_json_data = self.client_socket.recv(2048)
+        back_data = json.loads(back_json_data.decode('utf-8'))
+
+    def group_chat(self, msg, group_id):
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            "type": "user_chat",
+            "content": {
+                "msg_type": "group_chat",
+                "msg": msg,
+                "sender": self.user_id,
+                "group_id": group_id,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        back_json_data = self.client_socket.recv(2048)
+        back_data = json.loads(back_json_data.decode('utf-8'))
+
+    def private_group_chat(self, msg, group_id, receiver):
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            "type": "user_chat",
+            "content": {
+                "msg_type": "private_group_chat",
+                "msg": msg,
+                "sender": self.user_id,
+                "group_id": group_id,
                 "receiver": receiver,
                 "time": timestamp
             }

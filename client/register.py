@@ -31,27 +31,24 @@ class Register(QWidget):
 
         # 以下是用户输入的数据
         entered_name = self.ui.name_in.text()  # 姓名
-        entered_ID = self.ui.num_in.text()  # id
         entered_mail = self.ui.mail_in.text()  # mail
         entered_password = self.ui.pwd_in.text()  # 密码
         entered_password2 = self.ui.pwd_check.text()  # 重复密码
         
         if shared_module.full_fuction:
-            result = shared_module.client.user_register(user_id=entered_ID, user_name=entered_name, user_email=entered_mail, user_pwd=entered_password, user_image= "111111")
+            result = shared_module.client.user_register(user_name=entered_name, user_email=entered_mail, user_pwd=entered_password, user_image= "04260202")
         else :
-            result =0
+            result =[0,"1234"]
 
-        if result == 0:
-            QMessageBox.information(self, "注册", "注册成功")
-            shared_module.login_page.ui.show()
-            self.ui.close()
-        elif result == 1:
+        #TODO user_image的使用
+        if result[0] == 0:
+            QMessageBox.information(self, "注册", "注册成功，你的账号是" + result[1])
+            shared_module.login_page.show()
+            self.close()
+        elif result[0] == 1:
             QMessageBox.information(self, "注册失败", "服务器故障，注册失败。")
-        elif result == 2:
-            QMessageBox.information(self, "注册失败", "用户名需要小于15字符。")
-        elif result ==3:
-            QMessageBox.information(self, "注册失败", "密码需要大于6字符，小于15字符。")
-
+        elif result[0] == 2:
+            QMessageBox.information(self, "注册失败", "密码需要大于6字符小于15字符。")
 
 
     def return_to_login(self):

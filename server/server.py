@@ -8,8 +8,13 @@ from db.table_user import *
 import sys
 
 
-def handle_client(socket, address, database):
+def handle_client(socket, address):
     # bufsize 指定要接收的最大数据量
+    try:
+        database = sql_connection()
+        print("数据库打开成功，好耶")
+    except:
+        print("handle_client获取数据库连接失败，小艾的锅")
     try:
         data = socket.recv(1024)
         received_data = json.loads(data.decode('utf-8'))
@@ -72,7 +77,7 @@ if __name__ == "__main__":
         while True:
             new_socket, client_address = server_socket.accept()
             print("服务器连接上了客户端，准备干活！")
-            client_handler = threading.Thread(target=handle_client, args=(new_socket, client_address, database))
+            client_handler = threading.Thread(target=handle_client, args=(new_socket, client_address))
             client_handler.start()
     except Exception as e:
         print("服务器socket寄了，原因是：" + str(e))

@@ -9,7 +9,7 @@ class Login:
 
     def __init__(self):
         # 加载界面
-        self.ui = QUiLoader().load('./client/ui/login.ui')
+        self.ui = QUiLoader().load('./ui/login.ui')
 
         # 按下登录按钮或回车键执行登录过程
         self.ui.pwd_in.returnPressed.connect(self.login)
@@ -28,7 +28,7 @@ class Login:
         entered_password = self.ui.pwd_in.text()
         #entered_ID和entered_password分别为输入的用户名和密码字符串
 
-        result = shared_module.client.user_login(user_id=entered_ID, user=entered_password)
+        result = shared_module.client.user_login(user_id=entered_ID, user_pwd=entered_password)
         #以下部分是信息反馈
         if result == 0:
             QMessageBox.about(self.ui, '登录成功', '欢迎进入系统！')

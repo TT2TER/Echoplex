@@ -6,7 +6,7 @@ import threading
 class Client:
     def __init__(self):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_address = ('127.0.0.1', 13579)
+        self.server_address = ('127.0.0.1', 13582)
         self.client_socket.connect(self.server_address)
 
     def user_login(self, user_id, user_pwd):

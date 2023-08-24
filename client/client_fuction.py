@@ -54,3 +54,27 @@ class Client:
             elif back_data["back_data"] == "0001":
                 print("Register Fail, Sever Error")
                 return 1
+    def friendinfo(self, user_id): 
+        
+        data = {
+            'type': 'friendinfo',
+            'content': {
+                'user_id': user_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        back_json_data = self.client_socket.recv(1024)
+        back_data = json.loads(back_json_data.decode('utf-8'))
+        if back_data["back_data"] == "0002":
+            #成功
+            return back_data["friendinfo"]        #返回好友信息,分别是id,name,email
+        elif back_data["back_data"] == "0003":
+           #失败
+            return 1  
+        else:
+            return 2          #服务端返回值出错
+        
+        
+
+        

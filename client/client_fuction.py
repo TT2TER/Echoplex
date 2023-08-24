@@ -10,7 +10,8 @@ class Client:
         self.server_address = ('127.0.0.1', 13582)
         self.client_socket.connect(self.server_address)
         self.user_id=None
-
+    
+    #向服务端发送login请求
     def user_login(self, user_id, user_pwd):
         def isinteger(string):
             try:
@@ -30,18 +31,19 @@ class Client:
             }
         }
         json_data = json.dumps(data).encode('utf-8')
-        self.client_socket.sendall(json_data)
-        back_json_data = self.client_socket.recv(1024)
-        back_data = json.loads(back_json_data.decode('utf-8'))
-        if back_data["back_data"] == "0002":
-            print("Login Success")
-            #登陆成功后保存本账号
-            self.user_id = int(data["content"]["user_id"])
-            return [0]
-        elif back_data["back_data"] == "0003":
-            print("Login Failed")
-            return [1]
+        # self.client_socket.sendall(json_data)
+        # back_json_data = self.client_socket.recv(1024)
+        # back_data = json.loads(back_json_data.decode('utf-8'))
+        # if back_data["back_data"] == "0002":
+        #     print("Login Success")
+        #     #登陆成功后保存本账号
+        #     self.user_id = int(data["content"]["user_id"])
+        #     return [0]
+        # elif back_data["back_data"] == "0003":
+        #     print("Login Failed")
+        #     return [1]
 
+    #向服务端发送注册请求
     def user_register(self, user_name, user_image, user_pwd, user_email):
         if len(user_pwd) > 25 or len(user_pwd) < 6:
             return [2]
@@ -57,15 +59,16 @@ class Client:
             }
             json_data = json.dumps(data).encode('utf-8')
             self.client_socket.sendall(json_data)
-            back_json_data = self.client_socket.recv(1024)
-            back_data = json.loads(back_json_data.decode('utf-8'))
-            if back_data["back_data"] == "0000":
-                print("Register Success")
-                return [0, str(back_data["user_id"])]
-            elif back_data["back_data"] == "0001":
-                print("Register Fail, Sever Error")
-                return [1]
-            
+            # back_json_data = self.client_socket.recv(1024)
+            # back_data = json.loads(back_json_data.decode('utf-8'))
+            # if back_data["back_data"] == "0000":
+            #     print("Register Success")
+            #     return [0, str(back_data["user_id"])]
+            # elif back_data["back_data"] == "0001":
+            #     print("Register Fail, Sever Error")
+            #     return [1]
+    
+    #向服务端发送好友拉取请求
     def friendinfo(self, user_id): 
         
         data = {
@@ -76,16 +79,16 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        back_json_data = self.client_socket.recv(1024)
-        back_data = json.loads(back_json_data.decode('utf-8'))
-        if back_data["back_data"] == "0002":
-            #成功
-            return back_data["friendinfo"]        #返回好友信息,分别是id,name,email
-        elif back_data["back_data"] == "0003":
-           #失败
-            return 1  
-        else:
-            return 2          #服务端返回值出错
+        # back_json_data = self.client_socket.recv(1024)
+        # back_data = json.loads(back_json_data.decode('utf-8'))
+        # if back_data["back_data"] == "0002":
+        #     #成功
+        #     return back_data["friendinfo"]        #返回好友信息,分别是id,name,email
+        # elif back_data["back_data"] == "0003":
+        #    #失败
+        #     return 1  
+        # else:
+        #     return 2          #服务端返回值出错
         
 
     def user_chat(self, msg, receiver):
@@ -105,9 +108,9 @@ class Client:
         #向服务端发送消息
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        back_json_data = self.client_socket.recv(2048)
-        #需要服务端返回消息
-        back_data = json.loads(back_json_data.decode('utf-8'))
+        # back_json_data = self.client_socket.recv(2048)
+        # #需要服务端返回消息
+        # back_data = json.loads(back_json_data.decode('utf-8'))
 
     def group_chat(self, msg, group_id):
         #发送消息的时间
@@ -126,9 +129,9 @@ class Client:
         #向服务端发送消息
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        back_json_data = self.client_socket.recv(2048)
-        #需要服务端返回消息
-        back_data = json.loads(back_json_data.decode('utf-8'))
+        # back_json_data = self.client_socket.recv(2048)
+        # #需要服务端返回消息
+        # back_data = json.loads(back_json_data.decode('utf-8'))
 
     def private_group_chat(self, msg, group_id, receiver):
         #发送消息的时间
@@ -148,9 +151,9 @@ class Client:
         #向服务端发送消息
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        back_json_data = self.client_socket.recv(2048)
-        #需要服务端返回消息
-        back_data = json.loads(back_json_data.decode('utf-8'))
+        # back_json_data = self.client_socket.recv(2048)
+        # #需要服务端返回消息
+        # back_data = json.loads(back_json_data.decode('utf-8'))
 
     def user_send_file(self, filename, receiver):
         # filename = "files/package.zip"
@@ -166,15 +169,15 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        back_json_data = self.client_socket.recv(2048)
-        back_data = json.loads(back_json_data.decode('utf-8'))
-        if back_data == "知道了，客户端发文件过来吧":
-            with open(filename, 'rb') as file:
-                while True:
-                    data = file.read(4096)  # 读取更大的块
-                    if not data:
-                        break
-                    self.client_socket.send(data)
+        # back_json_data = self.client_socket.recv(2048)
+        # back_data = json.loads(back_json_data.decode('utf-8'))
+        # if back_data == "知道了，客户端发文件过来吧":
+        #     with open(filename, 'rb') as file:
+        #         while True:
+        #             data = file.read(4096)  # 读取更大的块
+        #             if not data:
+        #                 break
+        #             self.client_socket.send(data)
 
         
         

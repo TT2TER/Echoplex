@@ -6,8 +6,8 @@ from db.DataDB import select_table
 
 def user_login(data, socket, address, con):
 
-    res = select_table(con,"user",user_id=data["content"]["user_id"])
-    if res == None:
+    res = select_table(con, "user", user_id = int(data["content"]["user_id"]) )    #id为int型
+    if len(res) == 0:        #未注册，返回空列表
         back_data = {
             'back_data': "0003"
             }

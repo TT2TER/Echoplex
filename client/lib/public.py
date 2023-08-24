@@ -3,3 +3,4 @@ class shared_module:
     main_page=None
     reg_page=None
     client=None
+    full_fuction=False

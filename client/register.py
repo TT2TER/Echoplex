@@ -1,14 +1,15 @@
-from PySide2.QtWidgets import QApplication, QMessageBox
+from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
-from client_fuction import Client
+from ui.register_ui import Ui_reg
 
 
-class Register:
+class Register(QWidget):
 
     def __init__(self):
-        # 加载界面
-        self.ui = QUiLoader().load('./client/ui/register.ui')
+        super().__init__()
+        self.ui= Ui_reg()
+        self.ui.setupUi(self)
 
         # 按下reg_confirm确认密码开始注册流程
         self.ui.reg_confirm.clicked.connect(self.start_registration)
@@ -23,7 +24,7 @@ class Register:
         if entered_password == entered_password2:
             pass
         else:
-            QMessageBox.warning(self.ui, '注册失败', '两次密码不一致，请重新输入！')
+            QMessageBox.warning(self, '注册失败', '两次密码不一致，请重新输入！')
             self.ui.pwd_in.clear()
             self.ui.pwd_check.clear()
             return;
@@ -34,32 +35,35 @@ class Register:
         entered_mail = self.ui.mail_in.text()  # mail
         entered_password = self.ui.pwd_in.text()  # 密码
         entered_password2 = self.ui.pwd_check.text()  # 重复密码
-
-        result = shared_module.client.user_register(user_id=entered_ID, user_name=entered_name, user_email=entered_mail, user_pwd=entered_password)
+        
+        if shared_module.full_fuction:
+            result = shared_module.client.user_register(user_id=entered_ID, user_name=entered_name, user_email=entered_mail, user_pwd=entered_password, user_image= "111111")
+        else :
+            result =0
 
         if result == 0:
-            QMessageBox.information(self.ui, "注册", "注册成功")
+            QMessageBox.information(self, "注册", "注册成功")
             shared_module.login_page.ui.show()
             self.ui.close()
         elif result == 1:
-            QMessageBox.information(self.ui, "注册失败", "服务器故障，注册失败。")
+            QMessageBox.information(self, "注册失败", "服务器故障，注册失败。")
         elif result == 2:
-            QMessageBox.information(self.ui, "注册失败", "用户名需要小于15字符。")
+            QMessageBox.information(self, "注册失败", "用户名需要小于15字符。")
         elif result ==3:
-            QMessageBox.information(self.ui, "注册失败", "密码需要大于6字符，小于15字符。")
+            QMessageBox.information(self, "注册失败", "密码需要大于6字符，小于15字符。")
 
 
 
     def return_to_login(self):
         # 返回登录界面的逻辑
         # 你可以关闭当前界面，打开登录界面等
-        shared_module.login_page.ui.show()
-        self.ui.close()
+        shared_module.login_page.show()
+        self.close()
         # shared_module.main_page = Login()
 
 
 if __name__ == "__main__":
     app = QApplication([])
     register = Register()
-    register.ui.show()
+    register.show()
     app.exec_()

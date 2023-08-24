@@ -1,32 +1,72 @@
-clients = []
-message_history = []
+import socket
+import threading
+import json
+from collections import defaultdict
+from global_data import online_clients
+
+# Create a defaultdict to store user mailboxes (offline messages)
+user_mailboxes = defaultdict(list)
+# user_mailboxes["user1"].append(("user2", "Hello!"))
+# user_mailboxes["user1"].append(("user3", "How are you?"))
 
 
-def user_chat():
-    print("TODO")
+def user_chat(received_data, socket, address, database):
+    try:
+        message = json.loads(received_data)
+        content = message["content"]
+        msg_type = content["msg_type"]
+
+        if msg_type == "friend_chat":
+            sender = content["sender"]
+            receiver = content["receiver"]
+            msg = content["msg"]
+            time = content["time"]
+            send_message(sender, receiver, msg)
+
+        elif msg_type == "group_chat":
+            sender = content["sender"]
+            group_id = content["group_id"]
+            msg = content["msg"]
+            time = content["time"]
+            send_group_message(sender, group_id, msg)
+
+        elif msg_type == "private_group_chat":
+            sender = content["sender"]
+            group_id = content["group_id"]
+            msg = content["msg"]
+            time = content["time"]
+            receiver = content["receiver"]
+            # create_group()
+            # send_group_message()
+
+        # Add other message types here
+
+    except json.JSONDecodeError:
+        pass
 
 
-def send_message(client_socket):
-    while True:
-        try:
-            message = client_socket.recv(1024)
-            if not message:
-                break
-            message_history.append(message)
-            broadcast(message, client_socket)
-        except:
-            break
+def send_message(sender, receiver, msg):
+    if receiver in online_clients:
+        receiver_socket = online_clients[receiver]
+        message = {
+            "type": "new_message",
+            "content": {
+                "sender": sender,
+                "msg": msg
+            }
+        }
+        receiver_socket.send(json.dumps(message).encode('utf-8'))
+    else:
+        user_mailboxes[receiver].append((sender, msg))
 
 
-def broadcast(message, sender_socket):
-    for client_socket in clients:
-        if client_socket != sender_socket:
-            try:
-                client_socket.send(message)
-            except:
-                clients.remove(client_socket)
+def send_group_message(sender, group_id, msg):
+    # Implement sending group messages here
+    pass
 
 
-def send_message_history(client_socket):
-    for message in message_history:
-        client_socket.send(message)
+def get_username_by_socket(socket):
+    for username, user_socket in user_sockets.items():
+        if user_socket == socket:
+            return username
+    return None

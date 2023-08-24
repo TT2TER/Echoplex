@@ -38,13 +38,15 @@ def user_register(data, socket, address, database):
         succ = insert_table_user(database, "user", userid, username, userpwd, email, image)
         if succ:
             back_data = {
-                "back_data": "0000",
+                "type": "user_register",
+                "back_data": True,
                 "user_id": userid
             }
         else:
             new_userid -= 1
             back_data = {
-                "back_data": "0001"
+                "type": "user_register",
+                "back_data": False,
             }
         save_new_userid(new_userid)
         back_json_data = json.dumps(back_data).encode('utf-8')

@@ -8,9 +8,10 @@ from ui.login_ui import Ui_Login
 class Login(QWidget):
 
     def __init__(self):
+        # 继承父类
+        super().__init__()
         # 加载界面
         #   self.ui = QUiLoader().load('./ui/login.ui')
-        super().__init__()
         self.ui = Ui_Login()
         self.ui.setupUi(self)
         # 按下登录按钮或回车键执行登录过程

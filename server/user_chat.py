@@ -6,6 +6,8 @@ from global_data import online_clients
 
 # Create a defaultdict to store user mailboxes (offline messages)
 user_mailboxes = defaultdict(list)
+
+
 # user_mailboxes["user1"].append(("user2", "Hello!"))
 # user_mailboxes["user1"].append(("user3", "How are you?"))
 
@@ -61,8 +63,36 @@ def send_message(sender, receiver, msg):
 
 
 def send_group_message(sender, group_id, msg):
-    # Implement sending group messages here
-    pass
+    # receiver = SQL TODO
+    receiver = [100001, 100002]
+    if receiver in online_clients:
+        receiver_socket = online_clients[receiver]
+        message = {
+            "type": "new_message",
+            "content": {
+                "sender": sender,
+                "msg": msg
+            }
+        }
+        receiver_socket.send(json.dumps(message).encode('utf-8'))
+    else:
+        user_mailboxes[receiver].append((sender, msg, group_id))
+
+
+def send_secret_group_message(sender, group_id, msg, receiver = [100001, 100002]):
+    # receiver = SQL TODO
+    if receiver in online_clients:
+        receiver_socket = online_clients[receiver]
+        message = {
+            "type": "new_message",
+            "content": {
+                "sender": sender,
+                "msg": msg
+            }
+        }
+        receiver_socket.send(json.dumps(message).encode('utf-8'))
+    else:
+        user_mailboxes[receiver].append((sender, msg))
 
 
 def get_username_by_socket(socket):

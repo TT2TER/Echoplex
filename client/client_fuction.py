@@ -105,6 +105,30 @@ class Client:
         back_json_data = self.client_socket.recv(2048)
         back_data = json.loads(back_json_data.decode('utf-8'))
 
+    def user_send_file(self, filename, receiver):
+        # filename = "files/package.zip"
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            "type": "user_send_file",
+            "content": {
+                "sender": self.user_id,
+                "receiver": receiver,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        back_json_data = self.client_socket.recv(2048)
+        back_data = json.loads(back_json_data.decode('utf-8'))
+        if back_data == "知道了，客户端发文件过来吧":
+            with open(filename, 'rb') as file:
+                while True:
+                    data = file.read(4096)  # 读取更大的块
+                    if not data:
+                        break
+                    self.client_socket.send(data)
+
         
         
 

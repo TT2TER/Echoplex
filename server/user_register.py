@@ -1,4 +1,3 @@
-import socket
 import json
 from db.table_user import *
 

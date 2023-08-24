@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>chatroom</class>
+ <widget class="QWidget" name="chatroom">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -125,10 +125,10 @@
              <widget class="QWidget" name="page">
               <property name="geometry">
                <rect>
-                <x>-12</x>
+                <x>0</x>
                 <y>0</y>
-                <width>85</width>
-                <height>214</height>
+                <width>98</width>
+                <height>88</height>
                </rect>
               </property>
               <attribute name="label">
@@ -145,8 +145,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>274</width>
-                <height>386</height>
+                <width>98</width>
+                <height>88</height>
                </rect>
               </property>
               <attribute name="label">
@@ -167,7 +167,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QListWidget" name="veiw_box"/>
+          <widget class="QListWidget" name="view_box"/>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">

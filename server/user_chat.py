@@ -24,6 +24,7 @@ def user_chat(received_data, socket, address, database):
             msg = content["msg"]
             time = content["time"]
             send_message(sender, receiver, msg)
+            #需要向数据库中插入数据、需要向客户端返回数据
 
         elif msg_type == "group_chat":
             sender = content["sender"]

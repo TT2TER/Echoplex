@@ -49,9 +49,11 @@ def handle_client(socket, address):
         finally:
             print("服务器完工，等待下一个请求oVo")
     try:
-        # online_clients.pop(socket,None)
-        # TODO
-        # 维护online_clients字典
+        #简单地维护在线用户字典，可能会有问题
+        for key, value in online_clients.items():
+            if value == socket:
+                del online_clients[key]
+                break
         pass
     except:
         pass

@@ -13,8 +13,9 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 from qfluentwidgets import LineEdit
+from qfluentwidgets import PushButton
 from qfluentwidgets import PrimaryPushButton
-from qfluentwidgets import HyperlinkButton
+from qfluentwidgets import RadioButton
 from qfluentwidgets import BodyLabel
 
 
@@ -36,6 +37,80 @@ class Ui_Login(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
+        palette = QPalette()
+        brush = QBrush(QColor(32, 74, 135, 255))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        brush1 = QBrush(QColor(239, 239, 239, 255))
+        brush1.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Button, brush1)
+        brush2 = QBrush(QColor(255, 255, 255, 255))
+        brush2.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Light, brush2)
+        brush3 = QBrush(QColor(247, 247, 247, 255))
+        brush3.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Midlight, brush3)
+        brush4 = QBrush(QColor(119, 119, 119, 255))
+        brush4.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Dark, brush4)
+        brush5 = QBrush(QColor(159, 159, 159, 255))
+        brush5.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Mid, brush5)
+        brush6 = QBrush(QColor(0, 0, 0, 255))
+        brush6.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Text, brush6)
+        palette.setBrush(QPalette.Active, QPalette.BrightText, brush2)
+        palette.setBrush(QPalette.Active, QPalette.ButtonText, brush6)
+        palette.setBrush(QPalette.Active, QPalette.Base, brush2)
+        palette.setBrush(QPalette.Active, QPalette.Window, brush1)
+        palette.setBrush(QPalette.Active, QPalette.Shadow, brush6)
+        palette.setBrush(QPalette.Active, QPalette.AlternateBase, brush3)
+        brush7 = QBrush(QColor(255, 255, 220, 255))
+        brush7.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.ToolTipBase, brush7)
+        palette.setBrush(QPalette.Active, QPalette.ToolTipText, brush6)
+        brush8 = QBrush(QColor(0, 0, 0, 128))
+        brush8.setStyle(Qt.SolidPattern)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush8)
+#endif
+        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Light, brush2)
+        palette.setBrush(QPalette.Inactive, QPalette.Midlight, brush3)
+        palette.setBrush(QPalette.Inactive, QPalette.Dark, brush4)
+        palette.setBrush(QPalette.Inactive, QPalette.Mid, brush5)
+        palette.setBrush(QPalette.Inactive, QPalette.Text, brush6)
+        palette.setBrush(QPalette.Inactive, QPalette.BrightText, brush2)
+        palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush6)
+        palette.setBrush(QPalette.Inactive, QPalette.Base, brush2)
+        palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Shadow, brush6)
+        palette.setBrush(QPalette.Inactive, QPalette.AlternateBase, brush3)
+        palette.setBrush(QPalette.Inactive, QPalette.ToolTipBase, brush7)
+        palette.setBrush(QPalette.Inactive, QPalette.ToolTipText, brush6)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush8)
+#endif
+        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush4)
+        palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Light, brush2)
+        palette.setBrush(QPalette.Disabled, QPalette.Midlight, brush3)
+        palette.setBrush(QPalette.Disabled, QPalette.Dark, brush4)
+        palette.setBrush(QPalette.Disabled, QPalette.Mid, brush5)
+        palette.setBrush(QPalette.Disabled, QPalette.Text, brush4)
+        palette.setBrush(QPalette.Disabled, QPalette.BrightText, brush2)
+        palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush4)
+        palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Shadow, brush6)
+        palette.setBrush(QPalette.Disabled, QPalette.AlternateBase, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.ToolTipBase, brush7)
+        palette.setBrush(QPalette.Disabled, QPalette.ToolTipText, brush6)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush8)
+#endif
+        self.label.setPalette(palette)
         self.label.setMouseTracking(False)
 
         self.verticalLayout.addWidget(self.label)
@@ -57,6 +132,13 @@ class Ui_Login(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
         self.label_2.setSizePolicy(sizePolicy2)
+        palette1 = QPalette()
+        palette1.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        palette1.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        brush9 = QBrush(QColor(190, 190, 190, 255))
+        brush9.setStyle(Qt.SolidPattern)
+        palette1.setBrush(QPalette.Disabled, QPalette.WindowText, brush9)
+        self.label_2.setPalette(palette1)
 
         self.verticalLayout.addWidget(self.label_2)
 
@@ -81,12 +163,17 @@ class Ui_Login(object):
         self.verticalLayout.addItem(self.verticalSpacer)
 
 
-        self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 1)
+        self.gridLayout.addLayout(self.verticalLayout, 2, 0, 1, 1)
 
-        self.dark_mode_butt = HyperlinkButton(Login)
+        self.dark_mode_butt = RadioButton(Login)
         self.dark_mode_butt.setObjectName(u"dark_mode_butt")
+        palette2 = QPalette()
+        palette2.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        palette2.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette2.setBrush(QPalette.Disabled, QPalette.WindowText, brush9)
+        self.dark_mode_butt.setPalette(palette2)
 
-        self.gridLayout.addWidget(self.dark_mode_butt, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.dark_mode_butt, 1, 1, 1, 1)
 
 
         self.horizontalLayout.addLayout(self.gridLayout)

@@ -16,7 +16,7 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0">
+     <item row="2" column="0">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="BodyLabel" name="label">
@@ -108,8 +108,8 @@
        </item>
       </layout>
      </item>
-     <item row="0" column="1">
-      <widget class="HyperlinkButton" name="dark_mode_butt">
+     <item row="1" column="1">
+      <widget class="RadioButton" name="dark_mode_butt">
        <property name="text">
         <string>黑夜模式</string>
        </property>
@@ -121,23 +121,28 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>LineEdit</class>
-   <extends>QLineEdit</extends>
+   <class>PushButton</class>
+   <extends>QPushButton</extends>
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
    <class>PrimaryPushButton</class>
-   <extends>QPushButton</extends>
+   <extends>PushButton</extends>
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
-   <class>HyperlinkButton</class>
-   <extends>QPushButton</extends>
+   <class>RadioButton</class>
+   <extends>QRadioButton</extends>
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
    <class>BodyLabel</class>
    <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
    <header>qfluentwidgets</header>
   </customwidget>
  </customwidgets>

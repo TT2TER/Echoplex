@@ -1,6 +1,6 @@
 #!/bin/zsh
 eval "$(conda shell.bash hook)"
-cd /home/ma/code/qtdesigner/PyQt-Fluent-Widgets/tools
+cd /home/ma/code/qtdesigner/PyQt-Fluent-Widgets
 conda activate qyqt
-python designer.py
+python ./tools/designer.py
 echo "fuck stupid Qt"

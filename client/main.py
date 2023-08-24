@@ -5,7 +5,8 @@ from login import Login
 from client_fuction import Client
 
 app = QApplication([])
-shared_module.client=Client()
+if(shared_module.full_fuction):
+    shared_module.client=Client()
 shared_module.login_page = Login()
-shared_module.login_page.ui.show()
+shared_module.login_page.show()
 app.exec_()

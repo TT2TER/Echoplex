@@ -19,7 +19,7 @@
      <item row="1" column="0">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="BodyLabel" name="label">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -35,7 +35,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="num_in">
+        <widget class="LineEdit" name="num_in">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -54,7 +54,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="BodyLabel" name="label_2">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -67,7 +67,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pwd_in">
+        <widget class="LineEdit" name="pwd_in">
          <property name="cursor">
           <cursorShape>IBeamCursor</cursorShape>
          </property>
@@ -80,14 +80,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="login_butt">
+        <widget class="PrimaryPushButton" name="login_butt">
          <property name="text">
           <string>登陆</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="reg_butt">
+        <widget class="PrimaryPushButton" name="reg_butt">
          <property name="text">
           <string>注册</string>
          </property>
@@ -109,7 +109,7 @@
       </layout>
      </item>
      <item row="0" column="1">
-      <widget class="QPushButton" name="dark_mode_butt">
+      <widget class="HyperlinkButton" name="dark_mode_butt">
        <property name="text">
         <string>黑夜模式</string>
        </property>
@@ -119,6 +119,28 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>PrimaryPushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>HyperlinkButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>BodyLabel</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

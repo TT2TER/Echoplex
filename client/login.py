@@ -30,16 +30,19 @@ class Login:
 
         result = shared_module.client.user_login(user_id=entered_ID, user_pwd=entered_password)
         #以下部分是信息反馈
-        if result == 0:
+        if result[0] == 0:
             QMessageBox.about(self.ui, '登录成功', '欢迎进入系统！')
             # 创建主界面窗口
             shared_module.main_page = Main_win()
             shared_module.main_page.ui.show()
             # 关闭自身窗口
             self.ui.close()
+        elif result[0] == 2:
+            QMessageBox.warning(self.ui, '登录失败', '请输入五位数字账号。')
+            return
         else:
-            QMessageBox.warning(self.ui, '登录失败', '用户名或密码错误，请重试。')#待修改错误原因部分
-            return;
+            QMessageBox.warning(self.ui, '登录失败', '用户名或密码错误。')
+            return
 
     def toggle_day_night_mode(self):
         # 这里可以添加切换日夜模式的逻辑

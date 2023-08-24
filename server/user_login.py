@@ -19,7 +19,7 @@ def user_login(data, socket, address, con):
                 'back_data': "0002"
                 }
             result = "Successful"
-            online_clients[data["content"]["user_id"]] = socket
+            online_clients[int(data["content"]["user_id"])] = socket
         else:
             back_data = {
                 'back_data': "0003"

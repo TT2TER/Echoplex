@@ -28,27 +28,32 @@ class Register(QWidget):
             self.ui.pwd_in.clear()
             self.ui.pwd_check.clear()
             return;
+        #判断密码是否合法
+        if len(entered_password) > 6 and len(entered_password) < 20:
+            pass
+        else:
+            QMessageBox.warning(self, '注册失败', '密码请大于6字符小于20字符，请重新输入。')
+            self.ui.pwd_in.clear()
+            self.ui.pwd_check.clear()
+            return;
 
         # 以下是用户输入的数据
         entered_name = self.ui.name_in.text()  # 姓名
         entered_mail = self.ui.mail_in.text()  # mail
         entered_password = self.ui.pwd_in.text()  # 密码
         entered_password2 = self.ui.pwd_check.text()  # 重复密码
-        
-        if shared_module.full_fuction:
-            result = shared_module.client.user_register(user_name=entered_name, user_email=entered_mail, user_pwd=entered_password, user_image= "04260202")
-        else :
-            result =[0,"1234"]
+        #TODO 用户头像的使用
+        shared_module.client.user_register(user_name=entered_name, user_email=entered_mail, user_pwd=entered_password, user_image= "04260202")
 
-        #TODO user_image的使用
-        if result[0] == 0:
-            QMessageBox.information(self, "注册", "注册成功，你的账号是" + result[1])
+        
+    def recv_register(self, back_data, cocntent):
+        if back_data == "0000": 
+            QMessageBox.information(self, "注册", "注册成功，你的账号是" + str(cocntent["user_id"]))
             shared_module.login_page.show()
             self.close()
-        elif result[0] == 1:
+        else:
             QMessageBox.information(self, "注册失败", "服务器故障，注册失败。")
-        elif result[0] == 2:
-            QMessageBox.information(self, "注册失败", "密码需要大于6字符小于15字符。")
+
 
 
     def return_to_login(self):

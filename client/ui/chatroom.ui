@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>739</width>
-    <height>503</height>
+    <width>802</width>
+    <height>419</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -237,28 +237,13 @@
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="ListWidget" name="ListWidget">
+           <widget class="ListWidget" name="chat_list_view">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <item>
-             <property name="text">
-              <string>新建项目</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>新建项目</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>新建项目</string>
-             </property>
-            </item>
            </widget>
           </item>
          </layout>
@@ -278,7 +263,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>88</width>
+               <width>98</width>
                <height>88</height>
               </rect>
              </property>

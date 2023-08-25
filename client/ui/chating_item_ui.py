@@ -104,7 +104,7 @@ class Ui_chating_item(object):
 
 
         self.retranslateUi(chating_item)
-        self.close_butt.clicked.connect(chating_item.on_btnDeleteClicked)
+        #self.close_butt.clicked.connect(chating_item.on_btnDeleteClicked)
 
         QMetaObject.connectSlotsByName(chating_item)
     # setupUi

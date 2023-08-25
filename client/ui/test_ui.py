@@ -104,7 +104,7 @@ class Ui_MsgItem(object):
 
 
         self.retranslateUi(MsgItem)
-        self.btnClose.clicked.connect(MsgItem.on_btnDeleteClicked)
+        #self.btnClose.clicked.connect(MsgItem.on_btnDeleteClicked)
 
         QMetaObject.connectSlotsByName(MsgItem)
     # setupUi

@@ -59,7 +59,7 @@ def send_message(sender, receiver, msg):
         receiver_socket = online_clients[receiver]
         receiver_socket.sendall(json_message)
     else:
-        user_mailboxes[receiver].append((sender, json_message))
+        user_mailboxes[receiver].append(json_message)
 
 
 def send_group_message(sender, group_id, msg):
@@ -100,3 +100,19 @@ def get_userip_by_userid(_userid):
         if userid == _userid:
             return userip
     return None
+
+
+# 在客户端拉取消息的请求到达时调用这个函数，把消息发送给客户端
+def retrieve_messages(client_id):
+    try:
+        if client_id in user_mailboxes:
+            mailbox = user_mailboxes[client_id]
+            while mailbox:
+                json_message = mailbox.pop(0)  # 从队列头中取出一条消息
+                try:
+                    online_clients[client_id].sendall(json_message)  # 发送消息
+                except Exception as e:
+                    print(f"Error sending message to client {client_id}: {e}")
+            # user_mailboxes[client_id] = []  # 清空该用户的邮件箱
+    except Exception as e:
+        print(f"Error retrieving messages: {e}")

@@ -191,6 +191,20 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
+    def create_group(self):
+        group_member = [10001, 10002]
+        group_name = "test_group"
+        data = {
+            "type": "create_group",
+            "content": {
+                "group_manager": self.user_id,
+                "group_member": group_member,
+                "group_name": group_name
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
     def server_handler(self):
         # shared_module.login_page.show_registration_page()
         while True:

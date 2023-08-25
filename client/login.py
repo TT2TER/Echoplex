@@ -30,24 +30,28 @@ class Login(QWidget):
         # 获取输入的密码
         entered_password = self.ui.pwd_in.text()
         #entered_ID和entered_password分别为输入的用户名和密码字符串
+        def isinteger(string):
+            try:
+                int(string)
+                return True
+            except ValueError:
+                return False
+        if not isinteger(entered_ID) or len(entered_ID) != 5:
+            QMessageBox.warning(self, '登录失败', '请输入五位数字账号。')
+            return
         
-        if shared_module.full_fuction:
-            result = shared_module.client.user_login(user_id=entered_ID, user_pwd=entered_password)
-        else :
-            result = [0]
+        shared_module.client.user_login(user_id=entered_ID, user_pwd=entered_password)
+
     
-    def recv_login(self):
+    def recv_login(self,back_data, content):
         #以下部分是信息反馈
-        if ##:
+        if back_data == "0003":
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
             # 创建主界面窗口
             shared_module.main_page = Main_win()
             shared_module.main_page.show()
             # 关闭自身窗口
             self.close()
-        elif result[0] == 2:
-            QMessageBox.warning(self, '登录失败', '请输入五位数字账号。')
-            return
         else:
             QMessageBox.warning(self, '登录失败', '用户名或密码错误。')
             return

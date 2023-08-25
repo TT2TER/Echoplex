@@ -178,7 +178,18 @@ class Client:
         #                 break
         #             self.client_socket.send(data)
 
+    def pull_message(self):
+        data = {
+            "type": "pull_message",
+            "content": {
+                "sender": self.user_id,
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
     def server_handler(self):
+        # shared_module.login_page.show_registration_page()
         while True:
             try:
                 # bufsize 指定要接收的最大数据量
@@ -209,3 +220,5 @@ class Client:
                 break
             finally:
                 print("server_handler完工，等待下一个请求oVo")
+
+

@@ -8,7 +8,7 @@ from db.DataDB import *
 from db.table_user import *
 import sys
 from user_chat import user_chat
-from global_data import online_clients, chat_server_socket
+from global_data import online_clients#, chat_server_socket
 
 
 def handle_client(socket, address):

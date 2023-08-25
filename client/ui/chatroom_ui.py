@@ -22,14 +22,15 @@ class Ui_chatroom(object):
         if not chatroom.objectName():
             chatroom.setObjectName(u"chatroom")
         chatroom.resize(739, 503)
-        self.widget = QWidget(chatroom)
-        self.widget.setObjectName(u"widget")
-        self.horizontalLayout_3 = QHBoxLayout(self.widget)
+        self.layoutWidget = QWidget(chatroom)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(0, 0, 760, 398))
+        self.horizontalLayout_3 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.img_show = QLabel(self.widget)
+        self.img_show = QLabel(self.layoutWidget)
         self.img_show.setObjectName(u"img_show")
         self.img_show.setMinimumSize(QSize(50, 50))
         self.img_show.setMaximumSize(QSize(80, 80))
@@ -57,7 +58,7 @@ class Ui_chatroom(object):
 
         self.verticalLayout_7.addWidget(self.img_show)
 
-        self.img_butt = PushButton(self.widget)
+        self.img_butt = PushButton(self.layoutWidget)
         self.img_butt.setObjectName(u"img_butt")
         self.img_butt.setMaximumSize(QSize(100, 16777215))
         palette1 = QPalette()
@@ -83,7 +84,7 @@ class Ui_chatroom(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.tabWidget = QTabWidget(self.widget)
+        self.tabWidget = QTabWidget(self.layoutWidget)
         self.tabWidget.setObjectName(u"tabWidget")
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -142,14 +143,14 @@ class Ui_chatroom(object):
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.view_box = QListWidget(self.widget)
+        self.view_box = QListWidget(self.layoutWidget)
         self.view_box.setObjectName(u"view_box")
 
         self.verticalLayout_2.addWidget(self.view_box)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.text_in = TextEdit(self.widget)
+        self.text_in = TextEdit(self.layoutWidget)
         self.text_in.setObjectName(u"text_in")
 
         self.horizontalLayout.addWidget(self.text_in)
@@ -160,7 +161,12 @@ class Ui_chatroom(object):
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.send_butt = PushButton(self.widget)
+        self.pushButton = QPushButton(self.layoutWidget)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.verticalLayout.addWidget(self.pushButton)
+
+        self.send_butt = PushButton(self.layoutWidget)
         self.send_butt.setObjectName(u"send_butt")
 
         self.verticalLayout.addWidget(self.send_butt)
@@ -206,6 +212,7 @@ class Ui_chatroom(object):
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("chatroom", u"\u6211\u7684\u597d\u53cb", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("chatroom", u"Page 2", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("chatroom", u"Tab 2", None))
+        self.pushButton.setText(QCoreApplication.translate("chatroom", u"PushButton", None))
         self.send_butt.setText(QCoreApplication.translate("chatroom", u"send", None))
     # retranslateUi
 

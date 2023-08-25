@@ -21,16 +21,16 @@ def user_chat(received_data, socket, address, database):
             receiver = content["receiver"]
             msg = content["msg"]
             time = content["time"]
-            send_message(sender, receiver, msg)
+            send_message(sender, receiver, msg, time)
             # 需要向数据库中插入数据、需要向客户端返回数据
             # TODO:
-            
+
         elif msg_type == "group_chat":
             sender = content["sender"]
             group_id = content["group_id"]
             msg = content["msg"]
             time = content["time"]
-            send_group_message(sender, group_id, msg)
+            send_group_message(sender, group_id, msg, time)
 
         elif msg_type == "private_group_chat":
             sender = content["sender"]
@@ -45,16 +45,20 @@ def user_chat(received_data, socket, address, database):
         pass
 
 
-def send_message(sender, receiver, msg):
+def send_message(sender, receiver, msg, time):
     message = {
         "type": "friend_chat",
         # "back_data": True,
         "content": {
             "sender": sender,
-            "msg": msg
+            "msg": msg,
+            "time": time
         }
     }
     json_message = json.dumps(message).encode('utf-8')
+    # 发给sender，若reveiver也在线就发，不在线加进mailbox内
+    sender_socket = online_clients[sender]
+    sender_socket.sendall(json_message)
     if receiver in online_clients:
         receiver_socket = online_clients[receiver]
         receiver_socket.sendall(json_message)
@@ -62,21 +66,23 @@ def send_message(sender, receiver, msg):
         user_mailboxes[receiver].append(json_message)
 
 
-def send_group_message(sender, group_id, msg):
-    # receiver = SQL TODO
-    receiver = [100001, 100002]
-    if receiver in online_clients:
-        receiver_socket = online_clients[receiver]
-        message = {
-            "type": "new_message",
-            "content": {
-                "sender": sender,
-                "msg": msg
+def send_group_message(sender, group_id, msg, time):
+    # receivers = SQL TODO
+    for receiver in receivers:
+        if receiver in online_clients:
+            receiver_socket = online_clients[receiver]
+            message = {
+                "type": "new_message",
+                "content": {
+                    "sender": sender,
+                    "group_id": group_id,
+                    "msg": msg,
+                    "time": time
+                }
             }
-        }
-        receiver_socket.send(json.dumps(message).encode('utf-8'))
-    else:
-        user_mailboxes[receiver].append((sender, msg, group_id))
+            receiver_socket.send(json.dumps(message).encode('utf-8'))
+        else:
+            user_mailboxes[receiver].append((sender, msg, group_id))
 
 
 def send_secret_group_message(sender, group_id, msg, receiver=[100001, 100002]):
@@ -93,13 +99,6 @@ def send_secret_group_message(sender, group_id, msg, receiver=[100001, 100002]):
         receiver_socket.send(json.dumps(message).encode('utf-8'))
     else:
         user_mailboxes[receiver].append((sender, msg))
-
-
-def get_userip_by_userid(_userid):
-    for userid, userip in online_clients.items():
-        if userid == _userid:
-            return userip
-    return None
 
 
 # 在客户端拉取消息的请求到达时调用这个函数，把消息发送给客户端

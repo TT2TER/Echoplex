@@ -79,7 +79,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def user_chat(self, msg, receiver):
+    def friend_chat(self, msg, receiver):
         # 发送聊天消息给另一个用户
         # 包括消息内容、发送者的用户ID、接收者的用户ID和时间戳
         # 发送消息的时间
@@ -240,4 +240,15 @@ class Client:
         sender = back_data["content"]["sender"]
         time = back_data["content"]["time"]
         ans = back_data["content"]["ans"]
-        return [sender, time, ans]
+        return [sender, time, ans]    
+
+    def pullfriendlist(self,user_id):
+        data = {
+            "type": "pullfriendlist",
+            "content": {
+                "sender": user_id,
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+

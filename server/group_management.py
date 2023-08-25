@@ -75,8 +75,21 @@ def create_group(data, socket, address, database):
             back_json_data = json.dumps(back_data).encode('utf-8')
             socket.sendall(back_json_data)
 
+
 def delete_group(data, socket, address, database):
     try:
         content = data['content']
-        
+    except:
+        pass
 
+def add_new_member(data, socket, address, database):
+    try:
+        content = data['content']
+        group_id = data['group_id']
+        member_id = data['member_id']
+        group_member_table_name = "group_member" + str(group_id)
+        insert_table_group_member(database,group_member_table_name, group_id, member_id)
+    except:
+        pass
+    finally:
+        pass

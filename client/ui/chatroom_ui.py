@@ -13,8 +13,6 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 from qfluentwidgets import PushButton
-from qfluentwidgets import ImageLabel
-from qfluentwidgets import AvatarWidget
 from qfluentwidgets import TextEdit
 from qfluentwidgets import ListWidget
 
@@ -24,26 +22,57 @@ class Ui_chatroom(object):
         if not chatroom.objectName():
             chatroom.setObjectName(u"chatroom")
         chatroom.resize(739, 503)
-        self.verticalLayout_8 = QVBoxLayout(chatroom)
-        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.horizontalLayout_3 = QHBoxLayout()
+        self.widget = QWidget(chatroom)
+        self.widget.setObjectName(u"widget")
+        self.horizontalLayout_3 = QHBoxLayout(self.widget)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.AvatarWidget = AvatarWidget(chatroom)
-        self.AvatarWidget.setObjectName(u"AvatarWidget")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.AvatarWidget.sizePolicy().hasHeightForWidth())
-        self.AvatarWidget.setSizePolicy(sizePolicy)
-        self.AvatarWidget.setMinimumSize(QSize(40, 40))
-        self.AvatarWidget.setMaximumSize(QSize(40, 40))
-        self.AvatarWidget.setBaseSize(QSize(40, 40))
-        self.AvatarWidget.setPixmap(QPixmap(u"../../../../../Pictures/Camera Roll/\u622a\u56fe-FIFA.png"))
-        self.AvatarWidget.setScaledContents(False)
+        self.img_show = QLabel(self.widget)
+        self.img_show.setObjectName(u"img_show")
+        self.img_show.setMinimumSize(QSize(50, 50))
+        self.img_show.setMaximumSize(QSize(80, 80))
+        palette = QPalette()
+        brush = QBrush(QColor(57, 234, 242, 255))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        brush1 = QBrush(QColor(32, 74, 135, 255))
+        brush1.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
+        brush2 = QBrush(QColor(190, 190, 190, 255))
+        brush2.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush2)
+        brush3 = QBrush(QColor(239, 239, 239, 255))
+        brush3.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Disabled, QPalette.Base, brush3)
+        self.img_show.setPalette(palette)
+        self.img_show.setCursor(QCursor(Qt.ArrowCursor))
+        self.img_show.setFrameShape(QFrame.NoFrame)
+        self.img_show.setFrameShadow(QFrame.Raised)
+        self.img_show.setTextFormat(Qt.AutoText)
+        self.img_show.setScaledContents(False)
 
-        self.verticalLayout_7.addWidget(self.AvatarWidget)
+        self.verticalLayout_7.addWidget(self.img_show)
+
+        self.img_butt = PushButton(self.widget)
+        self.img_butt.setObjectName(u"img_butt")
+        self.img_butt.setMaximumSize(QSize(100, 16777215))
+        palette1 = QPalette()
+        brush4 = QBrush(QColor(1, 83, 168, 255))
+        brush4.setStyle(Qt.SolidPattern)
+        palette1.setBrush(QPalette.Active, QPalette.WindowText, brush4)
+        palette1.setBrush(QPalette.Active, QPalette.ButtonText, brush4)
+        palette1.setBrush(QPalette.Inactive, QPalette.WindowText, brush4)
+        palette1.setBrush(QPalette.Inactive, QPalette.ButtonText, brush4)
+        palette1.setBrush(QPalette.Disabled, QPalette.WindowText, brush2)
+        palette1.setBrush(QPalette.Disabled, QPalette.ButtonText, brush2)
+        self.img_butt.setPalette(palette1)
+        self.img_butt.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.verticalLayout_7.addWidget(self.img_butt)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -54,13 +83,13 @@ class Ui_chatroom(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.tabWidget = QTabWidget(chatroom)
+        self.tabWidget = QTabWidget(self.widget)
         self.tabWidget.setObjectName(u"tabWidget")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
-        self.tabWidget.setSizePolicy(sizePolicy1)
+        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
+        self.tabWidget.setSizePolicy(sizePolicy)
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.verticalLayout_3 = QVBoxLayout(self.tab)
@@ -70,8 +99,8 @@ class Ui_chatroom(object):
         QListWidgetItem(self.ListWidget)
         QListWidgetItem(self.ListWidget)
         self.ListWidget.setObjectName(u"ListWidget")
-        sizePolicy1.setHeightForWidth(self.ListWidget.sizePolicy().hasHeightForWidth())
-        self.ListWidget.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.ListWidget.sizePolicy().hasHeightForWidth())
+        self.ListWidget.setSizePolicy(sizePolicy)
 
         self.verticalLayout_3.addWidget(self.ListWidget)
 
@@ -84,7 +113,7 @@ class Ui_chatroom(object):
         self.toolBox.setObjectName(u"toolBox")
         self.page = QWidget()
         self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 98, 88))
+        self.page.setGeometry(QRect(0, 0, 88, 88))
         self.verticalLayout_4 = QVBoxLayout(self.page)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.listWidget_2 = QListWidget(self.page)
@@ -95,7 +124,7 @@ class Ui_chatroom(object):
         self.toolBox.addItem(self.page, u"\u6211\u7684\u597d\u53cb")
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
-        self.page_2.setGeometry(QRect(0, 0, 98, 88))
+        self.page_2.setGeometry(QRect(0, 0, 274, 277))
         self.verticalLayout_5 = QVBoxLayout(self.page_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.listWidget_3 = QListWidget(self.page_2)
@@ -113,14 +142,14 @@ class Ui_chatroom(object):
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.view_box = QListWidget(chatroom)
+        self.view_box = QListWidget(self.widget)
         self.view_box.setObjectName(u"view_box")
 
         self.verticalLayout_2.addWidget(self.view_box)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.text_in = TextEdit(chatroom)
+        self.text_in = TextEdit(self.widget)
         self.text_in.setObjectName(u"text_in")
 
         self.horizontalLayout.addWidget(self.text_in)
@@ -131,7 +160,7 @@ class Ui_chatroom(object):
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.send_butt = PushButton(chatroom)
+        self.send_butt = PushButton(self.widget)
         self.send_butt.setObjectName(u"send_butt")
 
         self.verticalLayout.addWidget(self.send_butt)
@@ -149,9 +178,6 @@ class Ui_chatroom(object):
         self.horizontalLayout_3.addLayout(self.horizontalLayout_2)
 
 
-        self.verticalLayout_8.addLayout(self.horizontalLayout_3)
-
-
         self.retranslateUi(chatroom)
 
         self.tabWidget.setCurrentIndex(0)
@@ -163,6 +189,8 @@ class Ui_chatroom(object):
 
     def retranslateUi(self, chatroom):
         chatroom.setWindowTitle(QCoreApplication.translate("chatroom", u"Form", None))
+        self.img_show.setText(QCoreApplication.translate("chatroom", u"<html><head/><body><p><br/></p></body></html>", None))
+        self.img_butt.setText(QCoreApplication.translate("chatroom", u"\u70b9\u51fb\u4e0a\u4f20\u5934\u50cf", None))
 
         __sortingEnabled = self.ListWidget.isSortingEnabled()
         self.ListWidget.setSortingEnabled(False)

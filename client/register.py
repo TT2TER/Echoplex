@@ -13,7 +13,6 @@ class Register(QWidget):
 
         # 按下reg_confirm确认密码开始注册流程
         self.ui.reg_confirm.clicked.connect(self.start_registration)
-
         # 按下reg_cancel返回登陆界面
         self.ui.reg_cancel.clicked.connect(self.return_to_login)
 
@@ -42,7 +41,6 @@ class Register(QWidget):
         entered_mail = self.ui.mail_in.text()  # mail
         entered_password = self.ui.pwd_in.text()  # 密码
         entered_password2 = self.ui.pwd_check.text()  # 重复密码
-        #TODO 用户头像的使用
         shared_module.client.user_register(user_name=entered_name, user_email=entered_mail, user_pwd=entered_password, user_image= "04260202")
 
         

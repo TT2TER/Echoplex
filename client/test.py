@@ -1,12 +1,14 @@
 from PySide2.QtWidgets import QApplication, QWidget
 from PySide2.QtGui import QPixmap,QPaintEvent, QPainter
 from PySide2.QtCore import Qt
+import os
 
 class MyWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.image_path = "./lib/login_back.png"  # Replace with the actual path to your image
+        self.img_path = "lib/login_back.png"  # Replace with the actual path to your image
+        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
     def paintEvent(self, event: QPaintEvent):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)

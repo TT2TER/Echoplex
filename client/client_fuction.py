@@ -5,9 +5,9 @@ from datetime import datetime
 from lib.public import shared_module
 
 class Client:
-    def __init__(self):
+    def __init__(self,ip,port):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_address = ('127.0.0.1', 13579)
+        self.server_address = (ip, int(port))
         self.client_socket.connect(self.server_address)
         self.user_id = None
         # self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

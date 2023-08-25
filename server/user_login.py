@@ -4,6 +4,7 @@ import threading
 import sqlite3
 from db.DataDB import select_table
 from global_data import online_clients
+from user_chat import retrieve_messages
 
 
 def user_login(data, socket, address, con):
@@ -22,7 +23,9 @@ def user_login(data, socket, address, con):
                 'back_data': "0003"
             }
             result = "成功"
-            # online_clients[int(data["content"]["user_id"])] = socket
+            # 登录成功，维护在线用户表
+            online_clients[int(data["content"]["user_id"])] = (socket, address)
+            # retrieve_messages(content['user_id'])
         else:
             back_data = {
                 "type": "user_login",

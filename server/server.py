@@ -8,7 +8,7 @@ from db.DataDB import *
 from db.table_user import *
 import sys
 from user_chat import user_chat
-from global_data import online_clients#, chat_server_socket
+from global_data import online_clients,server_address
 
 
 def handle_client(socket, address):
@@ -50,11 +50,11 @@ def handle_client(socket, address):
             print("服务器完工，等待下一个请求oVo")
     try:
         #简单地维护在线用户字典，可能会有问题
-        for key, value in online_clients.items():
-            if value == socket:
-                del online_clients[key]
-                break
-        pass
+        # 遍历字典中的项
+        for user_id, (_socket, _address) in online_clients.items():
+            if _socket == socket:
+                # 找到匹配的项，删除它
+                del online_clients[user_id]
     except:
         pass
 
@@ -78,7 +78,6 @@ if __name__ == "__main__":
         # 创建TCPsocket对象
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # 绑定地址和端口
-        server_address = ('127.0.0.1', 13579)
         server_socket.bind(server_address)
         print("TCP Server is listening on {}:{}".format(server_address[0], server_address[1]))
         # 创建UDPsocket对象
@@ -95,6 +94,7 @@ if __name__ == "__main__":
             new_socket, client_address = server_socket.accept()
             print("服务器连接上了客户端" + str(client_address) + "，准备干活！")
             client_handler = threading.Thread(target=handle_client, args=(new_socket, client_address))
+            client_handler.daemon = True
             client_handler.start()
     except Exception as e:
         print("服务器socket寄了，原因是：" + str(e))

@@ -1,8 +1,6 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
-from window import Main_win
-from register import Register
 from ui.login_ui import Ui_Login
 
 class Login(QWidget):
@@ -25,6 +23,7 @@ class Login(QWidget):
         self.ui.reg_butt.clicked.connect(self.show_registration_page)
 
     def login(self):
+
         #获取输入的账号
         entered_ID=self.ui.num_in.text()
         # 获取输入的密码
@@ -48,7 +47,6 @@ class Login(QWidget):
         if back_data == "0003":
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
             # 创建主界面窗口
-            shared_module.main_page = Main_win()
             shared_module.main_page.show()
             # 关闭自身窗口
             self.close()
@@ -65,10 +63,12 @@ class Login(QWidget):
 
     def show_registration_page(self):
         # 创建注册窗口
-        shared_module.reg_page = Register()
+
         shared_module.reg_page.show()
         # 关闭自身窗口
         self.close()
+
+
 
 if __name__ == "__main__":
     app = QApplication([])

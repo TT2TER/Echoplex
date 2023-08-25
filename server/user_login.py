@@ -9,20 +9,20 @@ from global_data import online_clients
 def user_login(data, socket, address, con):
     content = data["content"]
     res = select_table(con, "user", user_id=int(content["user_id"]))  # id为int型
-    if not res:  # 未注册，返回空列表
+    if len(res) == 0:  # 未注册，返回空列表
         back_data = {
             "type": "user_login",
             'back_data': "0002"
         }
         result = "该用户未注册"
     else:
-        if content["user_pwd"] == res[2]:
+        if content["user_pwd"] == res[0][2]:
             back_data = {
                 "type": "user_login",
                 'back_data': "0003"
             }
             result = "成功"
-            online_clients[int(data["content"]["user_id"])] = socket
+            # online_clients[int(data["content"]["user_id"])] = socket
         else:
             back_data = {
                 "type": "user_login",

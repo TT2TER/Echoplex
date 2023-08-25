@@ -1,16 +1,19 @@
 from PySide2.QtWidgets import QApplication, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
+from setip import Setip
 from login import Login
-from client_fuction import Client
-from backthread import BackendThread
+from window import Main_win
+from register import Register
 
 app = QApplication([])
-if(shared_module.full_fuction):
-    shared_module.client=Client()
-    shared_module.listen_thread=BackendThread()
-    shared_module.listen_thread.nofify.connect(shared_module.client.back_massage_handler)
-    shared_module.listen_thread.start()
+shared_module.setip_page = Setip()
 shared_module.login_page = Login()
-shared_module.login_page.show()
+shared_module.main_page = Main_win()
+shared_module.reg_page = Register()
+shared_module.setip_page.show()
+if(shared_module.full_fuction):
+    #shared_module.client=Client()
+    pass
+
 app.exec_()

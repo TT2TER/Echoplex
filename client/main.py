@@ -8,6 +8,7 @@ import threading
 app = QApplication([])
 if(shared_module.full_fuction):
     shared_module.client=Client()
+threading.Thread(target=shared_module.client.server_handler, args=()).start()
 shared_module.login_page = Login()
 shared_module.login_page.show()
 

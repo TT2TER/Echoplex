@@ -8,7 +8,7 @@ from db.DataDB import *
 from db.table_user import *
 import sys
 from user_chat import user_chat
-from global_data import online_clients
+from global_data import online_clients, chat_server_socket
 
 
 def handle_client(socket, address):
@@ -75,12 +75,17 @@ if __name__ == "__main__":
         print("服务器初始化失败:" + str(e))
         sys.exit()
     try:
-        # 创建socket对象
+        # 创建TCPsocket对象
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # 绑定地址和端口
         server_address = ('127.0.0.1', 13579)
         server_socket.bind(server_address)
-
+        print("TCP Server is listening on {}:{}".format(server_address[0], server_address[1]))
+        # 创建UDPsocket对象
+        # chat_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # chat_server_address = ('127.0.0.1', 13578)
+        # chat_server_socket.bind(chat_server_address)
+        # print("UDP Server is listening on {}:{}".format(chat_server_address[0], chat_server_address[1]))
         # TCP 监听
         # backlog 指定在拒绝连接之前，操作系统可以挂起的最大连接数量s
         backlog = 20

@@ -39,14 +39,16 @@ def user_register(data, socket, address, database):
         if succ:
             back_data = {
                 "type": "user_register",
-                "back_data": True,
-                "user_id": userid
+                "back_data": "0000",
+                "content": {
+                    "user_id": userid
+                }
             }
         else:
             new_userid -= 1
             back_data = {
                 "type": "user_register",
-                "back_data": False,
+                "back_data": "0001",
             }
         save_new_userid(new_userid)
         back_json_data = json.dumps(back_data).encode('utf-8')

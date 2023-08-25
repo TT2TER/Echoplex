@@ -47,6 +47,7 @@ def user_chat(received_data, socket, address, database):
 def send_message(sender, receiver, msg):
     message = {
         "type": "friend_chat",
+        # "back_data": True,
         "content": {
             "sender": sender,
             "msg": msg

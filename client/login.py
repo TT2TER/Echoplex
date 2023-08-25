@@ -34,10 +34,11 @@ class Login(QWidget):
         if shared_module.full_fuction:
             result = shared_module.client.user_login(user_id=entered_ID, user_pwd=entered_password)
         else :
-            result = [0 ]
-            
+            result = [0]
+    
+    def recv_login(self):
         #以下部分是信息反馈
-        if result [0] == 0:
+        if ##:
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
             # 创建主界面窗口
             shared_module.main_page = Main_win()

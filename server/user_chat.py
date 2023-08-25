@@ -1,5 +1,3 @@
-import socket
-import threading
 import json
 from collections import defaultdict
 from global_data import online_clients
@@ -24,7 +22,7 @@ def user_chat(received_data, socket, address, database):
             msg = content["msg"]
             time = content["time"]
             send_message(sender, receiver, msg)
-            #需要向数据库中插入数据、需要向客户端返回数据
+            # 需要向数据库中插入数据、需要向客户端返回数据
 
         elif msg_type == "group_chat":
             sender = content["sender"]
@@ -41,26 +39,26 @@ def user_chat(received_data, socket, address, database):
             receiver = content["receiver"]
             # create_group()
             # send_group_message()
-
-        # Add other message types here
-
+            # Add other message types here
     except json.JSONDecodeError:
         pass
 
 
 def send_message(sender, receiver, msg):
+    message = {
+        "type": "friend_chat",
+        # "back_data": True,
+        "content": {
+            "sender": sender,
+            "msg": msg
+        }
+    }
+    json_message = json.dumps(message).encode('utf-8')
     if receiver in online_clients:
         receiver_socket = online_clients[receiver]
-        message = {
-            "type": "new_message",
-            "content": {
-                "sender": sender,
-                "msg": msg
-            }
-        }
-        receiver_socket.send(json.dumps(message).encode('utf-8'))
+        receiver_socket.sendall(json_message)
     else:
-        user_mailboxes[receiver].append((sender, msg))
+        user_mailboxes[receiver].append((sender, json_message))
 
 
 def send_group_message(sender, group_id, msg):
@@ -80,7 +78,7 @@ def send_group_message(sender, group_id, msg):
         user_mailboxes[receiver].append((sender, msg, group_id))
 
 
-def send_secret_group_message(sender, group_id, msg, receiver = [100001, 100002]):
+def send_secret_group_message(sender, group_id, msg, receiver=[100001, 100002]):
     # receiver = SQL TODO
     if receiver in online_clients:
         receiver_socket = online_clients[receiver]
@@ -96,8 +94,8 @@ def send_secret_group_message(sender, group_id, msg, receiver = [100001, 100002]
         user_mailboxes[receiver].append((sender, msg))
 
 
-def get_username_by_socket(socket):
-    for username, user_socket in user_sockets.items():
-        if user_socket == socket:
-            return username
+def get_userip_by_userid(_userid):
+    for userid, userip in online_clients.items():
+        if userid == _userid:
+            return userip
     return None

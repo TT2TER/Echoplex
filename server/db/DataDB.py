@@ -83,31 +83,39 @@ def delete_table(con,table_name):
         con.rollback()
         return False
 
-'''
-
-insert_table_user(con,table_name,id=1004,name="xa",pwd="123456",email="12@qq.com",image="path/to/image")
-select_table(con,table_name,user_name="'xa'",user_id=1004)
-delete_table_index(con,table_name,user_id=1004,user_name="'xa'")
-
-#insert_table_user(con,table_name,id=1002,name="xa",pwd="123456",email="12@qq.com",image="path/to/image")
-update_table_user(con,table_name=table_name,id=1002,index='user_email',value='1234@qq.com')
-a=select_table_user(con,table_name,user_name="'xa'",user_id=1002)
-print(a)
 
 
-#create_table_user_friend(con,table_name)
-#insert_table_user_friend(con,table_name,user_id=1002,friend_id=1004,chat_id=1000002)
+def search_member(con,table_name,group_id):
+    member=[]
+    try:
+        ret=select_table(con,table_name=table_name,group_id=group_id)
+        for group_id,member_id in ret:
+            member.append(member_id)
+        return member
+    except:
+        print("Search Failed")
+        return None
+    
 
-print(ret)
-if ret:
-    print("chat")
-else:
-    print("no")
-con.close()
-con=sql_connection()
-con1=sql_connection()
-con2=sql_connection()
-table_name="user_friend"
-ret=select_table(con2,table_name,user_id=1002)
-print(ret)
-'''
+def search_firend(con,user_id,table_name="user_friend"):
+    friend=[]
+    try:
+        ret=select_table(con,table_name,user_id=user_id)
+        for user_id,friend_id,chat_id in ret:
+            friend.append(friend_id)
+        ret=select_table(con,table_name,friend_id=user_id)
+        for user_id,friend_id,chat_id in ret:
+            friend.append(user_id)
+        return friend
+    except:
+        print("Search Failed")
+        return None
+
+
+def Convert_BLOB(filename):
+    """
+    将一个文件或图像转化为二进制文件存储
+    """
+    with open(filename, 'rb') as file:
+        blob_data = file.read()
+    return blob_data

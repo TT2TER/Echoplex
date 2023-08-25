@@ -1,7 +1,7 @@
 
 
 
-def create_table_group_chat(con,table_name="group-chat"):
+def create_table_group_chat(con,table_name="group_chat"):
     """
     群聊天表：
     sender_id : 信息发送者编号
@@ -12,15 +12,21 @@ def create_table_group_chat(con,table_name="group-chat"):
     cursor=con.cursor()
     try:
         cursor.execute("CREATE TABLE "+ table_name+" ("
-                  "sender_id INTEGER ,"
-                  "group_id INTEGER,"
-                  "chat_time datatime,"
-                  "chat_content text")
+                  "sender_id INT,"
+                  "group_id INT,"
+                  "chat_time text,"
+                  "chat_content datetime,"
+                  "PRIMARY KEY(sender_id,group_id,chat_time))")
         con.commit()
         print("table is created")
         return True
     except:
-        print("table "+table_name+" is already exists")
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+        result = cursor.fetchone()
+        if result:
+            print("table "+table_name+" is already exists")
+        else:
+            print("Create Table Failed")
         return False
     
 

@@ -66,3 +66,8 @@ class Login(QWidget):
         # 关闭自身窗口
         self.close()
 
+if __name__ == "__main__":
+    app = QApplication([])
+    login = Login()
+    login.show()
+    app.exec_()

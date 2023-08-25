@@ -21,7 +21,7 @@ class Ui_chatroom(object):
     def setupUi(self, chatroom):
         if not chatroom.objectName():
             chatroom.setObjectName(u"chatroom")
-        chatroom.resize(739, 503)
+        chatroom.resize(802, 419)
         self.layoutWidget = QWidget(chatroom)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(0, 0, 760, 398))
@@ -95,15 +95,12 @@ class Ui_chatroom(object):
         self.tab.setObjectName(u"tab")
         self.verticalLayout_3 = QVBoxLayout(self.tab)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.ListWidget = ListWidget(self.tab)
-        QListWidgetItem(self.ListWidget)
-        QListWidgetItem(self.ListWidget)
-        QListWidgetItem(self.ListWidget)
-        self.ListWidget.setObjectName(u"ListWidget")
-        sizePolicy.setHeightForWidth(self.ListWidget.sizePolicy().hasHeightForWidth())
-        self.ListWidget.setSizePolicy(sizePolicy)
+        self.chat_list_view = ListWidget(self.tab)
+        self.chat_list_view.setObjectName(u"chat_list_view")
+        sizePolicy.setHeightForWidth(self.chat_list_view.sizePolicy().hasHeightForWidth())
+        self.chat_list_view.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_3.addWidget(self.ListWidget)
+        self.verticalLayout_3.addWidget(self.chat_list_view)
 
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
@@ -114,7 +111,7 @@ class Ui_chatroom(object):
         self.toolBox.setObjectName(u"toolBox")
         self.page = QWidget()
         self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 88, 88))
+        self.page.setGeometry(QRect(0, 0, 98, 88))
         self.verticalLayout_4 = QVBoxLayout(self.page)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.listWidget_2 = QListWidget(self.page)
@@ -197,17 +194,6 @@ class Ui_chatroom(object):
         chatroom.setWindowTitle(QCoreApplication.translate("chatroom", u"Form", None))
         self.img_show.setText(QCoreApplication.translate("chatroom", u"<html><head/><body><p><br/></p></body></html>", None))
         self.img_butt.setText(QCoreApplication.translate("chatroom", u"\u70b9\u51fb\u4e0a\u4f20\u5934\u50cf", None))
-
-        __sortingEnabled = self.ListWidget.isSortingEnabled()
-        self.ListWidget.setSortingEnabled(False)
-        ___qlistwidgetitem = self.ListWidget.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("chatroom", u"\u65b0\u5efa\u9879\u76ee", None));
-        ___qlistwidgetitem1 = self.ListWidget.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("chatroom", u"\u65b0\u5efa\u9879\u76ee", None));
-        ___qlistwidgetitem2 = self.ListWidget.item(2)
-        ___qlistwidgetitem2.setText(QCoreApplication.translate("chatroom", u"\u65b0\u5efa\u9879\u76ee", None));
-        self.ListWidget.setSortingEnabled(__sortingEnabled)
-
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("chatroom", u"Tab 1", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("chatroom", u"\u6211\u7684\u597d\u53cb", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("chatroom", u"Page 2", None))

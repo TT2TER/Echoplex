@@ -12,8 +12,8 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-from qfluentwidgets import LineEdit
 from qfluentwidgets import PushButton
+from qfluentwidgets import LineEdit
 from qfluentwidgets import PrimaryPushButton
 from qfluentwidgets import RadioButton
 from qfluentwidgets import BodyLabel
@@ -153,6 +153,7 @@ class Ui_Login(object):
         self.pwd_in = LineEdit(self.layoutWidget)
         self.pwd_in.setObjectName(u"pwd_in")
         self.pwd_in.setCursor(QCursor(Qt.IBeamCursor))
+        self.pwd_in.setEchoMode(QLineEdit.Password)
 
         self.verticalLayout.addWidget(self.pwd_in)
 

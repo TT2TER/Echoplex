@@ -4,6 +4,7 @@ import threading
 from datetime import datetime
 from lib.public import shared_module
 
+
 class Client:
     def __init__(self):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,7 +46,7 @@ class Client:
         #     print("Login Failed")
         #     return [1]
 
-    #向服务端发送注册请求
+    # 向服务端发送注册请求
     def user_register(self, user_name, user_image, user_pwd, user_email):
         data = {
             'type': 'user_register',
@@ -66,10 +67,10 @@ class Client:
         # elif back_data["back_data"] == "0001":
         #     print("Register Fail, Sever Error")
         #     return [1]
-    
-    #点击头像，显示好友信息
-    def friendinfo(self, user_id): 
-        
+
+    # 点击头像，显示好友信息
+    def friendinfo(self, user_id):
+
         data = {
             'type': 'friendinfo',
             'content': {
@@ -88,7 +89,6 @@ class Client:
         #     return 1  
         # else:
         #     return 2          #服务端返回值出错
-        
 
     def user_chat(self, msg, receiver):
         # 发送消息的时间
@@ -234,47 +234,46 @@ class Client:
             finally:
                 print("server_handler完工，等待下一个请求oVo")
 
-
-    def user_addfriend(self,user_id,target_id):
-        #发送请求添加好友时间
+    def user_addfriend(self, user_id, target_id):
+        # 发送请求添加好友时间
         now = datetime.now()
         _time = datetime.timestamp(now)
         data = {
-             "type": "user_addfriend",
-             "content": {
-             "sender": user_id,
-             "receiver": target_id,
-             "time": _time
-                }
-                }
-        json_data = json.dumps(data).encode('utf-8')
-        self.client_socket.sendall(json_data)
-        
-    def rcv_addfriend(self,back_data,content):
-         #对方收到好友请求并确定是否同意
-         sender = back_data["content"]["sender"]
-         time = back_data["content"]["time"]
-         return [sender,time]
-
-    def ans_addfriend(self,ans,user_id,target_id):
-        #发送同意或拒绝请求
-        now = datetime.now()
-        time = datetime.timestamp(now)
-        data = {
-             "type": "ans_addfriend",
-             "content": {
-             "sender": user_id,
-             "receiver": target_id,
-             "time": time,
-             "ans": ans
+            "type": "user_addfriend",
+            "content": {
+                "sender": user_id,
+                "receiver": target_id,
+                "time": _time
             }
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        
-    def rcv_ans_addfriend(self,back_data,content):
-         #对方收到好友请求并确定是否同意
-         sender = back_data["content"]["sender"]
-         time = back_data["content"]["time"]
-         ans = back_data["content"]["ans"]
-         return [sender,time,ans]
+
+    def rcv_addfriend(self, back_data, content):
+        # 对方收到好友请求并确定是否同意
+        sender = back_data["content"]["sender"]
+        time = back_data["content"]["time"]
+        return [sender, time]
+
+    def ans_addfriend(self, ans, user_id, target_id):
+        # 发送同意或拒绝请求
+        now = datetime.now()
+        time = datetime.timestamp(now)
+        data = {
+            "type": "ans_addfriend",
+            "content": {
+                "sender": user_id,
+                "receiver": target_id,
+                "time": time,
+                "ans": ans
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+    def rcv_ans_addfriend(self, back_data, content):
+        # 对方收到好友请求并确定是否同意
+        sender = back_data["content"]["sender"]
+        time = back_data["content"]["time"]
+        ans = back_data["content"]["ans"]
+        return [sender, time, ans]

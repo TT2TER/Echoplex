@@ -7,24 +7,24 @@ from lib.public import shared_module
 class Client:
     def __init__(self):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_address = ('127.0.0.1', 13582)
+        self.server_address = ('127.0.0.1', 13579)
         self.client_socket.connect(self.server_address)
         self.user_id = None
         # self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         # self.udp_socket.bind(("127.0.0.1", 13570))
 
     def user_login(self, user_id, user_pwd):
-        def isinteger(string):
-            try:
-                int(string)
-                return True
-            except ValueError:
-                return False
+        # def isinteger(string):
+        #     try:
+        #         int(string)
+        #         return True
+        #     except ValueError:
+        #         return False
 
-        # 判断所输入账号是否合法
-        if not isinteger(user_id) or len(user_id) != 5:
-            print("Login Failed")
-            return [2]
+        # # 判断所输入账号是否合法
+        # if not isinteger(user_id) or len(user_id) != 5:
+        #     print("Login Failed")
+        #     return [2]
         data = {
             'type': 'user_login',
             'content': {
@@ -33,7 +33,7 @@ class Client:
             }
         }
         json_data = json.dumps(data).encode('utf-8')
-        # self.client_socket.sendall(json_data)
+        self.client_socket.sendall(json_data)
         # back_json_data = self.client_socket.recv(1024)
         # back_data = json.loads(back_json_data.decode('utf-8'))
         # if back_data["back_data"] == "0002":
@@ -47,30 +47,27 @@ class Client:
 
     #向服务端发送注册请求
     def user_register(self, user_name, user_image, user_pwd, user_email):
-        if len(user_pwd) > 25 or len(user_pwd) < 6:
-            return [2]
-        else:
-            data = {
-                'type': 'user_register',
-                'content': {
-                    'user_name': shared_module.reg_page.return_to_login,
-                    'user_pwd': user_pwd,
-                    'user_email': user_email,
-                    'user_image': user_image
-                }
+        data = {
+            'type': 'user_register',
+            'content': {
+                'user_name': user_name,
+                'user_pwd': user_pwd,
+                'user_email': user_email,
+                'user_image': user_image
             }
-            json_data = json.dumps(data).encode('utf-8')
-            self.client_socket.sendall(json_data)
-            # back_json_data = self.client_socket.recv(1024)
-            # back_data = json.loads(back_json_data.decode('utf-8'))
-            # if back_data["back_data"] == "0000":
-            #     print("Register Success")
-            #     return [0, str(back_data["user_id"])]
-            # elif back_data["back_data"] == "0001":
-            #     print("Register Fail, Sever Error")
-            #     return [1]
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        # back_json_data = self.client_socket.recv(1024)
+        # back_data = json.loads(back_json_data.decode('utf-8'))
+        # if back_data["back_data"] == "0000":
+        #     print("Register Success")
+        #     return [0, str(back_data["user_id"])]
+        # elif back_data["back_data"] == "0001":
+        #     print("Register Fail, Sever Error")
+        #     return [1]
     
-    #向服务端发送好友拉取请求
+    #点击头像，显示好友信息
     def friendinfo(self, user_id): 
         
         data = {
@@ -181,8 +178,31 @@ class Client:
         #                 break
         #             self.client_socket.send(data)
 
+    def pull_message(self):
+        data = {
+            "type": "pull_message",
+            "content": {
+                "sender": self.user_id,
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+    def create_group(self):
+        group_member = [10001, 10002]
+        group_name = "test_group"
+        data = {
+            "type": "create_group",
+            "content": {
+                "group_manager": self.user_id,
+                "group_member": group_member,
+                "group_name": group_name
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
     def server_handler(self):
-        shared_module.login_page.show_registration_page()
         while True:
             try:
                 # bufsize 指定要接收的最大数据量
@@ -195,10 +215,8 @@ class Client:
             try:
                 print("server_handler处理ing……")
                 message_handlers = {
-                    'user_register': user_register,
-                    'user_login': user_login,
-                    'user_chat': user_chat,
-                    'user_send_file': receive_file
+                    'user_register': shared_module.reg_page.recv_register,
+                    'user_login': shared_module.login_page.recv_login,
                 }
                 handler = message_handlers.get(received_data['type'], None)
                 back_data = received_data.get('back_data', None)
@@ -215,3 +233,48 @@ class Client:
                 break
             finally:
                 print("server_handler完工，等待下一个请求oVo")
+
+
+    def user_addfriend(self,user_id,target_id):
+        #发送请求添加好友时间
+        now = datetime.now()
+        _time = datetime.timestamp(now)
+        data = {
+             "type": "user_addfriend",
+             "content": {
+             "sender": user_id,
+             "receiver": target_id,
+             "time": _time
+                }
+                }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        
+    def rcv_addfriend(self,back_data,content):
+         #对方收到好友请求并确定是否同意
+         sender = back_data["content"]["sender"]
+         time = back_data["content"]["time"]
+         return [sender,time]
+
+    def ans_addfriend(self,ans,user_id,target_id):
+        #发送同意或拒绝请求
+        now = datetime.now()
+        time = datetime.timestamp(now)
+        data = {
+             "type": "ans_addfriend",
+             "content": {
+             "sender": user_id,
+             "receiver": target_id,
+             "time": time,
+             "ans": ans
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        
+    def rcv_ans_addfriend(self,back_data,content):
+         #对方收到好友请求并确定是否同意
+         sender = back_data["content"]["sender"]
+         time = back_data["content"]["time"]
+         ans = back_data["content"]["ans"]
+         return [sender,time,ans]

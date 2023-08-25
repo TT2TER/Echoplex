@@ -240,5 +240,15 @@ class Client:
         sender = back_data["content"]["sender"]
         time = back_data["content"]["time"]
         ans = back_data["content"]["ans"]
-        return [sender, time, ans]
+        return [sender, time, ans]    
+
+    def pullfriendlist(self,user_id):
+        data = {
+            "type": "pullfriendlist",
+            "content": {
+                "sender": user_id,
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
 

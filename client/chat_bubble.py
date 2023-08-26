@@ -30,14 +30,17 @@ class Message_bubble(QWidget):
         # 使用字体度量来获取文本在给定宽度内的渲染区域，考虑到自动换行和内边距的影响
         content_rect = self.ui.message_bubble.fontMetrics().boundingRect(0, 0, 500 - (2 * self.padding), 0, Qt.TextWordWrap, self.msg)
         # 计算适合的宽度，考虑了内边距的影响
-        content_width = min(content_rect.width() + (2 * self.padding), 500)
+        content_width = min(content_rect.width() + (2 * self.padding), 500)+ (2 * self.padding)
         # 获取文本在上述宽度下的实际高度
         content_height = content_rect.height()
         # 计算消息气泡的总高度，考虑了内边距
-        total_content_height = content_height + (2 * self.padding)
+        total_content_height = content_height + (2 * self.padding)+ 10
         # 设置气泡的最终大小，考虑内边距和一些额外的高度余量
-        self.ui.message_bubble.setFixedSize(content_width + (2 * self.padding), total_content_height + 10)
+        self.ui.message_bubble.setFixedSize(content_width , total_content_height )
 
+        #设置外框大小
+        self.ui.widgetMain.setFixedSize(800,total_content_height+100)
+        #self.ui.setFixedSize(content_width+10,total_content_height+10)
 
         #显示发消息时间
         self.ui.cur_time.setText(self.time)

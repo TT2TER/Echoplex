@@ -3,6 +3,7 @@ import json
 import threading
 from datetime import datetime
 from lib.public import shared_module
+from file_thread import FileSendThread, FileReceiveThread, send_file_handler, receive_file_handler
 
 
 class Client:
@@ -17,7 +18,8 @@ class Client:
         try:
             message_handlers = {
                 'user_register': shared_module.reg_page.recv_register,
-                'user_login': shared_module.login_page.recv_login
+                'user_login': shared_module.login_page.recv_login,
+                'user_send_file': self.send_file
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -141,24 +143,6 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def user_send_file(self, filename, receiver):
-        # 发送文件给另一个用户
-        # 包括文件名、发送者的用户ID、接收者的用户ID和时间戳
-        # 根据服务器的响应可能进行文件传输
-        # filename = "files/package.zip"
-        now = datetime.now()
-        timestamp = datetime.timestamp(now)
-        data = {
-            "type": "user_send_file",
-            "content": {
-                "sender": self.user_id,
-                "receiver": receiver,
-                "time": timestamp
-            }
-        }
-        json_data = json.dumps(data).encode('utf-8')
-        self.client_socket.sendall(json_data)
-
     def pull_message(self):
         # 请求从服务器拉取消息
         # 包括发送者的用户ID
@@ -251,6 +235,118 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+
+
+    def send_file_request(self, receiver_id, file_path):
+        # 向服务器发送文件发送请求
+        # 包括接收者的ID地址、和本机文件路径
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            'type': 'user_send_file',
+            'content': {
+                "msg_type": "friend_chat",
+                "sender": self.user_id,
+                "receiver": receiver_id,
+                "msg": None,
+                "filepath": file_path,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+    def receive_file_request(self, sender_id, file_path):
+        # 向服务器发送文件接受请求
+        # 包括接收者的ID地址、和服务端文件路径
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            'type': 'user_send_file',
+            'content': {
+                "msg_type": "friend_chat",
+                "sender": self.user_id,
+                "receiver": sender_id,
+                "msg": None,
+                "filepath": file_path,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)    
+
+
+    #在从服务器收到允许发文件的答复后，开始发文件线程
+    def send_file(self, back_data, content):
+        try:
+            if back_data == "0000":
+                print("服务器允许发送文件，准备发送力")
+                file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"])
+                file_thread.start()
+                file_thread.notify.connect(send_file_handler)
+            else:
+                print("服务器不允许发送文件，寄了，记载client_function,send_file里头")
+        except Exception as e:
+            print("send_file寄了，寄在lient_function,send_file里头：" + str(e))
+
+    #在从服务器收到允许接收文件的答复后，开始接收文件线程
+    def receive_file(self, back_data, content):
+        try:
+            if back_data == "0000":
+                print("服务器允许接收文件，准备接收力")
+                file_thread = FileReceiveThread(content["sender_ip"], content["port"], content["filepath"])
+                file_thread.start()
+                file_thread.notify.connect(reveive_file_handler)
+            else:
+                print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
+        except Exception as e:
+            print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
+    
+    def receive_friend_message(self, back_data, content):
+        sender = content["sender"]
+        msg = content["msg"]
+        time = content["time"]
+        filepath = content["filepath"]
+        try:
+            if content["file"] == None:
+                #收到的是文本消息
+                print("收到的是来自"+ content['sender'] +"文本消息："+ content["msg"])
+                #写入一个文件
+
+                #进行窗口交互
+
+            elif content["msg"] == None:
+                print("收到的是来自"+ content['sender'] +"文件")
+                #发送接收文件请求
+
+                #进行窗口交互
+                #将文件 消息 显示在聊天中
+        except Exception as e:
+            print("receive_friend_message寄了，寄在client_function,receive_friend_message里头：" + str(e))
+
+    def receive_group_message(self, back_data, content):
+        sender = content["sender"]
+        msg = content["msg"]
+        time = content["time"]
+        group_id = content["group_id"]
+        filepath = content["filepath"]
+        try:
+            if content["file"] == None:
+                #收到的是文本消息
+                print("收到的是来自"+ content['sender'] +"群组文本消息："+ content["msg"])
+                #写入一个文件
+
+                #进行窗口交互
+
+            elif content["msg"] == None:
+                print("收到的是来自"+ content['sender'] +"群组文件")
+                #发送接收文件请求
+
+                #进行窗口交互
+                #将文件 消息 显示在聊天中
+        except Exception as e:
+            print("receive_group_message寄了，寄在client_function,receive_group_message里头：" + str(e))
+
 
     def rcv_friendlist(self, back_data, content):
         back_data = back_data["back_data"]

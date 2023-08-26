@@ -44,7 +44,7 @@ def send_message(ans,sender, receiver, time):
     }
     json_message = json.dumps(back_data_addfriend).encode('utf-8')
     if receiver in online_clients:
-            receiver_socket = online_clients[receiver]
+            receiver_socket, _ = online_clients[receiver]
             receiver_socket.sendall(json_message)
     else:
         ans_addfriendlist[receiver].append((sender, json_message))

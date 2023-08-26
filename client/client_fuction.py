@@ -68,14 +68,14 @@ class Client:
         self.client_socket.sendall(json_data)
 
     # 点击头像，显示好友信息
-    def friendinfo(self, user_id):
+    def friendinfo(self):
         # 向服务器请求好友信息
         # 包括要请求信息的好友的用户ID
         # 根据服务器的响应返回好友信息或错误码
         data = {
             'type': 'friendinfo',
             'content': {
-                'user_id': user_id
+                'user_id': self.user_id
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -171,7 +171,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def user_addfriend(self, user_id, target_id):
+    def user_addfriend(self, target_id):
         # 发送添加好友请求
         # 包括发送者的用户ID、接收者的用户ID和时间戳
         # 发送请求添加好友时间
@@ -180,7 +180,7 @@ class Client:
         data = {
             "type": "user_addfriend",
             "content": {
-                "sender": user_id,
+                "sender": self.user_id,
                 "receiver": target_id,
                 "time": _time
             }
@@ -188,16 +188,15 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_addfriend(self, back_data, content):
+    def rcv_addfriend(self, content):
         # 对方接收到添加好友请求并确认是否同意
         # 返回发送者的用户ID和时间戳
-
         # 对方收到好友请求并确定是否同意
-        sender = back_data["content"]["sender"]
-        time = back_data["content"]["time"]
+        sender = content["sender"]
+        time = content["time"]
         return [sender, time]
 
-    def ans_addfriend(self, ans, user_id, target_id):
+    def ans_addfriend(self, ans, target_id):
         # 发送同意或拒绝添加好友请求
         # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳
 
@@ -207,7 +206,7 @@ class Client:
         data = {
             "type": "ans_addfriend",
             "content": {
-                "sender": user_id,
+                "sender": self.user_id,
                 "receiver": target_id,
                 "time": time,
                 "ans": ans
@@ -216,21 +215,21 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_ans_addfriend(self, back_data, content):
+    def rcv_ans_addfriend(self, content):
         # 对方接收到同意或拒绝添加好友请求的回复
         # 返回发送者的用户ID、时间戳和回复内容
 
         # 对方收到好友请求并确定是否同意
-        sender = back_data["content"]["sender"]
-        time = back_data["content"]["time"]
-        ans = back_data["content"]["ans"]
+        sender = content["sender"]
+        time = content["time"]
+        ans = content["ans"]
         return [sender, time, ans]
 
-    def pullfriendlist(self, user_id):
+    def pullfriendlist(self):
         data = {
             "type": "pullfriendlist",
             "content": {
-                "sender": user_id,
+                "sender": self.user_id,
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -357,9 +356,9 @@ class Client:
         except Exception as e:
             print("receive_group_message寄了，寄在client_function,receive_group_message里头：" + str(e))
 
-    def rcv_friendlist(self, back_data, content):
-        back_data = back_data["back_data"]
-        friend_ids = back_data["content"]["friend_ids"]
+    def rcv_friendlist(self,back_data,content):
+        
+        friend_ids = content["friend_ids"]
         if back_data == "0012":
             # 好友列表获取成功
             return friend_ids

@@ -38,6 +38,9 @@ class Main_win(QWidget):
         #循环加载add_message
         print("Item clicked with value:", value)
 
+        self.img_path = "lib/login_back.png"
+        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
+        self.add_message(value,self.image_path,"today,test","测试消非第三方和角色的看法和集散地和佛发动机斯科飞机的思考和发达省份集散地和附近的开始发掘速度快恢复健康锁定和佛教思考的合法的角色刻画佛教快速的恢复健康的书法家符号计算的看法和的角色可恢复健康锁定和法第四尽快恢复健康和三等奖第三开发环境思考的反对和赛季开发和三等奖开发和第三空间划分教思考东方航空锁定和附近的时可恢复思考息1")
         #这里写循环
 
 
@@ -53,9 +56,11 @@ class Main_win(QWidget):
     
     def add_message(self,who,avatar_path, time:str="", msg:str=""):
         #who是用户id，avatar_path,time为收到该条消息的时间，msg为消息内容
-        self.img_path = "lib/login_back.png"
-        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-        show_message=Message_bubble(id,self.image_path,)
+
+        show_message=Message_bubble(who,self.image_path,time,msg)
+        message_item=QListWidgetItem(self.ui.view_box)
+        message_item.setSizeHint(show_message.sizeHint())
+        self.ui.view_box.setItemWidget(message_item,show_message)
 
 
 if __name__ == "__main__":

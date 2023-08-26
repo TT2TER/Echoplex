@@ -124,6 +124,11 @@ class Ui_chatroom(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.view_box = QListWidget(chatroom)
         self.view_box.setObjectName(u"view_box")
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.view_box.sizePolicy().hasHeightForWidth())
+        self.view_box.setSizePolicy(sizePolicy)
 
         self.verticalLayout_2.addWidget(self.view_box)
 
@@ -131,6 +136,11 @@ class Ui_chatroom(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.text_in = TextEdit(chatroom)
         self.text_in.setObjectName(u"text_in")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.text_in.sizePolicy().hasHeightForWidth())
+        self.text_in.setSizePolicy(sizePolicy1)
 
         self.horizontalLayout.addWidget(self.text_in)
 
@@ -161,11 +171,13 @@ class Ui_chatroom(object):
 
         self.tabWidget = QTabWidget(chatroom)
         self.tabWidget.setObjectName(u"tabWidget")
-        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
-        self.tabWidget.setSizePolicy(sizePolicy)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
+        self.tabWidget.setSizePolicy(sizePolicy2)
+        self.tabWidget.setMinimumSize(QSize(420, 0))
+        self.tabWidget.setMaximumSize(QSize(420, 16777215))
         self.tabWidget.setStyleSheet(u"/* \u8bbe\u7f6e\u6574\u4e2a QTabWidget \u7684\u6837\u5f0f */\n"
 "QTabWidget {\n"
 "    background-color: #f0f0f0;\n"
@@ -214,11 +226,8 @@ class Ui_chatroom(object):
         QListWidgetItem(self.chat_list_view)
         QListWidgetItem(self.chat_list_view)
         self.chat_list_view.setObjectName(u"chat_list_view")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.chat_list_view.sizePolicy().hasHeightForWidth())
-        self.chat_list_view.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.chat_list_view.sizePolicy().hasHeightForWidth())
+        self.chat_list_view.setSizePolicy(sizePolicy)
         self.chat_list_view.setMinimumSize(QSize(380, 0))
         self.chat_list_view.setMaximumSize(QSize(380, 16777215))
         self.chat_list_view.setStyleSheet(u"QListWidget {\n"
@@ -260,7 +269,7 @@ class Ui_chatroom(object):
         self.toolBox.addItem(self.page, u"\u6211\u7684\u597d\u53cb")
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
-        self.page_2.setGeometry(QRect(0, 0, 384, 293))
+        self.page_2.setGeometry(QRect(0, 0, 402, 293))
         self.verticalLayout_5 = QVBoxLayout(self.page_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.listWidget_3 = QListWidget(self.page_2)

@@ -262,3 +262,16 @@ class Client:
         file_thread = FileSendThread(ip, port, file_path)
         file_thread.start()
         file_thread.notify.connect(send_file_handler)
+        
+    def rcv_friendlist(self, back_data, content):
+        back_data = back_data["back_data"]
+        friend_ids = back_data["content"]["friend_ids"]
+        if back_data == "0012":
+            #好友列表获取成功
+            return friend_ids
+        elif back_data == "0013":   
+            #好友列表获取失败
+            return None
+        else:   
+            #未知错误
+            return None

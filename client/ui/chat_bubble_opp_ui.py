@@ -13,18 +13,18 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_chat_bubble(object):
-    def setupUi(self, chat_bubble):
-        if not chat_bubble.objectName():
-            chat_bubble.setObjectName(u"chat_bubble")
-        chat_bubble.resize(478, 422)
+class Ui_chat_bubble_opp(object):
+    def setupUi(self, chat_bubble_opp):
+        if not chat_bubble_opp.objectName():
+            chat_bubble_opp.setObjectName(u"chat_bubble_opp")
+        chat_bubble_opp.resize(478, 422)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(chat_bubble.sizePolicy().hasHeightForWidth())
-        chat_bubble.setSizePolicy(sizePolicy)
-        chat_bubble.setMinimumSize(QSize(0, 0))
-        self.widgetMain = QWidget(chat_bubble)
+        sizePolicy.setHeightForWidth(chat_bubble_opp.sizePolicy().hasHeightForWidth())
+        chat_bubble_opp.setSizePolicy(sizePolicy)
+        chat_bubble_opp.setMinimumSize(QSize(0, 0))
+        self.widgetMain = QWidget(chat_bubble_opp)
         self.widgetMain.setObjectName(u"widgetMain")
         self.widgetMain.setGeometry(QRect(0, 0, 1000, 114514))
         self.widgetMain.setMinimumSize(QSize(1000, 114514))
@@ -83,14 +83,14 @@ class Ui_chat_bubble(object):
 "}\n"
 "")
 
-        self.retranslateUi(chat_bubble)
+        self.retranslateUi(chat_bubble_opp)
 
-        QMetaObject.connectSlotsByName(chat_bubble)
+        QMetaObject.connectSlotsByName(chat_bubble_opp)
     # setupUi
 
-    def retranslateUi(self, chat_bubble):
-        chat_bubble.setWindowTitle(QCoreApplication.translate("chat_bubble", u"Form", None))
-        self.cur_time.setText(QCoreApplication.translate("chat_bubble", u"01/01/2015 09:00:00", None))
-        self.message_bubble.setText(QCoreApplication.translate("chat_bubble", u"qss css html", None))
+    def retranslateUi(self, chat_bubble_opp):
+        chat_bubble_opp.setWindowTitle(QCoreApplication.translate("chat_bubble_opp", u"Form", None))
+        self.cur_time.setText(QCoreApplication.translate("chat_bubble_opp", u"01/01/2015 09:00:00", None))
+        self.message_bubble.setText(QCoreApplication.translate("chat_bubble_opp", u"qss css html", None))
     # retranslateUi
 

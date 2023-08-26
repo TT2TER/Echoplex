@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>chat_bubble</class>
- <widget class="QWidget" name="chat_bubble">
+ <class>chat_bubble_opp</class>
+ <widget class="QWidget" name="chat_bubble_opp">
   <property name="geometry">
    <rect>
     <x>0</x>

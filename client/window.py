@@ -3,6 +3,7 @@ from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
+from chat_bubble import Message_bubble
 import os
 class Main_win(QWidget):
 
@@ -34,18 +35,28 @@ class Main_win(QWidget):
         #这是跳转函数，点击聊天列表跳转到对应的聊天，具体实现如下：
         #收到点击的value（也即用户id)，
         #获取对应用户的历史聊天记录（从本地）
-        #
+        #循环加载add_message
         print("Item clicked with value:", value)
+
+        #这里写循环
+
 
 
     def add_list(self):
         self.img_path = "lib/login_back.png"
         self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-        test=Chating_item(self.image_path,"mayu","message")
+        new_chat_bar=Chating_item(self.image_path,"mayu","message")
         list_item=QListWidgetItem(self.ui.chat_list_view)
-        list_item.setSizeHint(test.sizeHint())
-        self.ui.chat_list_view.setItemWidget(list_item,test)
-        test.itemClicked.connect(self.chating_item_clicked)
+        list_item.setSizeHint(new_chat_bar.sizeHint())
+        self.ui.chat_list_view.setItemWidget(list_item,new_chat_bar)
+        new_chat_bar.itemClicked.connect(self.chating_item_clicked)
+    
+    def add_message(self,who,avatar_path, time:str="", msg:str=""):
+        #who是用户id，avatar_path,time为收到该条消息的时间，msg为消息内容
+        self.img_path = "lib/login_back.png"
+        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
+        show_message=Message_bubble(id,self.image_path,)
+
 
 if __name__ == "__main__":
     app = QApplication([])

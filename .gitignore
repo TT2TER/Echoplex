@@ -1,3 +1,5 @@
 
 .idea/IMsoftware.iml
 .idea/misc.xml
+**/__pycache__/
+

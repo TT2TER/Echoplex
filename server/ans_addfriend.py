@@ -27,7 +27,7 @@ def user_addfriend(received_data, socket, address, database):
         if ans == "yes":
             concatenated_str = str(min(sender,receiver)) + str(max(receiver))
             chatid = int(concatenated_str)
-            insert_table_user_friend(database, "user-friend", sender, receiver, chatid)
+            insert_table_user_friend(database, "user-friend", min(sender,receiver),max( receiver,sender), chatid)
     except Exception as e:
         print("服务端更新好友列表数据库出错: " + str(e))
 

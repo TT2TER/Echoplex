@@ -12,7 +12,7 @@ def user_send_file(received_data, _socket, address, database):
     print(f"File server listening on {ip}:{port}")
     filepath = received_data['content']['filepath']
 
-    def receive_file():
+    def receive_file(ip, port, filepath, _socket):
         message = {
             "type": "user_send_file",
             "back_data": "0000",
@@ -43,7 +43,7 @@ def user_send_file(received_data, _socket, address, database):
             user_chat(received_data, _socket, address, database)
             receive_socket.close()
 
-    send_thread = threading.Thread(target=receive_file, args=(_socket, filepath))
+    send_thread = threading.Thread(target=receive_file, args=(ip, port, filepath, _socket))
     send_thread.start()
 
     # client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

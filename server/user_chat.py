@@ -21,7 +21,8 @@ def user_chat(received_data, socket, address, database):
             msg = content["msg"]
             time = content["time"]
             filepath = content["filepath"]
-            send_message(sender, receiver, msg, time, filepath)
+            filesize = content["filepath"]
+            send_message(sender, receiver, msg, time, filepath, filesize)
             # 需要向数据库中插入数据、需要向客户端返回数据
             # TODO:
 
@@ -31,7 +32,8 @@ def user_chat(received_data, socket, address, database):
             msg = content["msg"]
             time = content["time"]
             filepath = content["filepath"]
-            send_group_message(sender, group_id, msg, time, filepath)
+            filesize = content["filesize"]
+            send_group_message(sender, group_id, msg, time, filepath, filesize)
 
         elif msg_type == "private_group_chat":
             sender = content["sender"]
@@ -46,7 +48,7 @@ def user_chat(received_data, socket, address, database):
         pass
 
 
-def send_message(sender, receiver, msg, time, filepath):
+def send_message(sender, receiver, msg, time, filepath, filesize):
     message = {
         "type": "friend_chat",
         # "back_data": True,
@@ -54,7 +56,8 @@ def send_message(sender, receiver, msg, time, filepath):
             "sender": sender,
             "msg": msg,
             "time": time,
-            "filepath": filepath
+            "filepath": filepath,
+            "filesize": filesize
         }
     }
     json_message = json.dumps(message).encode('utf-8')
@@ -68,7 +71,7 @@ def send_message(sender, receiver, msg, time, filepath):
         user_mailboxes[receiver].append(json_message)
 
 
-def send_group_message(sender, group_id, msg, time, filepath):
+def send_group_message(sender, group_id, msg, time, filepath, filesize):
     # receivers = SQL TODO
     for receiver in receivers:
         if receiver in online_clients:
@@ -80,7 +83,8 @@ def send_group_message(sender, group_id, msg, time, filepath):
                     "group_id": group_id,
                     "msg": msg,
                     "time": time,
-                    "filepath": filepath
+                    "filepath": filepath,
+                    "filesize": filesize
                 }
             }
             receiver_socket.send(json.dumps(message).encode('utf-8'))

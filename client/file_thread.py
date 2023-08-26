@@ -98,18 +98,18 @@ class FileReceiveThread(QThread):
         self.notify.emit(emit_data)
 
 
-    def receive_file_handler(emit_data):
-        # 处理接收文件线程发射回来的信号
-        try:
-            back_data = emit_data.get('back_data', None)
-            if back_data == '0000':
-                print("文件接收成功，路径是"+emit_data.get('filepath', None))
-                # 文件接收成功的UI交互
+def receive_file_handler(emit_data):
+    # 处理接收文件线程发射回来的信号
+    try:
+        back_data = emit_data.get('back_data', None)
+        if back_data == '0000':
+            print("文件接收成功，路径是"+emit_data.get('filepath', None))
+            # 文件接收成功的UI交互
 
-        except Exception as e:
-            print("结束接收文件时候寄了，在file_thread这receive_file_handler里头:" + str(e))
-        finally:
-            print("处理完一个接收文件请求了")
-        
+    except Exception as e:
+        print("结束接收文件时候寄了，在file_thread这receive_file_handler里头:" + str(e))
+    finally:
+        print("处理完一个接收文件请求了")
+
 
 

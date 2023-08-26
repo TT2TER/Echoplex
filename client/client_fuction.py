@@ -3,7 +3,7 @@ import json
 import threading
 from datetime import datetime
 from lib.public import shared_module
-from file_thread import FileSendThread, FileReceiveThread, send_file_handler, reveive_file_handler
+from file_thread import FileSendThread, FileReceiveThread, send_file_handler, receive_file_handler
 
 
 class Client:

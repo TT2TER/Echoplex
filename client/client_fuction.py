@@ -3,6 +3,7 @@ import json
 import threading
 from datetime import datetime
 from lib.public import shared_module
+from file_thread import FileSendThread, FileReceiveThread, send_file_handler, reveive_file_handler
 
 
 class Client:
@@ -141,24 +142,6 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def user_send_file(self, filename, receiver):
-        # 发送文件给另一个用户
-        # 包括文件名、发送者的用户ID、接收者的用户ID和时间戳
-        # 根据服务器的响应可能进行文件传输
-        # filename = "files/package.zip"
-        now = datetime.now()
-        timestamp = datetime.timestamp(now)
-        data = {
-            "type": "user_send_file",
-            "content": {
-                "sender": self.user_id,
-                "receiver": receiver,
-                "time": timestamp
-            }
-        }
-        json_data = json.dumps(data).encode('utf-8')
-        self.client_socket.sendall(json_data)
-
     def pull_message(self):
         # 请求从服务器拉取消息
         # 包括发送者的用户ID
@@ -252,3 +235,30 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
+
+    def send_file_request(self, receiver_id, file_path):
+        # 向服务器发送文件发送请求
+        # 包括接收者的ID地址、和本机文件路径
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            'type': 'user_send_file',
+            'content': {
+                "msg_type": "friend_chat",
+                "sender": self.user_id,
+                "receiver": receiver_id,
+                "msg": None,
+                "filepath": file_path,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+
+    #在从服务器收到允许发文件的答复后，开始发文件线程
+    def send_file(self, ip, port, file_path):
+
+        file_thread = FileSendThread(ip, port, file_path)
+        file_thread.start()
+        file_thread.notify.connect(send_file_handler)

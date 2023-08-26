@@ -15,17 +15,31 @@ def create_table_user_chat(con,table_name="user-chat"):
                   "chat_id INT,"
                   "sender_id INT, "
                   "reciever_id INT, "
-                  "chat_time datatime,"
+                  "chat_time datetime,"
                   "chat_content text)")
         con.commit()
         print("table is created")
         return True
     except:
-        print("table "+table_name+" is already exists")
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+        result = cursor.fetchone()
+        if result:
+            print("table "+table_name+" is already exists")
+        else:
+            print("Create Table Failed")
         return False
 
 
 def insert_table_user_chat(con,table_name,chat_id,sender_id,reciever_id,chat_time,chat_content):
+    """
+    添加聊天信息：
+    chat_id : 聊天框ID
+    sender_id : 信息发送者ID
+    reciever_id : 信息接收者ID
+    chat_time : 发送时间
+    chat_content : 信息内容
+
+    """
     cursor=con.cursor()
     try:
         sql="INSERT INTO "+table_name+" (chat_id,sender_id,reciever_id,chat_time,chat_content) VALUES(?,?,?,?,?)"

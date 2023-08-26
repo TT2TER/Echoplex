@@ -1,12 +1,12 @@
 
 
-def create_table_group(con,table_name="group"):
+def create_table_group(con,table_name="[group]"):
     """
-    群聊表：
+    群聊表：                                    注：group为关键字，需要输入[group]
     group_id : 群聊编号
     group_name : 群聊名
     group_leader_id : 群主编号
-    group_image : 群头像
+    group_image : 群头像的二进制文件
 
     return:
     True : 创建成功    False : 创建失败
@@ -19,12 +19,18 @@ def create_table_group(con,table_name="group"):
                   "group_name text,"
                   "group_leader_id INT UNIQUE,"
                   "create_time datatime,"
-                  "group_image text)")
+                  "group_image BLOB)")
         con.commit()
         print("table is created")
         return True
-    except:
-        print("table "+table_name+" is already exists")
+    except Exception as e:
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+        result = cursor.fetchone()
+        if result:
+            print("table "+table_name+" is already exists")
+        else:
+            print("Create Table Failed")
+            print(e)
         return False
     
 

@@ -7,7 +7,7 @@ def create_table_user(con, table_name="user"):
     user_name : 用户姓名
     user_pwd : 用户密码
     user_email : 邮箱
-    user_image : 用户头像路径
+    user_image : 用户头像二进制文件
     """
     cursor=con.cursor()
     try:
@@ -21,15 +21,28 @@ def create_table_user(con, table_name="user"):
         print("table is created")
         return True
     except:
-        print("table "+table_name+" is already exists")
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+        result = cursor.fetchone()
+        if result:
+            print("table "+table_name+" is already exists")
+        else:
+            print("Create Table Failed")
         return False
 
 
-def insert_table_user(con,table_name,id,name,pwd,email,image):
+def insert_table_user(con,table_name,user_id,user_name,user_pwd,user_email,user_image):
+    """
+    用户表添加：
+    user_id : 用户ID
+    user_name : 用户名
+    user_pwd : 用户密码
+    user_email : 用户邮箱
+    user_iamge : 用户头像图片路径
+    """
     cursor=con.cursor()
     try:
         sql="INSERT INTO "+table_name+" (user_id,user_name,user_pwd,user_email,user_image) VALUES(?,?,?,?,?)"
-        cursor.execute(sql,(id,name,pwd,email,image))
+        cursor.execute(sql,(user_id,user_name,user_pwd,user_email,user_image))
         con.commit()
         print("Successfully Insert")
         return True

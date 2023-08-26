@@ -1,7 +1,5 @@
-import socket
 import json
-import threading
-import sqlite3
+import hashlib
 from db.DataDB import select_table
 from global_data import online_clients
 from user_chat import retrieve_messages
@@ -17,7 +15,12 @@ def user_login(data, socket, address, con):
         }
         result = "该用户未注册"
     else:
-        if content["user_pwd"] == res[0][2]:
+        user_pwd = content["user_pwd"]
+        hashed_user_pwd = hashlib.sha256(user_pwd.encode('utf-8')).hexdigest()
+        # print(res[0][2])
+        # print(hashed_user_pwd)
+        if hashed_user_pwd == res[0][2]:
+        # if content["user_pwd"] == res[0][2]:
             back_data = {
                 "type": "user_login",
                 'back_data': "0003"

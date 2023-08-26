@@ -12,6 +12,7 @@ class Message_bubble(QWidget):
 
     def __init__(self, who,avatar_path, time, msg):
         super().__init__()
+        #TODO:
         if who=="others":
             self.ui = Ui_chat_bubble()
             self.ui.setupUi(self)

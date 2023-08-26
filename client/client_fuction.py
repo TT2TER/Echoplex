@@ -9,10 +9,14 @@ import os
 
 class Client:
     def __init__(self, ip, port):
-        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_address = (ip, int(port))
-        self.client_socket.connect(self.server_address)
-        self.user_id = None
+        try:
+            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server_address = (ip, int(port))
+            self.client_socket.connect(self.server_address)
+            self.user_id = None
+        except Exception as e:
+            print("与服务器连接断开： " + str(e))
+            # TODO Qt跳一个界面
 
     def back_massage_handler(self, received_data):
         # 处理发射回来的信号

@@ -17,18 +17,25 @@ class Ui_chat_bubble_opp(object):
     def setupUi(self, chat_bubble_opp):
         if not chat_bubble_opp.objectName():
             chat_bubble_opp.setObjectName(u"chat_bubble_opp")
-        chat_bubble_opp.resize(478, 422)
+        chat_bubble_opp.resize(818, 147)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(chat_bubble_opp.sizePolicy().hasHeightForWidth())
         chat_bubble_opp.setSizePolicy(sizePolicy)
         chat_bubble_opp.setMinimumSize(QSize(0, 0))
+        chat_bubble_opp.setMaximumSize(QSize(114514, 114514))
+        self.horizontalLayout = QHBoxLayout(chat_bubble_opp)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.widgetMain = QWidget(chat_bubble_opp)
         self.widgetMain.setObjectName(u"widgetMain")
-        self.widgetMain.setGeometry(QRect(0, 0, 1000, 114514))
-        self.widgetMain.setMinimumSize(QSize(1000, 114514))
-        self.widgetMain.setMaximumSize(QSize(114514, 114514))
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.widgetMain.sizePolicy().hasHeightForWidth())
+        self.widgetMain.setSizePolicy(sizePolicy1)
+        self.widgetMain.setMinimumSize(QSize(800, 0))
+        self.widgetMain.setMaximumSize(QSize(800, 114514))
         self.widgetMain.setStyleSheet(u"QWidget#widgetMain{\n"
 "	border-radius: 10px;\n"
 "	border-bottom: 2px solid #F2F2F2;\n"
@@ -82,6 +89,9 @@ class Ui_chat_bubble_opp(object):
 "    color: white;\n"
 "}\n"
 "")
+
+        self.horizontalLayout.addWidget(self.widgetMain)
+
 
         self.retranslateUi(chat_bubble_opp)
 

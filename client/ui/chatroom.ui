@@ -256,12 +256,26 @@ QTabWidget::pane {
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QListWidget" name="view_box"/>
+          <widget class="QListWidget" name="view_box">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="TextEdit" name="text_in"/>
+            <widget class="TextEdit" name="text_in">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -305,6 +319,18 @@ QTabWidget::pane {
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>420</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>420</width>
+           <height>16777215</height>
+          </size>
          </property>
          <property name="styleSheet">
           <string notr="true">/* 设置整个 QTabWidget 的样式 */
@@ -440,7 +466,7 @@ QListWidget::item:selected {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>384</width>
+                <width>402</width>
                 <height>293</height>
                </rect>
               </property>

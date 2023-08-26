@@ -1,21 +1,11 @@
 import threading
 from global_data import server_address
-
+from user_send_file import user_send_file
 
 
 
 def user_avatar(received_data, socket, address, database):
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((server_address))
-    server_socket.listen(5)
-    print(f"[*] Listening on {server_ip}:{server_port}")
-
-    while True:
-        client_socket, addr = server_socket.accept()
-        print(f"[*] Accepted connection from {addr[0]}:{addr[1]}")
-
-        client_handler = threading.Thread(target=handle_client, args=(client_socket,))
-        client_handler.start()
+    user_send_file(received_data, socket, address, database)
 
 
 def handle_client(client_socket):

@@ -3,7 +3,7 @@ import threading
 import json
 from user_register import user_register
 from user_login import user_login
-from user_send_file import receive_file
+from user_send_file import user_send_file
 from db.DataDB import *
 from db.table_user import *
 import sys
@@ -33,7 +33,7 @@ def handle_client(socket, address):
                 'user_register': user_register,
                 'user_login': user_login,
                 'user_chat': user_chat,
-                'user_send_file':receive_file
+                'user_send_file':user_send_file
             }
             handler = message_handlers.get(received_data['type'])
             if handler:

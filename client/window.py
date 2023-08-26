@@ -19,7 +19,7 @@ class Main_win(QWidget):
     def send(self):
         # 获取发送框中的文本
         message = self.ui.text_in.toPlainText()
-
+        #维护一个当下的聊天对象的id
         # 在这里添加发送的功能
         #TODO:
         

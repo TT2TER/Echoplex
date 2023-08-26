@@ -56,13 +56,13 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QWidget#widgetMain{
-	background-color: rgb(174, 239, 255);
-	border-radius: 10px;
-	border-bottom: 2px solid #F2F2F2;
-}
-
-</string>
+      <string notr="true">QWidget#widgetMain {
+        background-color: rgba(70, 236, 206, 87);
+        border-radius: 10px;
+        border-bottom: 5px solid #F2F2F2;
+        padding: 7px;
+        margin: 7px;
+    }</string>
      </property>
      <widget class="QWidget" name="avatar" native="true">
       <property name="geometry">

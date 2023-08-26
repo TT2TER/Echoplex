@@ -20,7 +20,7 @@ class Ui_chatroom(object):
     def setupUi(self, chatroom):
         if not chatroom.objectName():
             chatroom.setObjectName(u"chatroom")
-        chatroom.resize(802, 419)
+        chatroom.resize(725, 419)
         chatroom.setStyleSheet(u"/* \u8bbe\u7f6e\u6574\u4e2a QTabWidget \u7684\u6837\u5f0f */\n"
 "QTabWidget {\n"
 "    background-color: #f0f0f0;\n"
@@ -223,8 +223,6 @@ class Ui_chatroom(object):
         self.verticalLayout_3 = QVBoxLayout(self.tab)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.chat_list_view = QListWidget(self.tab)
-        QListWidgetItem(self.chat_list_view)
-        QListWidgetItem(self.chat_list_view)
         self.chat_list_view.setObjectName(u"chat_list_view")
         sizePolicy.setHeightForWidth(self.chat_list_view.sizePolicy().hasHeightForWidth())
         self.chat_list_view.setSizePolicy(sizePolicy)
@@ -307,15 +305,6 @@ class Ui_chatroom(object):
         self.img_butt.setText(QCoreApplication.translate("chatroom", u"\u70b9\u51fb\u4e0a\u4f20\u5934\u50cf", None))
         self.pushButton.setText(QCoreApplication.translate("chatroom", u"PushButton", None))
         self.send_butt.setText(QCoreApplication.translate("chatroom", u"send", None))
-
-        __sortingEnabled = self.chat_list_view.isSortingEnabled()
-        self.chat_list_view.setSortingEnabled(False)
-        ___qlistwidgetitem = self.chat_list_view.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("chatroom", u"New Item", None));
-        ___qlistwidgetitem1 = self.chat_list_view.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("chatroom", u"New Item", None));
-        self.chat_list_view.setSortingEnabled(__sortingEnabled)
-
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("chatroom", u"Tab 1", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("chatroom", u"\u6211\u7684\u597d\u53cb", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("chatroom", u"Page 2", None))

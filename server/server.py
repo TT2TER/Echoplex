@@ -9,7 +9,7 @@ from db.DataDB import *
 from db.table_user import *
 import sys
 from user_chat import user_chat
-from global_data import online_clients,server_address
+from global_data import online_clients, server_address
 
 
 def handle_client(socket, address):
@@ -51,7 +51,7 @@ def handle_client(socket, address):
         finally:
             print("服务器完工，等待下一个请求oVo")
     try:
-        #简单地维护在线用户字典，可能会有问题
+        # 简单地维护在线用户字典，可能会有问题
         # 遍历字典中的项
         for user_id, (_socket, _address) in online_clients.items():
             if _socket == socket:
@@ -59,6 +59,7 @@ def handle_client(socket, address):
                 del online_clients[user_id]
     except:
         pass
+
 
 def init_server(database):
     create_table_user(database, )

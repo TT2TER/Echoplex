@@ -7,7 +7,7 @@ from file_thread import FileSendThread, FileReceiveThread, send_file_handler, re
 
 
 class Client:
-    def __init__(self,ip,port):
+    def __init__(self, ip, port):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_address = (ip, int(port))
         self.client_socket.connect(self.server_address)
@@ -224,9 +224,9 @@ class Client:
         sender = back_data["content"]["sender"]
         time = back_data["content"]["time"]
         ans = back_data["content"]["ans"]
-        return [sender, time, ans]    
+        return [sender, time, ans]
 
-    def pullfriendlist(self,user_id):
+    def pullfriendlist(self, user_id):
         data = {
             "type": "pullfriendlist",
             "content": {
@@ -235,7 +235,6 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-
 
     def send_file_request(self, receiver_id, file_path):
         # 向服务器发送文件发送请求
@@ -273,10 +272,10 @@ class Client:
             }
         }
         json_data = json.dumps(data).encode('utf-8')
-        self.client_socket.sendall(json_data)    
+        self.client_socket.sendall(json_data)
 
+        # 在从服务器收到允许发文件的答复后，开始发文件线程
 
-    #在从服务器收到允许发文件的答复后，开始发文件线程
     def send_file(self, back_data, content):
         try:
             if back_data == "0000":
@@ -289,40 +288,51 @@ class Client:
         except Exception as e:
             print("send_file寄了，寄在lient_function,send_file里头：" + str(e))
 
-    #在从服务器收到允许接收文件的答复后，开始接收文件线程
+    # 在从服务器收到允许接收文件的答复后，开始接收文件线程
     def receive_file(self, back_data, content):
         try:
             if back_data == "0000":
                 print("服务器允许接收文件，准备接收力")
                 file_thread = FileReceiveThread(content["sender_ip"], content["port"], content["filepath"])
                 file_thread.start()
-                file_thread.notify.connect(reveive_file_handler)
+                file_thread.notify.connect(receive_file_handler)
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:
             print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
-    
+
     def receive_friend_message(self, back_data, content):
         sender = content["sender"]
         msg = content["msg"]
         time = content["time"]
         filepath = content["filepath"]
-        try:
-            if content["file"] == None:
-                #收到的是文本消息
-                print("收到的是来自"+ content['sender'] +"文本消息："+ content["msg"])
-                #写入一个文件
+        if sender == self.user_id:
+            if not filepath:
+                # 自己的消息发送成功
+                # 在聊天窗口打印自己的消息
+                # 在文件中写入自己的消息
+                print("消息发送成功消息内容是" + msg)
+            if not msg:
+                # 自己的文件发送成功
+                # 在聊天窗口显示人间发送成功
+                print("文件发送成功")
+        else:
+            try:
+                if not filepath:
+                    # 收到的是文本消息
+                    print("收到的是来自" + content['sender'] + "文本消息：" + content["msg"])
+                    # 写入一个文件
 
-                #进行窗口交互
+                    # 进行窗口交互
 
-            elif content["msg"] == None:
-                print("收到的是来自"+ content['sender'] +"文件")
-                #发送接收文件请求
+                elif not msg:
+                    print("收到的是来自" + content['sender'] + "文件")
+                    # 发送接收文件请求
 
-                #进行窗口交互
-                #将文件 消息 显示在聊天中
-        except Exception as e:
-            print("receive_friend_message寄了，寄在client_function,receive_friend_message里头：" + str(e))
+                    # 进行窗口交互
+                    # 将文件 消息 显示在聊天中
+            except Exception as e:
+                print("receive_friend_message寄了，寄在client_function,receive_friend_message里头：" + str(e))
 
     def receive_group_message(self, back_data, content):
         sender = content["sender"]
@@ -331,32 +341,31 @@ class Client:
         group_id = content["group_id"]
         filepath = content["filepath"]
         try:
-            if content["file"] == None:
-                #收到的是文本消息
-                print("收到的是来自"+ content['sender'] +"群组文本消息："+ content["msg"])
-                #写入一个文件
+            if not filepath:
+                # 收到的是文本消息
+                print("收到的是来自" + content['sender'] + "群组文本消息：" + content["msg"])
+                # 写入一个文件
 
-                #进行窗口交互
+                # 进行窗口交互
 
-            elif content["msg"] == None:
-                print("收到的是来自"+ content['sender'] +"群组文件")
-                #发送接收文件请求
+            elif not filepath:
+                print("收到的是来自" + content['sender'] + "群组文件")
+                # 发送接收文件请求
 
-                #进行窗口交互
-                #将文件 消息 显示在聊天中
+                # 进行窗口交互
+                # 将文件 消息 显示在聊天中
         except Exception as e:
             print("receive_group_message寄了，寄在client_function,receive_group_message里头：" + str(e))
-
 
     def rcv_friendlist(self, back_data, content):
         back_data = back_data["back_data"]
         friend_ids = back_data["content"]["friend_ids"]
         if back_data == "0012":
-            #好友列表获取成功
+            # 好友列表获取成功
             return friend_ids
-        elif back_data == "0013":   
-            #好友列表获取失败
+        elif back_data == "0013":
+            # 好友列表获取失败
             return None
-        else:   
-            #未知错误
+        else:
+            # 未知错误
             return None

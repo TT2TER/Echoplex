@@ -1,7 +1,9 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
+from PySide2.QtGui import QPixmap
 from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from ui.register_ui import Ui_reg
+import os
 
 
 class Register(QWidget):
@@ -15,7 +17,14 @@ class Register(QWidget):
         self.ui.reg_confirm.clicked.connect(self.start_registration)
         # 按下reg_cancel返回登陆界面
         self.ui.reg_cancel.clicked.connect(self.return_to_login)
+        #显示侧边图片
+        img_path = "lib/login_back.png"
+        image_path=os.path.join(os.path.dirname(__file__), img_path)
+        pixmap = QPixmap(image_path)
+        self.ui.side_pic.setPixmap(pixmap)
+        self.ui.side_pic.setScaledContents(True)  # 图像自动拉伸
 
+        
     def start_registration(self):
         # 以下是判断密码是否重复
         entered_password = self.ui.pwd_in.text()

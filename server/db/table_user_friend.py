@@ -5,7 +5,7 @@
 无更新操作
 """
 
-def create_table_user_friend(con,table_name="user-friend"):
+def create_table_user_friend(con,table_name="user_friend"):
     """
     用户好友关系表：        （主要用于好友界面）
     user_id : 用户编号

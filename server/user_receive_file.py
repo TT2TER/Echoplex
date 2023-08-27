@@ -18,7 +18,7 @@ def user_receive_file(received_data, _socket, address, database):
             with open(filepath, 'rb') as file:
                 filesize = os.path.getsize(filepath)
                 message = {
-                    "type": "user_send_file",
+                    "type": "user_receive_file",
                     "back_data": "0000",
                     "content": {
                         "sender_ip": ip,

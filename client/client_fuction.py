@@ -14,6 +14,9 @@ class Client:
             self.server_address = (ip, int(port))
             self.client_socket.connect(self.server_address)
             self.user_id = None
+            self.user_name = None
+            self.msg_list = None
+            self.add_friend_list = []
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -28,7 +31,8 @@ class Client:
                 'friend_chat': self.receive_friend_message,
                 'group_chat': self.receive_group_message,
                 'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
-                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend#self.rcv_ans_addfriend
+                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
+                'init_msg_list': self.init_msg_list
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -198,6 +202,7 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": _time,
+                "name": self.user_name
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -225,7 +230,8 @@ class Client:
                 "receiver": target_id,
                 "time": time,
                 "ans": ans,
-                "partition": partition
+                "partition": partition,
+                "name": self.user_name
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -456,3 +462,20 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+
+    def pull_msg_list(self):
+        data={
+            "type":"init_msg_list",
+            "content":{
+                "user_id":self.user_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+    def init_msg_list(self, back_data, content):
+        if back_data == "0000":
+            print("申请消息列表成功")
+            self.msg_list = content["list"]
+        else:
+            print("申请消息列表失败")

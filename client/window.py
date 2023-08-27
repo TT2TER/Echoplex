@@ -47,7 +47,11 @@ class Main_win(QWidget):
 
     def check_add_friend(self):
         #TODO:画一个列表，画一个列表里的内容
+        while len(shared_module.client.add_friend_list) > 0:
+            (sender, time, name) = shared_module.client.add_friend_list.pop(0)
 
+            #TODO mayu 将name请求者姓名显示在表上
+            print("消息列表打印完毕")
         #opp_id。
         shared_module.client.ans_addfriend(yes_or_no, opp_id,defult)
         pass
@@ -57,10 +61,11 @@ class Main_win(QWidget):
     def rcv_addfriend(self, back_data, content):
         # 对方接收到添加好友请求
         # 返回发送者的用户ID和时间戳
-        #TODO:lh维护一个列表
         sender = content["sender"]
         time = content["time"]
-        print(("收到了好友申请", sender, time))
+        name = content["name"]
+        shared_module.client.add_friend_list.append((sender, time, name))
+        print(("收到了好友申请", sender, time, name))
 
     def rcv_ans_addfriend(self, back_data, content):
         # 对方接收到同意或拒绝添加好友请求的回复
@@ -115,7 +120,16 @@ class Main_win(QWidget):
         print("Item clicked with value:", opp_id)
         if self.cur_id!=opp_id:
             pass
-        #这里写循环
+        if len(shared_module.client.msg_list) == 0:
+            print("聊天消息列表为空")
+        while len(shared_module.client.msg_list) > 0:
+            (chat_id, sender_id, chat_time, chat_content) = shared_module.client.msg_list.pop(0)
+            #TODO mayu 将上述元组的内容显示在表上
+            #chat_id是整数，sender_id是整数，chat_time是datetime格式，chat_content是字符串
+
+
+        print("消息列表打印完毕")
+
 
 
 

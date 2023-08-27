@@ -162,7 +162,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def create_group(self, group_member, group_name):
+    def create_group(self, group_member, group_name,image_path):
         # 创建一个群组
         # 包括群主的用户ID、成员列表和群组名称
         data = {
@@ -170,7 +170,9 @@ class Client:
             "content": {
                 "group_manager": self.user_id,
                 "group_member": group_member,
-                "group_name": group_name
+                "group_name": group_name,
+                "group_create_time":datetime.now(),
+                "group_image":image_path
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -391,3 +393,25 @@ class Client:
         else:
             # 未知错误
             return None
+        
+    def delete_group(self,group_id):
+        data = {
+            "type": "delete_group",
+            "content": {
+                "group_id": group_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+
+    def add_new_member(self,group_id,member_id):
+        data={
+            "type":"add_new_member",
+            "content":{
+                "group_id":group_id,
+                "member_id":member_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)

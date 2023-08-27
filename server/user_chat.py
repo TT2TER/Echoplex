@@ -1,7 +1,7 @@
 import json
 from global_data import online_clients
 from global_data import user_mailboxes
-
+from db.DataDB import search_member
 
 def user_chat(received_data, socket, address, database):
     try:
@@ -15,7 +15,7 @@ def user_chat(received_data, socket, address, database):
             time = content["time"]
             filepath = content["filepath"]
             filesize = content["filepath"]
-            send_message(sender, receiver, msg, time, filepath, filesize)
+            send_message(database,sender, receiver, msg, time, filepath, filesize)
             # 需要向数据库中插入数据、需要向客户端返回数据
             # TODO:
 
@@ -26,7 +26,7 @@ def user_chat(received_data, socket, address, database):
             time = content["time"]
             filepath = content["filepath"]
             filesize = content["filesize"]
-            send_group_message(sender, group_id, msg, time, filepath, filesize)
+            send_group_message(database,sender, group_id, msg, time, filepath, filesize)
 
         elif msg_type == "private_group_chat":
             sender = content["sender"]
@@ -41,7 +41,7 @@ def user_chat(received_data, socket, address, database):
         pass
 
 
-def send_message(sender, receiver, msg, time, filepath, filesize):
+def send_message(database,sender, receiver, msg, time, filepath, filesize):
     message = {
         "type": "friend_chat",
         # "back_data": True,
@@ -64,7 +64,7 @@ def send_message(sender, receiver, msg, time, filepath, filesize):
         user_mailboxes[receiver].append(json_message)
 
 
-def send_group_message(sender, group_id, msg, time, filepath, filesize):
+def send_group_message(database,sender, group_id, msg, time, filepath, filesize):
     message = {
     "type": "new_message",
     "content": {
@@ -78,6 +78,7 @@ def send_group_message(sender, group_id, msg, time, filepath, filesize):
     }
     json_message = json.dumps(message).encode('utf-8')
     # receivers = SQL TODO
+    receivers=search_member(con=database,table_name="")
     for receiver in receivers:
         if receiver in online_clients:
             receiver_socket, _ = online_clients[receiver]

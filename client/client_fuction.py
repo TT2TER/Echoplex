@@ -216,7 +216,7 @@ class Client:
     #     time = content["time"]
     #     print(("收到了好友申请", sender, time))
 
-    def ans_addfriend(self, ans, target_id, partition):
+    def ans_addfriend(self, ans, target_id):
         # 发送同意或拒绝添加好友请求
         # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳和分组partition
 
@@ -232,7 +232,6 @@ class Client:
                 "receiver": target_id,
                 "time": time,
                 "ans": ans,
-                "partition": partition,
                 "name": self.user_name
             }
         }

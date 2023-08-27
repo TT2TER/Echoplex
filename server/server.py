@@ -68,7 +68,7 @@ def handle_client(socket, address):
 
 def init_server(database):
     create_table_user(database, )
-    create_table_user_friend(database, )
+    create_table_user_friend(database, "user_friend")
 
 
 if __name__ == "__main__":

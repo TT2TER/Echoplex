@@ -13,7 +13,7 @@ def user_addfriend(received_data, socket, address, database):
 
     if len(res) == 0:  # 未注册，返回空列表
         back_data_addfriend = {
-            "type": "user_addfriend",
+            "type": "ans_addfriend",
             'back_data': "0001"
         }
         json_message = json.dumps(back_data_addfriend).encode('utf-8')

@@ -1,16 +1,9 @@
 import socket
-import os,time
+import os, time
 import threading
 import json
 from user_chat import user_chat
-from global_data import online_clients
-
-
-def find_userid_by_socket(socket_to_find):
-    for socket, userid in online_clients.items():
-        if socket == socket_to_find:
-            return userid
-    return None  # 如果没找到对应的userid，返回None
+from tool_fuction import find_userid_by_socket
 
 
 def user_send_file(received_data, _socket, address, database):
@@ -19,10 +12,13 @@ def user_send_file(received_data, _socket, address, database):
     ip, port = receive_socket.getsockname()
     receive_socket.listen(1)
     print(f"File server listening on {ip}:{port}")
-    filepath = received_data['content']['filepath']
-    filesize = received_data['content']['filesize']
+    content = received_data['content']
+    filepath = content['filepath']
+    filesize = content['filesize']
+    is_avatar = content['is_avatar']
+    chat_id = content['chat_id']
 
-    def receive_file(ip, port, filepath, _socket, receive_socket, filesize):
+    def receive_file(ip, port, filepath, _socket, receive_socket, filesize, is_avatar):
         message = {
             "type": "user_send_file",
             "back_data": "0000",
@@ -30,7 +26,8 @@ def user_send_file(received_data, _socket, address, database):
                 "sender_ip": ip,
                 "port": port,
                 "filepath": filepath,
-                "filesize": filesize
+                "filesize": filesize,
+                "is_avatar": is_avatar
             }
         }
         json_message = json.dumps(message).encode('utf-8')
@@ -38,10 +35,13 @@ def user_send_file(received_data, _socket, address, database):
         client_socket, client_address = receive_socket.accept()
         print(f"已经连接上'{client_address}'，准备收取文件")
         try:
-            # TODO 分离文件名字、创建目录、根据大小接受文件
+            # 分离文件名字、创建目录、根据大小接受文件
             filename = os.path.basename(filepath)
             user_id = find_userid_by_socket(_socket)
-            savepath = "files/" + str(user_id) + "/" + filename
+            if is_avatar:
+                savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
+            elif chat_id is not None:
+                savepath = "files/" + str(chat_id) + "/" + filename
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             recv_data = 0
             with open(savepath, 'xb') as file:
@@ -60,10 +60,11 @@ def user_send_file(received_data, _socket, address, database):
         except Exception as e:
             print("An error occurred:", e)
         finally:
-            # user_chat(received_data, _socket, address, database)
+            user_chat(received_data, _socket, address, database)
             receive_socket.close()
 
-    send_thread = threading.Thread(target=receive_file, args=(ip, port, filepath,_socket, receive_socket, filesize))
+    send_thread = threading.Thread(target=receive_file,
+                                   args=(ip, port, filepath, _socket, receive_socket, filesize, is_avatar))
     send_thread.start()
 
     # client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

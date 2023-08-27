@@ -7,6 +7,8 @@ def create_table_chat(con,table_name="chat"):
     sender_id : 信息发送者编号
     chat_time : 信息发送时间
     chat_content : 信息内容
+
+
     """
     cursor=con.cursor()
     try:

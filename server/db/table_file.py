@@ -8,6 +8,7 @@ def create_table_file(con,table_name="file"):
     chat_time : 文件发送时间
     file : 传输的文件
     """
+    # TODO file改成filepath(string)
     cursor=con.cursor()
     try:
         cursor.execute("CREATE TABLE "+ table_name+" ("

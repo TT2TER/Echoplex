@@ -50,5 +50,7 @@ class Setip(QWidget):
             shared_module.listen_thread=BackendThread()
             shared_module.listen_thread.nofify.connect(shared_module.client.back_massage_handler)
             shared_module.listen_thread.start()
+            print("listen_thread start")
             shared_module.login_page.show()
+            print("function ended!")
 

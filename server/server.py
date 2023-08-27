@@ -69,7 +69,7 @@ def init_server(database):
     create_table_user(database, "user")
     create_table_user_friend(database, "user_friend")
     create_table_relation(database,"table_relation")
-    create_table_group(database,"group")
+    create_table_group(database,"[group]")
     create_table_group_member(database,"group_member")
     create_table_chat(database,"chat")
     create_view_chat(database,"view_chat")

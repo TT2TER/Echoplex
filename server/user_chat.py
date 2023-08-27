@@ -1,7 +1,8 @@
 import json
 from global_data import online_clients
 from global_data import user_mailboxes
-from db.DataDB import search_member
+from db.DataDB import search_member, search_all_user
+
 
 def user_chat(received_data, socket, address, database):
     try:
@@ -13,10 +14,11 @@ def user_chat(received_data, socket, address, database):
             receivers = [content["receiver"], content["sender"]]
 
         elif msg_type == "broadcast":
-            receivers = # TODO 所有已注册用户
+            receivers = search_all_user(database, "user")
 
         elif msg_type == "group_chat":
-            receivers = # TODO 根据group_id查所有群成员
+            group_id = content["group_id"]
+            receivers = search_member(database, "chat", group_id)
 
         elif msg_type == "private_group_chat":
             pass
@@ -31,6 +33,7 @@ def user_chat(received_data, socket, address, database):
             else:
                 user_mailboxes[receiver].append(json_message)
 
+
 # 在客户端拉取消息的请求到达时调用这个函数，把消息发送给客户端
 def retrieve_messages(received_data, socket, address, database):
     client_id = received_data['content']['sender']
@@ -40,7 +43,7 @@ def retrieve_messages(received_data, socket, address, database):
             while mailbox:
                 json_message = mailbox.pop(0)  # 从队列头中取出一条消息
                 try:
-                    socket, _ = online_clients[client_id] # 发送消息
+                    socket, _ = online_clients[client_id]  # 发送消息
                     socket.sendall(json_message)
                 except Exception as e:
                     print(f"Error sending message to client {client_id}: {e}")

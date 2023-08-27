@@ -74,6 +74,7 @@ class Main_win(QWidget):
             ans = content["ans"]
             name = content["name"]
             print( [sender, time, ans,name])
+            #TODO 显示在好友列表里
 
             if ans == "yes":
                 #TODO：添加到好友列表

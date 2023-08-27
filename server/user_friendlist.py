@@ -13,8 +13,18 @@ def user_friendlist(received_data, socket, address, database):
     #cursor.execute(sql, (user_id,user_id))
     #results = cursor.fetchall()
     results = search_firend(database,user_id,"user_friend")
+    
     if results:
         #friend_ids = [row[0] for row in results]
+        #查询id对应的昵称，将返回值组织成一个（id，name）的list
+        
+
+
+
+
+
+
+
         back_data = {
             'type': "user_friendlist",
             'back_data': "0012",

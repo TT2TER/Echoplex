@@ -348,8 +348,8 @@ class Client:
         try:
             if back_data == "0000":
                 print("服务器允许接收文件，准备接收力")
-                shared_module.file_thread = FileReceiveThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
-                # print(-1)
+                shared_module.file_thread = FileReceiveThread(content)
+
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
             else:

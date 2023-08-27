@@ -44,7 +44,7 @@ class Main_win(QWidget):
     def check_add_friend(self):
         
         shared_module.new_friends.show()
-
+        shared_module.new_friends.add_message()
         #opp_id。
         #shared_module.client.ans_addfriend(yes_or_no, opp_id,defult)
         pass

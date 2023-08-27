@@ -86,7 +86,7 @@ class Client:
         # 包括要请求信息的好友的用户ID
         # 根据服务器的响应返回好友信息或错误码
         data = {
-            'type': 'friendinfo',
+            'type': 'friend_info',
             'content': {
                 'user_id': self.user_id
             }
@@ -235,8 +235,10 @@ class Client:
                 "name": self.user_name
             }
         }
+        
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+        print("all_send")
 
     # def rcv_ans_addfriend(self, back_data, content):
     #     # 对方接收到同意或拒绝添加好友请求的回复
@@ -254,9 +256,9 @@ class Client:
 
 
 
-    def pullfriendlist(self):
+    def pull_friendlist(self):
         data = {
-            "type": "pullfriendlist",
+            "type": "pull_friendlist",
             "content": {
                 "sender": self.user_id,
             }

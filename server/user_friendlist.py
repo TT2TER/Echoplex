@@ -7,7 +7,8 @@ from db.table_user import *
 
 def user_friendlist(received_data, socket, address, database):
     #获取好友列表
-    user_id = received_data['content']['user_id']
+    print(received_data)
+    user_id = received_data['content']['sender']
     #cursor = database.cursor()
     #sql = "SELECT friend_id FROM user_friend WHERE user_id = ? OR SELECT user_id FROM user_friend WHERE friend_id = ?"
     # 查询给定用户的所有好友

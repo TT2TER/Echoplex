@@ -17,8 +17,9 @@ def select_table(con,table_name,**kwargs):
     """
     任意表查询：
     table_name : 需要查询的表
-    **kwargs : 查询条件（例如：user_name="'xa'"和user_id=1002）
-
+    **kwargs : 查询条件（例如：user_name="'xa'"和user_id=1002）     ret=[(1002,...)]
+    for user_id,... in ret:
+        
     返回 一个用户所有信息
     如果查询错误或者SQL语句错误   返回None
     如果返回[]   则代表查询成功但无结果
@@ -119,18 +120,15 @@ def search_member(con,table_name,group_id):
         return None
     
 
-def search_firend(con,user_id,table_name="user_friend"):
+def search_firend(con,user_id,table_name="table_relation"):
     """
     查找用户的所有好友ID
     """
     friend=[]
     try:
         ret=select_table(con,table_name,user_id=user_id)
-        for user_id,friend_id,chat_id in ret:
-            friend.append(friend_id)
-        ret=select_table(con,table_name,friend_id=user_id)
-        for user_id,friend_id,chat_id in ret:
-            friend.append(user_id)
+        for user_id,friend_id,relation in ret:
+            friend.append((friend_id,relation))
         return friend
     except:
         print("Search Failed")

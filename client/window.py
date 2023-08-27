@@ -72,12 +72,13 @@ class Main_win(QWidget):
             sender = content["sender"]
             time = content["time"]
             ans = content["ans"]
-            print( [sender, time, ans])
+            name = content["name"]
+            print( [sender, time, ans,name])
 
             if ans == "yes":
                 #TODO：添加到好友列表
                 #TODO：添加到聊天列表
-                #TODO：zf 返回对方昵称
+                #TODO：zf 返回对方昵称,over
                 pass
             else : 
                 #别知道了 ，，或者是在信号由申请列表显示谁谁谁拒绝

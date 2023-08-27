@@ -14,6 +14,7 @@ class Client:
             self.server_address = (ip, int(port))
             self.client_socket.connect(self.server_address)
             self.user_id = None
+            self.user_name = None
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -216,6 +217,8 @@ class Client:
         # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳和分组partition
 
         # 发送同意或拒绝请求
+        # 搜索自己的昵称
+      
         now = datetime.now()
         time = datetime.timestamp(now)
         data = {
@@ -225,7 +228,8 @@ class Client:
                 "receiver": target_id,
                 "time": time,
                 "ans": ans,
-                "partition": partition
+                "partition": partition,
+                "name": self.user_name
             }
         }
         json_data = json.dumps(data).encode('utf-8')

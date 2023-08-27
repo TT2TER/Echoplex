@@ -6,3 +6,5 @@ class shared_module:
     client=None
     listen_thread=None
     full_fuction=True
+    file_thread = None
+    FileSendThread_signal = None

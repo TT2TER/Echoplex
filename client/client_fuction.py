@@ -4,7 +4,7 @@ import threading
 from datetime import datetime
 from lib.public import shared_module
 from file_thread import FileSendThread, FileReceiveThread, send_file_handler, receive_file_handler
-import os
+import os,time
 
 
 class Client:
@@ -22,8 +22,8 @@ class Client:
         # 处理发射回来的信号
         try:
             message_handlers = {
-                'user_register': shared_module.reg_page.recv_register,
-                'user_login': shared_module.login_page.recv_login,
+                # 'user_register': shared_module.reg_page.recv_register,
+                # 'user_login': shared_module.login_page.recv_login,
                 'user_send_file': self.send_file
             }
             handler = message_handlers.get(received_data['type'], None)
@@ -260,6 +260,7 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+        print("成功发送请求")
 
     def receive_file_request(self, sender_id, file_path):
         # 向服务器发送文件接受请求
@@ -287,22 +288,31 @@ class Client:
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
-                file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
-                file_thread.start()
-                file_thread.notify.connect(send_file_handler)
+                # shared_module.FileSendThread_signal = {
+                #     "sender_ip": content["sender_ip"],
+                #     "port": content["port"],
+                #     "filepath": content["filepath"],
+                #     "filesize": content["filesize"]
+                # }
+                shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
+                shared_module.file_thread.start()
+                shared_module.file_thread.notify.connect(send_file_handler)
+                # file_thread.wait()
+                print("send_file函数结束了")
             else:
                 print("服务器不允许发送文件，寄了，记载client_function,send_file里头")
         except Exception as e:
-            print("send_file寄了，寄在lient_function,send_file里头：" + str(e))
+            print("send_file寄了，寄在client_function,send_file里头：" + str(e))
 
     # 在从服务器收到允许接收文件的答复后，开始接收文件线程
     def receive_file(self, back_data, content):
         try:
             if back_data == "0000":
                 print("服务器允许接收文件，准备接收力")
-                file_thread = FileReceiveThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
-                file_thread.start()
-                file_thread.notify.connect(receive_file_handler)
+                shared_module.file_thread = FileReceiveThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
+                # print(-1)
+                shared_module.file_thread.start()
+                shared_module.file_thread.notify.connect(receive_file_handler)
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:

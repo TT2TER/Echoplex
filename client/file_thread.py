@@ -4,6 +4,7 @@ import json
 import socket
 from lib.public import shared_module
 import sys, os
+from tool_function import get_file_extension
 
 
 # 发文件线程
@@ -18,7 +19,7 @@ class FileSendThread(QThread):
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server_address = (ip, port)
             # self.socket.connect(("127.0.0.1", port))
-            self.socket.connect(self.server_address)# TODO 这里寄了
+            self.socket.connect(self.server_address)
             self.file_path = file_path
             self.filesize = filesize
             print("初始化完成")
@@ -29,7 +30,7 @@ class FileSendThread(QThread):
     def run(self):
         # 发送文件
         buff_size = 10240
-        #TODO 根据文件大小发送文件
+        # 根据文件大小发送文件
         print("Begin sending……")
         with open(self.file_path, 'rb') as file:
             while True:
@@ -38,14 +39,7 @@ class FileSendThread(QThread):
                 if not data:
                     break
                 self.socket.sendall(data)
-
         print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
-        # with open(self.file_path, 'rb') as f:
-        #     while True:
-        #         data = f.read(buff_size)
-        #         if not data:
-        #             break
-        #         self.socket.sendall(data)
         print("文件发送完毕,准备关闭线程socket")
         self.socket.close()
         # 发送结束，向主线程发送信号
@@ -74,19 +68,15 @@ class FileReceiveThread(QThread):
     # 通过类成员对象定义信号对象  
     notify = Signal(dict)
 
-    def __init__(self, ip, port, file_path, filesize):
-        print(0)
+    def __init__(self, content):
         super().__init__()
-        print(1)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print(2)
-        self.server_address = (ip, port)
-        print(3)
+        self.server_address = (content["ip"], content["port"])
         self.socket.connect(self.server_address)
-        print(4)
-        self.filepath = file_path
-        print(5)
-        self.filesize = filesize
+        self.filepath = content["filepath"]
+        self.filesize = content["filesize"]
+        self.is_avatar = content["is_avatar"]
+        self.sender_id = content["sender"]
         print("FileReceiveThread初始化成功")
 
     # 接收文件
@@ -95,9 +85,12 @@ class FileReceiveThread(QThread):
         buff_size = 10240
         print("开始收到文件啦")
         try:
-            #TODO 根据文件大小接收文件
             filename = os.path.basename(self.filepath)
-            savepath = "files/chat_files/" + filename
+            if self.is_avatar:
+                file_extension = get_file_extension(self.filepath)
+                savepath = "files/avatar/" + str(self.sender_id) + file_extension
+            else:
+                savepath = "files/chat_files/" + filename
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             with open(savepath, 'wb') as file:
                 received_size = 0

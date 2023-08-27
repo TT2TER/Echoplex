@@ -221,6 +221,8 @@ class Client:
         # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳和分组partition
 
         # 发送同意或拒绝请求
+        # 搜索自己的昵称
+      
         now = datetime.now()
         time = datetime.timestamp(now)
         data = {
@@ -350,8 +352,8 @@ class Client:
         try:
             if back_data == "0000":
                 print("服务器允许接收文件，准备接收力")
-                shared_module.file_thread = FileReceiveThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
-                # print(-1)
+                shared_module.file_thread = FileReceiveThread(content)
+
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
             else:

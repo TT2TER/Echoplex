@@ -18,7 +18,8 @@ def ans_addfriend(received_data, socket, address, database):
         time = content["time"]
         ans = content["ans"]
         partition = content["partition"]
-        send_message(ans, sender, receiver, time)
+        name = content["name"]
+        send_message(ans, sender, receiver, time, name)
             #没有数据库插入好友请求回应
             #TODO：
     except Exception as e:
@@ -37,14 +38,15 @@ def ans_addfriend(received_data, socket, address, database):
         print("服务端更新好友列表数据库出错: " + str(e))
 
 
-def send_message(ans,sender, receiver, time):
+def send_message(ans,sender, receiver, time, name):
     back_data_addfriend = {
         "type": "ans_addfriend",
         "back_data": "0000",
         "content": {
             "ans": ans,
             "sender": sender,
-            "time": time
+            "time": time,
+            "name": name
         }
     }
     json_message = json.dumps(back_data_addfriend).encode('utf-8')

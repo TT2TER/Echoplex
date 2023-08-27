@@ -14,6 +14,9 @@ class Client:
             self.server_address = (ip, int(port))
             self.client_socket.connect(self.server_address)
             self.user_id = None
+            self.user_name = None
+            self.msg_list = None
+            self.add_friend_list = []
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -27,8 +30,9 @@ class Client:
                 'user_receive_file': self.receive_file,
                 'friend_chat': self.receive_friend_message,
                 'group_chat': self.receive_group_message,
-                'user_addfriend': self.rcv_addfriend,
-                'ans_addfriend': self.rcv_ans_addfriend
+                'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
+                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
+                'init_msg_list': self.init_msg_list
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -189,6 +193,7 @@ class Client:
         # 发送添加好友请求
         # 包括发送者的用户ID、接收者的用户ID和时间戳
         # 发送请求添加好友时间
+        print(target_id)
         now = datetime.now()
         _time = datetime.timestamp(now)
         data = {
@@ -197,24 +202,27 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": _time,
+                "name": self.user_name
             }
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_addfriend(self, back_data, content):
-        # 对方接收到添加好友请求
-        # 返回发送者的用户ID和时间戳
+    # def rcv_addfriend(self, back_data, content):
+    #     # 对方接收到添加好友请求
+    #     # 返回发送者的用户ID和时间戳
 
-        sender = content["sender"]
-        time = content["time"]
-        print(("收到了好友申请", sender, time))
+    #     sender = content["sender"]
+    #     time = content["time"]
+    #     print(("收到了好友申请", sender, time))
 
     def ans_addfriend(self, ans, target_id, partition):
         # 发送同意或拒绝添加好友请求
         # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳和分组partition
 
         # 发送同意或拒绝请求
+        # 搜索自己的昵称
+      
         now = datetime.now()
         time = datetime.timestamp(now)
         data = {
@@ -224,25 +232,26 @@ class Client:
                 "receiver": target_id,
                 "time": time,
                 "ans": ans,
-                "partition": partition
+                "partition": partition,
+                "name": self.user_name
             }
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_ans_addfriend(self, back_data, content):
-        # 对方接收到同意或拒绝添加好友请求的回复
-        # 返回发送者的用户ID、时间戳和回复内容
+    # def rcv_ans_addfriend(self, back_data, content):
+    #     # 对方接收到同意或拒绝添加好友请求的回复
+    #     # 返回发送者的用户ID、时间戳和回复内容
 
-        # 对方收到好友请求并确定是否同意
-        if back_data == "0000":
+    #     # 对方收到好友请求并确定是否同意
+    #     if back_data == "0000":
 
-            sender = content["sender"]
-            time = content["time"]
-            ans = content["ans"]
-            print( [sender, time, ans])
-        elif back_data == "0001":
-            print("查无此人")
+    #         sender = content["sender"]
+    #         time = content["time"]
+    #         ans = content["ans"]
+    #         print( [sender, time, ans])
+    #     elif back_data == "0001":
+    #         print("查无此人")
 
 
 
@@ -256,7 +265,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def send_file_request(self, receiver_id, file_path):
+    def send_file_request(self, chat_id, file_path):
         # 向服务器发送文件发送请求
         # 包括接收者的ID地址、和本机文件路径
         now = datetime.now()
@@ -267,7 +276,7 @@ class Client:
             'content': {
                 "msg_type": "friend_chat",
                 "sender": self.user_id,
-                "receiver": receiver_id,
+                "chat_id": chat_id,
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
@@ -276,9 +285,32 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        print("成功发送请求")
+        print("文件发送请求成功发送")
 
-    def receive_file_request(self, sender_id, file_path):
+    def change_avatar_request(self, file_path):
+        # 向服务器发送文件发送请求
+        # 包括本机文件路径
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        file_size = os.path.getsize(file_path)
+        data = {
+            # 要复用user_send_file
+            'type': 'user_send_file',
+            'content': {
+                "msg_type": "broadcast",
+                "sender": self.user_id,
+                "chat_id": None,
+                "msg": None,
+                "filepath": file_path,
+                "time": timestamp,
+                "filesize": file_size
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        print("更换头像请求成功发送")
+
+    def receive_file_request(self, chat_id, file_path):
         # 向服务器发送文件接受请求
         # 包括接收者的ID地址、和服务端文件路径
         now = datetime.now()
@@ -288,7 +320,7 @@ class Client:
             'content': {
                 "msg_type": "friend_chat",
                 "sender": self.user_id,
-                "receiver": sender_id,
+                "chat_id": chat_id,
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
@@ -297,19 +329,14 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-
+        print("接收文件请求成功发送")
         # 在从服务器收到允许发文件的答复后，开始发文件线程
 
     def send_file(self, back_data, content):
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
-                # shared_module.FileSendThread_signal = {
-                #     "sender_ip": content["sender_ip"],
-                #     "port": content["port"],
-                #     "filepath": content["filepath"],
-                #     "filesize": content["filesize"]
-                # }
+
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(send_file_handler)
@@ -325,8 +352,8 @@ class Client:
         try:
             if back_data == "0000":
                 print("服务器允许接收文件，准备接收力")
-                shared_module.file_thread = FileReceiveThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
-                # print(-1)
+                shared_module.file_thread = FileReceiveThread(content)
+
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
             else:
@@ -437,3 +464,20 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+
+    def pull_msg_list(self):
+        data={
+            "type":"init_msg_list",
+            "content":{
+                "user_id":self.user_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+    def init_msg_list(self, back_data, content):
+        if back_data == "0000":
+            print("申请消息列表成功")
+            self.msg_list = content["list"]
+        else:
+            print("申请消息列表失败")

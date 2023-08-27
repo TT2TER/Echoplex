@@ -52,6 +52,7 @@ class Setip(QWidget):
             shared_module.listen_thread.self_finished.connect(self.on_thread_finnished)
             #shared_module.listen_thread.stop()用来在任何地方终止这个线程
             shared_module.listen_thread.start()
+            print("listen_thread start")
             shared_module.login_page.show()
             print("在setupip这里可能出bug")
             self.close()

@@ -24,7 +24,9 @@ class Client:
             message_handlers = {
                 'user_register': shared_module.reg_page.recv_register,
                 'user_login': shared_module.login_page.recv_login,
-                'user_send_file': self.send_file
+                'user_send_file': self.send_file,
+                'user_addfriend': self.rcv_addfriend,
+                'ans_addfriend': self.rcv_ans_addfriend
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -193,7 +195,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_addfriend(self, content):
+    def rcv_addfriend(self, back_data, content):
         # 对方接收到添加好友请求并确认是否同意
         # 返回发送者的用户ID和时间戳
         # 对方收到好友请求并确定是否同意
@@ -220,15 +222,21 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_ans_addfriend(self, content):
+    def rcv_ans_addfriend(self, back_data, content):
         # 对方接收到同意或拒绝添加好友请求的回复
         # 返回发送者的用户ID、时间戳和回复内容
 
         # 对方收到好友请求并确定是否同意
-        sender = content["sender"]
-        time = content["time"]
-        ans = content["ans"]
-        return [sender, time, ans]
+        if back_data == "0000":
+
+            sender = content["sender"]
+            time = content["time"]
+            ans = content["ans"]
+            print( [sender, time, ans])
+        elif back_data == "0001":
+            print("查无此人")
+
+
 
     def pullfriendlist(self):
         data = {

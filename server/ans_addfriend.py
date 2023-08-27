@@ -9,7 +9,7 @@ from db.table_user_friend import insert_table_user_friend
 
 ans_addfriendlist = defaultdict(list)
 
-def user_addfriend(received_data, socket, address, database):
+def ans_addfriend(received_data, socket, address, database):
     try:
         msg = json.loads(received_data)
         content = msg["content"]
@@ -34,8 +34,8 @@ def user_addfriend(received_data, socket, address, database):
 
 def send_message(ans,sender, receiver, time):
     back_data_addfriend = {
-        "type": "back_data_addfriend",
-        "back_data": "Ans_addfriend From Server",
+        "type": "ans_addfriend",
+        "back_data": "0000",
         "content": {
             "ans": ans,
             "sender": sender,

@@ -11,25 +11,23 @@ def user_addfriend(received_data, socket, address, database):
      #判断好友是否存在
     res = select_table(database, "user", user_id = int(received_data["content"]["receiver"]) )    #id为int型
 
-    if not res:  # 未注册，返回空列表
+    if len(res) == 0:  # 未注册，返回空列表
         back_data_addfriend = {
-            "type": "back_data_addfriend",
-            'back_data': "No Account"
+            "type": "user_addfriend",
+            'back_data': "0001"
         }
         json_message = json.dumps(back_data_addfriend).encode('utf-8')
         socket.sendall(json_message)
         return "好友不存在"
     else:
-       
         try:
-             msg = json.loads(received_data)
-             content = msg["content"]
+             content = received_data["content"]
              sender = content["sender"]
              receiver = content["receiver"]
              _time = content["time"]
              send_message(sender, receiver, _time)
             #没有数据库插入好友请求历史
-            #TODO：
+            #TODO
         except Exception as e:
             print("服务端处理加好友失败: " + str(e))
         
@@ -37,10 +35,11 @@ def user_addfriend(received_data, socket, address, database):
 
 def send_message(sender, receiver, _time):
     addfriend_msg = {
-        "type": "addfriend_msg",
-        "back_data": "An addfriend message",
+        "type": "user_addfriend",
+        "back_data": None,
         "content": {
             "sender": sender,
+            "receiver": receiver,
             "time": _time
         }
     }
@@ -49,7 +48,7 @@ def send_message(sender, receiver, _time):
         receiver_socket, _ = online_clients[receiver]
         receiver_socket.sendall(json_message)
     else:
-        user_addfriendlist[receiver].append((sender, json_message))
+        user_addfriendlist[receiver].append(json_message)
 
 
 

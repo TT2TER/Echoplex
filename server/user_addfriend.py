@@ -1,11 +1,10 @@
 import json
 from collections import defaultdict
-from global_data import online_clients
+from global_data import online_clients, user_mailboxes
 from db.DataDB import select_table
 
 #好友请求处理类似于消息处理，在线直接发送请求，离线缓存在队列
-#TODO:加好友请求队列需要全局设置
-user_addfriendlist = defaultdict(list)
+
 
 def user_addfriend(received_data, socket, address, database):
      #判断好友是否存在
@@ -48,7 +47,7 @@ def send_message(sender, receiver, _time):
         receiver_socket, _ = online_clients[receiver]
         receiver_socket.sendall(json_message)
     else:
-        user_addfriendlist[receiver].append(json_message)
+        user_mailboxes[receiver].append(json_message)
 
 
 

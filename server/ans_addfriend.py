@@ -1,6 +1,6 @@
 import json
 from collections import defaultdict
-from global_data import online_clients
+from global_data import online_clients, user_mailboxes
 from db.DataDB import select_table
 from db.table_user_friend import insert_table_user_friend
 
@@ -26,7 +26,7 @@ def ans_addfriend(received_data, socket, address, database):
         if ans == "yes":
             concatenated_str = str(min(sender,receiver)) + str(max(sender, receiver))
             chatid = int(concatenated_str)
-            insert_table_user_friend(database, "user-friend", min(sender,receiver),max( receiver,sender), chatid)
+            insert_table_user_friend(database, "user_friend", min(sender,receiver),max( receiver,sender), chatid)
     except Exception as e:
         print("服务端更新好友列表数据库出错: " + str(e))
 
@@ -46,5 +46,5 @@ def send_message(ans,sender, receiver, time):
             receiver_socket, _ = online_clients[receiver]
             receiver_socket.sendall(json_message)
     else:
-        ans_addfriendlist[receiver].append((sender, json_message))
+        user_mailboxes[receiver].append((sender, json_message))
         print("好友请求回应已缓存")

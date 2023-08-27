@@ -201,7 +201,7 @@ class Client:
         # 对方收到好友请求并确定是否同意
         sender = content["sender"]
         time = content["time"]
-        return [sender, time]
+        print(("收到了好友申请", sender, time))
 
     def ans_addfriend(self, ans, target_id):
         # 发送同意或拒绝添加好友请求

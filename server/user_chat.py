@@ -1,13 +1,6 @@
 import json
-from collections import defaultdict
 from global_data import online_clients
-
-# Create a defaultdict to store user mailboxes (offline messages)
-user_mailboxes = defaultdict(list)
-
-
-# user_mailboxes["user1"].append(("user2", "Hello!"))
-# user_mailboxes["user1"].append(("user3", "How are you?"))
+from global_data import user_mailboxes
 
 
 def user_chat(received_data, socket, address, database):
@@ -72,26 +65,27 @@ def send_message(sender, receiver, msg, time, filepath, filesize):
 
 
 def send_group_message(sender, group_id, msg, time, filepath, filesize):
+    message = {
+    "type": "new_message",
+    "content": {
+        "sender": sender,
+        "group_id": group_id,
+        "msg": msg,
+        "time": time,
+        "filepath": filepath,
+        "filesize": filesize
+        }
+    }
+    json_message = json.dumps(message).encode('utf-8')
     # receivers = SQL TODO
     for receiver in receivers:
         if receiver in online_clients:
             receiver_socket, _ = online_clients[receiver]
-            message = {
-                "type": "new_message",
-                "content": {
-                    "sender": sender,
-                    "group_id": group_id,
-                    "msg": msg,
-                    "time": time,
-                    "filepath": filepath,
-                    "filesize": filesize
-                }
-            }
-            receiver_socket.send(json.dumps(message).encode('utf-8'))
+            receiver_socket.sendall(json_message)
         else:
             user_mailboxes[receiver].append((sender, msg, group_id))
 
-
+# TODO 小团体 代码是错的 还做吗这功能
 def send_secret_group_message(sender, group_id, msg, receiver=[100001, 100002]):
     # receiver = SQL TODO
     if receiver in online_clients:
@@ -109,7 +103,8 @@ def send_secret_group_message(sender, group_id, msg, receiver=[100001, 100002]):
 
 
 # 在客户端拉取消息的请求到达时调用这个函数，把消息发送给客户端
-def retrieve_messages(client_id):
+def retrieve_messages(received_data, socket, address, database):
+    client_id = received_data['content']['sender']
     try:
         if client_id in user_mailboxes:
             mailbox = user_mailboxes[client_id]

@@ -15,8 +15,7 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
         except Exception as e:
-            print("与服务器连接断开： " + str(e))
-            # TODO Qt跳一个界面
+            print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
     def back_massage_handler(self, received_data):
         # 处理发射回来的信号
@@ -25,6 +24,9 @@ class Client:
                 'user_register': shared_module.reg_page.recv_register,
                 'user_login': shared_module.login_page.recv_login,
                 'user_send_file': self.send_file,
+                'user_receive_file': self.receive_file,
+                'friend_chat': self.receive_friend_message,
+                'group_chat': self.receive_group_message,
                 'user_addfriend': self.rcv_addfriend,
                 'ans_addfriend': self.rcv_ans_addfriend
             }
@@ -101,7 +103,9 @@ class Client:
                 "msg": msg,
                 "sender": self.user_id,
                 "receiver": receiver,
-                "time": timestamp
+                "time": timestamp,
+                "filesize": None,
+                "filepath": None
             }
         }
         # 向服务端发送消息
@@ -121,7 +125,9 @@ class Client:
                 "msg": msg,
                 "sender": self.user_id,
                 "group_id": group_id,
-                "time": timestamp
+                "time": timestamp,
+                "filepath": None,
+                "filesize":None
             }
         }
         # 向服务端发送消息
@@ -150,6 +156,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
+    # 用于登录后主动向服务器拉取离线信息
     def pull_message(self):
         # 请求从服务器拉取消息
         # 包括发送者的用户ID
@@ -346,13 +353,13 @@ class Client:
             try:
                 if not filepath:
                     # 收到的是文本消息
-                    print("收到的是来自" + content['sender'] + "文本消息：" + content["msg"])
+                    print("收到的是来自" + str(content['sender']) + "文本消息：" + content["msg"])
                     # 写入一个文件
 
                     # 进行窗口交互
 
                 elif not msg:
-                    print("收到的是来自" + content['sender'] + "文件")
+                    print("收到的是来自" + str(content['sender']) + "文件")
 
                     # 进行窗口交互
                     # 将文件 消息 显示在聊天中
@@ -368,13 +375,13 @@ class Client:
         try:
             if not filepath:
                 # 收到的是文本消息
-                print("收到的是来自" + content['sender'] + "群组文本消息：" + content["msg"])
+                print("收到的是来自" + str(content['sender']) + "群组文本消息：" + content["msg"])
                 # 写入一个文件
 
                 # 进行窗口交互
 
             elif not filepath:
-                print("收到的是来自" + content['sender'] + "群组文件")
+                print("收到的是来自" + str(content['sender']) + "群组文件")
 
                 # 进行窗口交互
                 # 将文件 消息 显示在聊天中
@@ -392,8 +399,23 @@ class Client:
             return None
         else:
             # 未知错误
-            return None
-        
+            return None        
+
+    def del_friend(self,friend_id):
+        try:
+            data = {
+                "type": "del_friend",
+                "content": {
+                    "sender": self.user_id,
+                    "friend_id": friend_id
+                }
+            }
+            json_data = json.dumps(data).encode('utf-8')
+            self.client_socket.sendall(json_data)
+        except Exception as e:
+            print("del_friend寄了，寄在client_function,del_friend里头：" + str(e))
+
+
     def delete_group(self,group_id):
         data = {
             "type": "delete_group",

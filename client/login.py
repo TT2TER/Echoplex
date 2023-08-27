@@ -65,7 +65,9 @@ class Login(QWidget):
 
     def show_registration_page(self):
         # 创建注册窗口
-
+        where=self.pos()
+        #print(where)
+        shared_module.reg_page.move(where)
         shared_module.reg_page.show()
         # 关闭自身窗口
         self.close()

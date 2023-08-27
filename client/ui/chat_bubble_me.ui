@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>chat_bubble_opp</class>
- <widget class="QWidget" name="chat_bubble_opp">
+ <class>chat_bubble_me</class>
+ <widget class="QWidget" name="chat_bubble_me">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -84,7 +84,7 @@
       <property name="styleSheet">
        <string notr="true">QWidget#avatar{
 	background-color: rgba(191, 64, 64, 0);
-	border: 2px solid rgb(115, 210, 22);
+	border: 2px solid #FADB5F;
 }</string>
       </property>
      </widget>
@@ -140,20 +140,19 @@
       </property>
       <property name="styleSheet">
        <string notr="true">QLabel#message_bubble {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #DCF8C6, stop:1 #B9E87E);
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #FCE588, stop:1 #FADB5F);
     border-radius: 15px;
     border-top-left-radius: 0px;
     padding: 10px;
-    
-    
+
     /* 添加轻微的内发光效果 */
     border: 3px solid rgba(255, 255, 255, 0.4);
     border-bottom: none;
     border-right: none;
     border-left: none;
-    
+
     /* 添加边框效果 */
-    border: 2px solid #B9E87E;
+    border: 2px solid #FADB5F;
 }
 
 QLabel#message_bubble[selected=&quot;true&quot;] {

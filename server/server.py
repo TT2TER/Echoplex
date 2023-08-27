@@ -34,7 +34,7 @@ def handle_client(socket, address):
             message_handlers = {
                 'user_register': user_register,
                 'user_login': user_login,
-                'user_chat': user_chat,
+                #'user_chat': user_chat,
                 'user_send_file': user_send_file,
                 'user_receive_file': user_receive_file,
                 'user_addfriend': user_addfriend,

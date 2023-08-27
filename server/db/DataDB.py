@@ -28,12 +28,14 @@ def select_table(con,table_name,**kwargs):
     try:
         sql="SELECT * FROM "+table_name+" WHERE "
         flag=0
+        values=[]
         for key,value in kwargs.items():
             if flag==1:
                 sql=sql+" AND "
-            sql=sql+key+"="+str(value)
+            sql=sql+key+"=?"
+            values.append(value)
             flag=1
-        cursor.execute(sql)
+        cursor.execute(sql,tuple(values))
         ret=cursor.fetchall()
         return ret
     except:
@@ -82,6 +84,23 @@ def delete_table(con,table_name):
         print("Deleted Failed")
         con.rollback()
         return False
+    
+def delete_view(con,view_name):
+    """
+    任意表的删除：
+    table_name : 需要删除的表
+    """
+    cursor=con.cursor()
+    try:
+        sql="DROP VIEW "+view_name
+        cursor.execute(sql)
+        con.commit()
+        print("View "+view_name+" is deleted")
+        return True
+    except:
+        print("Deleted Failed")
+        con.rollback()
+        return False
 
 
 
@@ -119,3 +138,7 @@ def Convert_BLOB(filename):
     with open(filename, 'rb') as file:
         blob_data = file.read()
     return blob_data
+
+
+
+  

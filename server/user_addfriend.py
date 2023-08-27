@@ -24,7 +24,8 @@ def user_addfriend(received_data, socket, address, database):
              sender = content["sender"]
              receiver = content["receiver"]
              _time = content["time"]
-             send_message(sender, receiver, _time )
+             name = content["name"]
+             send_message(sender, receiver, _time, name )
             #没有数据库插入好友请求历史
             #TODO
         except Exception as e:
@@ -32,7 +33,7 @@ def user_addfriend(received_data, socket, address, database):
         
 
 
-def send_message(sender, receiver, _time):
+def send_message(sender, receiver, _time, name):
     addfriend_msg = {
         "type": "user_addfriend",
         "back_data": None,
@@ -40,6 +41,7 @@ def send_message(sender, receiver, _time):
             "sender": sender,
             "receiver": receiver,
             "time": _time,
+            "name": name
         }
     }
     json_message = json.dumps(addfriend_msg).encode('utf-8')

@@ -2,7 +2,6 @@ from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetIte
 from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
-from ui.add_friend_ui import Ui_add_friend
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
 from datetime import datetime
@@ -38,29 +37,32 @@ class Main_win(QWidget):
             self.add_list(opp_id,str(name),self.image_path, time, "最近消息測試")
     
     def add_friend(self):
-        #TODO:写成类
-        add_friend_win=Ui_add_friend()
-        add_friend_win.setupUi(self)
-        add_friend_win.show()
-        opp_id=add_friend_win.id_in.text()
-        add_friend_win.add_fri_butt.connect(shared_module.client.user_addfriend(opp_id))
+        shared_module.add_friend.show()
+        #测试成功
+        
 
     def check_add_friend(self):
-        #TODO:画一个列表，画一个列表里的内容
+        
+        shared_module.new_friends.show()
+        while len(shared_module.client.add_friend_list) > 0:
+            (sender, time, name) = shared_module.client.add_friend_list.pop(0)
 
+            #TODO mayu 将name请求者姓名显示在表上
+            print("消息列表打印完毕")
         #opp_id。
-        shared_module.client.ans_addfriend(yes_or_no, opp_id,defult)
+        #shared_module.client.ans_addfriend(yes_or_no, opp_id,defult)
         pass
         
         
 
     def rcv_addfriend(self, back_data, content):
-        # 对方接收到添加好友请求
+        # 收到对方的添加好友请求
         # 返回发送者的用户ID和时间戳
-        #TODO:lh维护一个列表
         sender = content["sender"]
         time = content["time"]
-        print(("收到了好友申请", sender, time))
+        name = content["name"]
+        shared_module.client.add_friend_list.append((sender, time, name))
+        print(("收到了好友申请", sender, time, name))
 
     def rcv_ans_addfriend(self, back_data, content):
         # 对方接收到同意或拒绝添加好友请求的回复
@@ -72,12 +74,14 @@ class Main_win(QWidget):
             sender = content["sender"]
             time = content["time"]
             ans = content["ans"]
-            print( [sender, time, ans])
+            name = content["name"]
+            print( [sender, time, ans,name])
+            #TODO 显示在好友列表里
 
             if ans == "yes":
-                #TODO：添加到好友列表
+                #TODO：添加到好友列表 defult
                 #TODO：添加到聊天列表
-                #TODO：zf 返回对方昵称
+                #TODO：zf 返回对方昵称,over
                 pass
             else : 
                 #别知道了 ，，或者是在信号由申请列表显示谁谁谁拒绝
@@ -115,7 +119,16 @@ class Main_win(QWidget):
         print("Item clicked with value:", opp_id)
         if self.cur_id!=opp_id:
             pass
-        #这里写循环
+        if len(shared_module.client.msg_list) == 0:
+            print("聊天消息列表为空")
+        while len(shared_module.client.msg_list) > 0:
+            (chat_id, sender_id, chat_time, chat_content) = shared_module.client.msg_list.pop(0)
+            #TODO mayu 将上述元组的内容显示在表上
+            #chat_id是整数，sender_id是整数，chat_time是datetime格式，chat_content是字符串
+
+
+        print("消息列表打印完毕")
+
 
 
 
@@ -138,6 +151,13 @@ class Main_win(QWidget):
         message_item=QListWidgetItem(self.ui.view_box)
         message_item.setSizeHint(show_message.sizeHint())
         self.ui.view_box.setItemWidget(message_item,show_message)
+    
+    def renew(self,id,name,avatar_path, time:str="", msg:str=""):
+        list_item=QListWidgetItem()
+        show_message=Message_bubble(id,name,avatar_path,time,msg)
+        list_item.setSizeHint(show_message.sizeHint())
+        self.ui.view_box.insertItemWidget(list_item,show_message)
+
 
 
 if __name__ == "__main__":

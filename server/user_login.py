@@ -25,7 +25,8 @@ def user_login(data, socket, address, con):
                 "type": "user_login",
                 'back_data': "0003",
                 'content': {
-                    'user_id': int(data['content']['user_id'])
+                    'user_id': int(data['content']['user_id']),
+                    'user_name': res[0][1]
                 }
             }
             result = "成功"

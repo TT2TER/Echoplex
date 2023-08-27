@@ -368,7 +368,7 @@ class Ui_chatroom(object):
         self.retranslateUi(chatroom)
 
         self.tabWidget_2.setCurrentIndex(0)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.toolBox.setCurrentIndex(0)
 
 

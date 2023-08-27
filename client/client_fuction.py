@@ -14,6 +14,9 @@ class Client:
             self.server_address = (ip, int(port))
             self.client_socket.connect(self.server_address)
             self.user_id = None
+            self.user_name = None
+            self.msg_list = None
+            self.add_friend_list = []
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -28,7 +31,8 @@ class Client:
                 'friend_chat': self.receive_friend_message,
                 'group_chat': self.receive_group_message,
                 'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
-                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend#self.rcv_ans_addfriend
+                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
+                'init_msg_list': self.init_msg_list
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -189,7 +193,7 @@ class Client:
         # 发送添加好友请求
         # 包括发送者的用户ID、接收者的用户ID和时间戳
         # 发送请求添加好友时间
-        print(target_id)
+        #print(target_id)
         now = datetime.now()
         _time = datetime.timestamp(now)
         data = {
@@ -198,6 +202,7 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": _time,
+                "name": self.user_name
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -211,11 +216,13 @@ class Client:
     #     time = content["time"]
     #     print(("收到了好友申请", sender, time))
 
-    def ans_addfriend(self, ans, target_id, partition):
+    def ans_addfriend(self, ans, target_id):
         # 发送同意或拒绝添加好友请求
         # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳和分组partition
 
         # 发送同意或拒绝请求
+        # 搜索自己的昵称
+      
         now = datetime.now()
         time = datetime.timestamp(now)
         data = {
@@ -225,7 +232,7 @@ class Client:
                 "receiver": target_id,
                 "time": time,
                 "ans": ans,
-                "partition": partition
+                "name": self.user_name
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -409,10 +416,13 @@ class Client:
 
     def rcv_friendlist(self,back_data,content):
         
-        friend_ids = content["friend_ids"]
+        friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
-            return friend_ids
+            return friend_list_info
+            #friend_list_info是（id，name，partition）的list     
+            print("这里需要my根据partion，分组显示好友")
+
         elif back_data == "0013":
             # 好友列表获取失败
             return None
@@ -456,3 +466,20 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+
+    def pull_msg_list(self):
+        data={
+            "type":"init_msg_list",
+            "content":{
+                "user_id":self.user_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+    def init_msg_list(self, back_data, content):
+        if back_data == "0000":
+            print("申请消息列表成功")
+            self.msg_list = content["list"]
+        else:
+            print("申请消息列表失败")

@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from ui.login_ui import Ui_Login
+from time import sleep
 
 class Login(QWidget):
 
@@ -47,7 +48,10 @@ class Login(QWidget):
         if back_data == "0003":
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
             shared_module.client.user_id = content['user_id']
+            shared_module.client.user_name = content['user_name']
             shared_module.client.pull_message()
+            sleep(1)
+            shared_module.client.pull_msg_list()
             # 创建主界面窗口
             shared_module.main_page.show()
             # 关闭自身窗口

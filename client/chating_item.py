@@ -1,10 +1,8 @@
-from PySide2.QtWidgets import QWidget, QMessageBox, QSpacerItem
-from PySide2.QtWidgets import QListWidget, QListWidgetItem, QHBoxLayout, QVBoxLayout, QLabel, QSizePolicy
+from PySide2.QtWidgets import QWidget
+from PySide2.QtWidgets import QLabel
 from PySide2.QtGui import QPixmap
 from PySide2.QtCore import Signal, Qt, QRect
-from PySide2 import QtCore
 from ui.chating_item_ui import Ui_chating_item
-import os
 
 
 class Chating_item(QWidget):

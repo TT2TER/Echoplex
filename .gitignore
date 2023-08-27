@@ -2,7 +2,8 @@
 .idea/
 __pycache__/
 *.py[cod]
-server/testDB.db
+testDB.db
 ../__pycache__/
+server/new_userid.txt
 
 

@@ -1,4 +1,6 @@
 class shared_module:
+    #以下是整个程序
+    app=None
     #以下是ui的实例化对象
     login_page=None
     main_page=None

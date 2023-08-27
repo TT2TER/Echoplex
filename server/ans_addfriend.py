@@ -1,8 +1,9 @@
 import json
 from collections import defaultdict
-from global_data import online_clients
+from global_data import online_clients, user_mailboxes
 from db.DataDB import select_table
 from db.table_user_friend import insert_table_user_friend
+from db.table_relation import insert_table_relation
 
 #好友请求应答处理类似于消息处理，在线直接发送请求，离线缓存在队列
 #TODO:好友应答队列需要全局设置
@@ -16,6 +17,7 @@ def ans_addfriend(received_data, socket, address, database):
         receiver = content["receiver"]
         time = content["time"]
         ans = content["ans"]
+        partition = content["partition"]
         send_message(ans, sender, receiver, time)
             #没有数据库插入好友请求回应
             #TODO：
@@ -24,9 +26,13 @@ def ans_addfriend(received_data, socket, address, database):
      #更新好友列表数据库
     try:
         if ans == "yes":
+            #更新user_friend表
             concatenated_str = str(min(sender,receiver)) + str(max(sender, receiver))
             chatid = int(concatenated_str)
-            insert_table_user_friend(database, "user-friend", min(sender,receiver),max( receiver,sender), chatid)
+            insert_table_user_friend(database, "user_friend", min(sender,receiver),max( receiver,sender), chatid)
+            #更新table_relation表
+            insert_table_relation(database,sender,receiver,partition,"table_relation")
+            insert_table_relation(database,receiver,sender,"default","table_relation")
     except Exception as e:
         print("服务端更新好友列表数据库出错: " + str(e))
 
@@ -46,5 +52,5 @@ def send_message(ans,sender, receiver, time):
             receiver_socket, _ = online_clients[receiver]
             receiver_socket.sendall(json_message)
     else:
-        ans_addfriendlist[receiver].append((sender, json_message))
+        user_mailboxes[receiver].append((sender, json_message))
         print("好友请求回应已缓存")

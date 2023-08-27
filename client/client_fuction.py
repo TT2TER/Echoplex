@@ -162,11 +162,9 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def create_group(self):
+    def create_group(self, group_member, group_name):
         # 创建一个群组
         # 包括群主的用户ID、成员列表和群组名称
-        group_member = [10001, 10002]
-        group_name = "test_group"
         data = {
             "type": "create_group",
             "content": {
@@ -189,23 +187,23 @@ class Client:
             "content": {
                 "sender": self.user_id,
                 "receiver": target_id,
-                "time": _time
+                "time": _time,
             }
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
     def rcv_addfriend(self, back_data, content):
-        # 对方接收到添加好友请求并确认是否同意
+        # 对方接收到添加好友请求
         # 返回发送者的用户ID和时间戳
-        # 对方收到好友请求并确定是否同意
+
         sender = content["sender"]
         time = content["time"]
-        return [sender, time]
+        print(("收到了好友申请", sender, time))
 
-    def ans_addfriend(self, ans, target_id):
+    def ans_addfriend(self, ans, target_id, partition):
         # 发送同意或拒绝添加好友请求
-        # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳
+        # 包括回复内容、发送者的用户ID、接收者的用户ID和时间戳和分组partition
 
         # 发送同意或拒绝请求
         now = datetime.now()
@@ -216,7 +214,8 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": time,
-                "ans": ans
+                "ans": ans,
+                "partition": partition
             }
         }
         json_data = json.dumps(data).encode('utf-8')

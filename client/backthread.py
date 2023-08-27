@@ -17,7 +17,11 @@ class BackendThread(QThread):
                 print("收到服务端消息：", received_data)
                 self.nofify.emit(received_data)
             except Exception as e:
-                print("服务端寄了或者收消息寄了：" + str(e))
+                print("断网了" + str(e))
+
+                print("my在这里加一个断网弹窗的函数")
+                #TODO：
+
                 break
 
 

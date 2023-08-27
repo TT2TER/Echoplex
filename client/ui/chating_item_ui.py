@@ -28,13 +28,13 @@ class Ui_chating_item(object):
         self.widgetMain.setObjectName(u"widgetMain")
         self.widgetMain.setMinimumSize(QSize(360, 70))
         self.widgetMain.setMaximumSize(QSize(360, 70))
-        self.widgetMain.setStyleSheet(u"QWidget#widgetMain{\n"
-"	background-color: rgb(174, 239, 255);\n"
-"	border-radius: 10px;\n"
-"	border-bottom: 2px solid #F2F2F2;\n"
-"}\n"
-"\n"
-"")
+        self.widgetMain.setStyleSheet(u"QWidget#widgetMain {\n"
+"        background-color: rgba(70, 236, 206, 87);\n"
+"        border-radius: 10px;\n"
+"        border-bottom: 5px solid #F2F2F2;\n"
+"        padding: 7px;\n"
+"        margin: 7px;\n"
+"    }")
         self.avatar = QWidget(self.widgetMain)
         self.avatar.setObjectName(u"avatar")
         self.avatar.setGeometry(QRect(10, 10, 48, 48))

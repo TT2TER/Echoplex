@@ -5,8 +5,11 @@ from user_register import user_register
 from user_login import user_login
 from user_send_file import user_send_file
 from user_receive_file import user_receive_file
+from user_addfriend import user_addfriend
+from ans_addfriend import ans_addfriend
 from db.DataDB import *
 from db.table_user import *
+from db.table_user_friend import *
 import sys
 from user_chat import user_chat
 from global_data import online_clients, server_address
@@ -35,7 +38,9 @@ def handle_client(socket, address):
                 'user_login': user_login,
                 'user_chat': user_chat,
                 'user_send_file': user_send_file,
-                'user_receive_file': user_receive_file
+                'user_receive_file': user_receive_file,
+                'user_addfriend': user_addfriend,
+                'ans_addfriend': ans_addfriend
             }
             handler = message_handlers.get(received_data['type'])
             if handler:
@@ -63,6 +68,7 @@ def handle_client(socket, address):
 
 def init_server(database):
     create_table_user(database, )
+    create_table_user_friend(database, )
 
 
 if __name__ == "__main__":

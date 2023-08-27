@@ -16,7 +16,7 @@ class Client:
             self.user_id = None
             self.user_name = None
             self.msg_list = None
-            self.add_friend_list = []
+            self.add_friend_list = [(10002, 1, "jojidjwo"),(10003, 1, "dksfjdsk")]
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 

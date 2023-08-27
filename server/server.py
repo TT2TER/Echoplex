@@ -10,6 +10,7 @@ from ans_addfriend import ans_addfriend
 from db.DataDB import *
 from db.table_user import *
 from db.table_user_friend import *
+from db.table_relation import *
 import sys
 from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
@@ -70,6 +71,7 @@ def handle_client(socket, address):
 def init_server(database):
     create_table_user(database, )
     create_table_user_friend(database, "user_friend")
+    create_table_relation(database,"table_relation")
 
 
 if __name__ == "__main__":

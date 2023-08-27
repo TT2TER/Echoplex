@@ -6,7 +6,7 @@ def create_table_group(con,table_name="[group]"):
     group_id : 群聊编号
     group_name : 群聊名
     group_leader_id : 群主编号
-    group_image : 群头像的二进制文件
+    group_image : 群头像的路径
 
     return:
     True : 创建成功    False : 创建失败
@@ -19,7 +19,7 @@ def create_table_group(con,table_name="[group]"):
                   "group_name text,"
                   "group_leader_id INT UNIQUE,"
                   "create_time datatime,"
-                  "group_image BLOB)")
+                  "group_image text)")
         con.commit()
         print("table is created")
         return True

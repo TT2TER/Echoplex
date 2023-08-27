@@ -105,6 +105,9 @@ def delete_view(con,view_name):
 
 
 def search_member(con,table_name,group_id):
+    """
+    查找一个群的所有成员
+    """
     member=[]
     try:
         ret=select_table(con,table_name=table_name,group_id=group_id)
@@ -117,6 +120,9 @@ def search_member(con,table_name,group_id):
     
 
 def search_firend(con,user_id,table_name="user_friend"):
+    """
+    查找用户的所有好友ID
+    """
     friend=[]
     try:
         ret=select_table(con,table_name,user_id=user_id)
@@ -126,6 +132,20 @@ def search_firend(con,user_id,table_name="user_friend"):
         for user_id,friend_id,chat_id in ret:
             friend.append(user_id)
         return friend
+    except:
+        print("Search Failed")
+        return None
+
+def search_all_user(con,table_name="user"):
+    """
+    查找用户表中的所有群成员
+    """
+    cursor=con.cursor()
+    try:
+        sql="SELECT * FROM "+table_name
+        cursor.execute(sql)
+        ret=cursor.fetchall()
+        return ret
     except:
         print("Search Failed")
         return None

@@ -169,7 +169,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def create_group(self, group_member, group_name):
+    def create_group(self, group_member, group_name,image_path):
         # 创建一个群组
         # 包括群主的用户ID、成员列表和群组名称
         data = {
@@ -177,7 +177,9 @@ class Client:
             "content": {
                 "group_manager": self.user_id,
                 "group_member": group_member,
-                "group_name": group_name
+                "group_name": group_name,
+                "group_create_time":datetime.now(),
+                "group_image":image_path
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -255,7 +257,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def send_file_request(self, receiver_id, file_path):
+    def send_file_request(self, chat_id, file_path):
         # 向服务器发送文件发送请求
         # 包括接收者的ID地址、和本机文件路径
         now = datetime.now()
@@ -266,7 +268,7 @@ class Client:
             'content': {
                 "msg_type": "friend_chat",
                 "sender": self.user_id,
-                "receiver": receiver_id,
+                "chat_id": chat_id,
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
@@ -275,9 +277,32 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        print("成功发送请求")
+        print("文件发送请求成功发送")
 
-    def receive_file_request(self, sender_id, file_path):
+    def change_avatar_request(self, file_path):
+        # 向服务器发送文件发送请求
+        # 包括本机文件路径
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        file_size = os.path.getsize(file_path)
+        data = {
+            # 要复用user_send_file
+            'type': 'user_send_file',
+            'content': {
+                "msg_type": "broadcast",
+                "sender": self.user_id,
+                "chat_id": None,
+                "msg": None,
+                "filepath": file_path,
+                "time": timestamp,
+                "filesize": file_size
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        print("更换头像请求成功发送")
+
+    def receive_file_request(self, chat_id, file_path):
         # 向服务器发送文件接受请求
         # 包括接收者的ID地址、和服务端文件路径
         now = datetime.now()
@@ -287,7 +312,7 @@ class Client:
             'content': {
                 "msg_type": "friend_chat",
                 "sender": self.user_id,
-                "receiver": sender_id,
+                "chat_id": chat_id,
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
@@ -296,19 +321,14 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-
+        print("接收文件请求成功发送")
         # 在从服务器收到允许发文件的答复后，开始发文件线程
 
     def send_file(self, back_data, content):
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
-                # shared_module.FileSendThread_signal = {
-                #     "sender_ip": content["sender_ip"],
-                #     "port": content["port"],
-                #     "filepath": content["filepath"],
-                #     "filesize": content["filesize"]
-                # }
+
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(send_file_handler)
@@ -398,7 +418,7 @@ class Client:
             return None
         else:
             # 未知错误
-            return None
+            return None        
 
     def del_friend(self,friend_id):
         try:
@@ -414,3 +434,25 @@ class Client:
         except Exception as e:
             print("del_friend寄了，寄在client_function,del_friend里头：" + str(e))
 
+
+    def delete_group(self,group_id):
+        data = {
+            "type": "delete_group",
+            "content": {
+                "group_id": group_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+
+    def add_new_member(self,group_id,member_id):
+        data={
+            "type":"add_new_member",
+            "content":{
+                "group_id":group_id,
+                "member_id":member_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)

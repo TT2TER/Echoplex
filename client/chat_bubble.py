@@ -2,6 +2,7 @@ import sys
 from PySide2.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout
 from PySide2.QtCore import Qt, Signal, QRect
 from ui.chat_bubble_opp_ui import Ui_chat_bubble_opp
+from ui.chat_bubble_me_ui import Ui_chat_bubble_me
 from PySide2.QtGui import QTextDocument, QPixmap
 from datetime import datetime
 import os
@@ -12,10 +13,14 @@ class Message_bubble(QWidget):
 
     def __init__(self, who,avatar_path, time, msg):
         super().__init__()
-        #TODO:
-        if who!="me":
-            self.ui = Ui_chat_bubble_opp()
+        
+        if who== 1:
+            self.ui = Ui_chat_bubble_me()
             self.ui.setupUi(self)
+        else :
+            self.ui = Ui_chat_bubble_opp
+            self.ui.setupUi(self)
+            
         self.time = time
         self.msg = msg
 

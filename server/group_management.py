@@ -1,6 +1,7 @@
 from db.table_group import *
-from db.table_group_chat import *
+from db.table_chat import *
 from db.table_group_member import *
+from db.DataDB import *
 import json
 
 
@@ -26,28 +27,25 @@ def create_group(data, socket, address, database):
         group_manager = content['group_manager']
         group_name = content['group_name']
         group_member = content['group_member']
+        group_create_time=content['group_create_time']
+        group_image=content['group_image']
 
         new_groupid = load_new_groupid() + 1
         group_id = new_groupid
-        group_table_name = "group" + str(group_id)
-        group_chat_table_name = "group_chat" + str(group_id)
-        group_member_table_name = "group_member" + str(group_id)
+        group_table_name = "group"
+        group_member_table_name = "group_member"
 
-        succ = create_table_group(database, group_table_name)
+        succ = insert_table_group(database, group_table_name,group_id,group_name,group_manager,group_create_time,group_image)
         if not succ:
             print("创建群表" + group_table_name + "失败")
-        succ = create_table_group_chat(database, group_chat_table_name)
-        if not succ:
-            print("创建群聊天表" + group_chat_table_name + "失败")
-        succ = create_table_group_member(database, group_member_table_name)
-        if not succ:
-            print("创建群成员表" + group_member_table_name + "失败")
+        
         for member_id in group_member:
             if succ:
-                succ = insert_table_group_member(database, group_member_table_name, group_id, member_id)
+                succ=insert_table_group_member(database,group_member_table_name,group_id,member_id)
             else:
                 print("插入群成员" + str(member_id) + "失败")
                 break
+
     except KeyError as e:
         print("Error: Missing key in data content -", e)
         # You might want to send an error response back to the client/socket here.
@@ -79,16 +77,18 @@ def create_group(data, socket, address, database):
 def delete_group(data, socket, address, database):
     try:
         content = data['content']
+        group_id=content['group_id']
+        delete_table_index(database,"group",group_id=group_id)
     except:
         pass
 
 def add_new_member(data, socket, address, database):
     try:
         content = data['content']
-        group_id = data['group_id']
-        member_id = data['member_id']
-        group_member_table_name = "group_member" + str(group_id)
-        insert_table_group_member(database,group_member_table_name, group_id, member_id)
+        group_id = content['group_id']
+        member_id = content['member_id']
+
+        insert_table_group_member(database,"group_member", group_id, member_id)
     except:
         pass
     finally:

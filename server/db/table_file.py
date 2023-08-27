@@ -5,10 +5,9 @@ def create_table_file(con,table_name="file"):
     文件表：                    （包括群聊和私聊）
     chat_id : 聊天表编号
     sender_id : 文件发送者编号
-    chat_time : 文件发送时间
+    chat_time : 文件发送时间    datetime.now()
     file : 传输的文件
     """
-    # TODO file改成filepath(string)
     cursor=con.cursor()
     try:
         cursor.execute("CREATE TABLE "+ table_name+" ("
@@ -28,7 +27,8 @@ def create_table_file(con,table_name="file"):
         else:
             print("Create Table Failed")
         return False
-    
+
+
 
 def insert_table_file(con,table_name,sender_id,chat_id,chat_time,filename):
     cursor=con.cursor()

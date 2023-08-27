@@ -28,12 +28,14 @@ def select_table(con,table_name,**kwargs):
     try:
         sql="SELECT * FROM "+table_name+" WHERE "
         flag=0
+        values=[]
         for key,value in kwargs.items():
             if flag==1:
                 sql=sql+" AND "
-            sql=sql+key+"="+str(value)
+            sql=sql+key+"=?"
+            values.append(value)
             flag=1
-        cursor.execute(sql)
+        cursor.execute(sql,tuple(values))
         ret=cursor.fetchall()
         return ret
     except:
@@ -82,10 +84,30 @@ def delete_table(con,table_name):
         print("Deleted Failed")
         con.rollback()
         return False
+    
+def delete_view(con,view_name):
+    """
+    任意表的删除：
+    table_name : 需要删除的表
+    """
+    cursor=con.cursor()
+    try:
+        sql="DROP VIEW "+view_name
+        cursor.execute(sql)
+        con.commit()
+        print("View "+view_name+" is deleted")
+        return True
+    except:
+        print("Deleted Failed")
+        con.rollback()
+        return False
 
 
 
 def search_member(con,table_name,group_id):
+    """
+    查找一个群的所有成员
+    """
     member=[]
     try:
         ret=select_table(con,table_name=table_name,group_id=group_id)
@@ -98,6 +120,9 @@ def search_member(con,table_name,group_id):
     
 
 def search_firend(con,user_id,table_name="user_friend"):
+    """
+    查找用户的所有好友ID
+    """
     friend=[]
     try:
         ret=select_table(con,table_name,user_id=user_id)
@@ -111,6 +136,20 @@ def search_firend(con,user_id,table_name="user_friend"):
         print("Search Failed")
         return None
 
+def search_all_user(con,table_name="user"):
+    """
+    查找用户表中的所有群成员
+    """
+    cursor=con.cursor()
+    try:
+        sql="SELECT * FROM "+table_name
+        cursor.execute(sql)
+        ret=cursor.fetchall()
+        return ret
+    except:
+        print("Search Failed")
+        return None
+
 
 def Convert_BLOB(filename):
     """
@@ -119,3 +158,7 @@ def Convert_BLOB(filename):
     with open(filename, 'rb') as file:
         blob_data = file.read()
     return blob_data
+
+
+
+  

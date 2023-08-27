@@ -1,6 +1,6 @@
 
 
-def create_table_chat(con,table_name="chat"):
+def create_table_chat(con,table_name="table_chat"):
     """
     聊天表：                    （包括群聊和私聊）
     chat_id : 聊天表编号
@@ -31,7 +31,14 @@ def create_table_chat(con,table_name="chat"):
         return False
     
 
-def insert_table_chat(con,table_name,sender_id,chat_id,chat_time,chat_content):
+def insert_table_chat(con,sender_id,chat_id,chat_time,chat_content,table_name="table_chat"):
+    """
+    插入聊天表：
+    chat_id : 聊天表编号
+    sender_id : 信息发送者编号
+    chat_time : 信息发送时间
+    chat_content : 信息内容
+    """
     cursor=con.cursor()
     try:
         sql="INSERT INTO "+table_name+" (sender_id,chat_id,chat_time,chat_content) VALUES(?,?,?,?)"

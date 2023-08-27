@@ -6,7 +6,7 @@ from login import Login
 from window import Main_win
 from register import Register
 
-app = QApplication([])
+shared_module.app = QApplication([])
 shared_module.setip_page = Setip()
 shared_module.login_page = Login()
 shared_module.main_page = Main_win()
@@ -16,4 +16,4 @@ if(shared_module.full_fuction):
     #shared_module.client=Client()
     pass
 
-app.exec_()
+shared_module.app.exec_()

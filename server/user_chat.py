@@ -1,15 +1,7 @@
 import json
-from collections import defaultdict
 from global_data import online_clients
-from db.DataDB import search_firend, search_member, 
-
-# Create a defaultdict to store user mailboxes (offline messages)
-user_mailboxes = defaultdict(list)
-
-
-# user_mailboxes["user1"].append(("user2", "Hello!"))
-# user_mailboxes["user1"].append(("user3", "How are you?"))
-
+from global_data import user_mailboxes
+from db.DataDB import search_member
 
 def user_chat(received_data, socket, address, database):
     try:
@@ -40,7 +32,8 @@ def user_chat(received_data, socket, address, database):
                 user_mailboxes[receiver].append(json_message)
 
 # 在客户端拉取消息的请求到达时调用这个函数，把消息发送给客户端
-def retrieve_messages(client_id):
+def retrieve_messages(received_data, socket, address, database):
+    client_id = received_data['content']['sender']
     try:
         if client_id in user_mailboxes:
             mailbox = user_mailboxes[client_id]

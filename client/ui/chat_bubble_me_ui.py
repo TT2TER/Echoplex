@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'chat_bubble_opp.ui'
+## Form generated from reading UI file 'chat_bubble_me.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -13,21 +13,21 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_chat_bubble_opp(object):
-    def setupUi(self, chat_bubble_opp):
-        if not chat_bubble_opp.objectName():
-            chat_bubble_opp.setObjectName(u"chat_bubble_opp")
-        chat_bubble_opp.resize(818, 147)
+class Ui_chat_bubble_me(object):
+    def setupUi(self, chat_bubble_me):
+        if not chat_bubble_me.objectName():
+            chat_bubble_me.setObjectName(u"chat_bubble_me")
+        chat_bubble_me.resize(818, 147)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(chat_bubble_opp.sizePolicy().hasHeightForWidth())
-        chat_bubble_opp.setSizePolicy(sizePolicy)
-        chat_bubble_opp.setMinimumSize(QSize(0, 0))
-        chat_bubble_opp.setMaximumSize(QSize(114514, 114514))
-        self.horizontalLayout = QHBoxLayout(chat_bubble_opp)
+        sizePolicy.setHeightForWidth(chat_bubble_me.sizePolicy().hasHeightForWidth())
+        chat_bubble_me.setSizePolicy(sizePolicy)
+        chat_bubble_me.setMinimumSize(QSize(0, 0))
+        chat_bubble_me.setMaximumSize(QSize(114514, 114514))
+        self.horizontalLayout = QHBoxLayout(chat_bubble_me)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.widgetMain = QWidget(chat_bubble_opp)
+        self.widgetMain = QWidget(chat_bubble_me)
         self.widgetMain.setObjectName(u"widgetMain")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
@@ -49,7 +49,7 @@ class Ui_chat_bubble_opp(object):
         self.avatar.setMaximumSize(QSize(50, 50))
         self.avatar.setStyleSheet(u"QWidget#avatar{\n"
 "	background-color: rgba(191, 64, 64, 0);\n"
-"	border: 2px solid rgb(115, 210, 22);\n"
+"	border: 2px solid #FADB5F;\n"
 "}")
         self.cur_time = QLabel(self.widgetMain)
         self.cur_time.setObjectName(u"cur_time")
@@ -68,20 +68,19 @@ class Ui_chat_bubble_opp(object):
         self.message_bubble.setMaximumSize(QSize(16777215, 16777215))
         self.message_bubble.setCursor(QCursor(Qt.PointingHandCursor))
         self.message_bubble.setStyleSheet(u"QLabel#message_bubble {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #DCF8C6, stop:1 #B9E87E);\n"
+"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #FCE588, stop:1 #FADB5F);\n"
 "    border-radius: 15px;\n"
 "    border-top-left-radius: 0px;\n"
 "    padding: 10px;\n"
-"    \n"
-"    \n"
+"\n"
 "    /* \u6dfb\u52a0\u8f7b\u5fae\u7684\u5185\u53d1\u5149\u6548\u679c */\n"
 "    border: 3px solid rgba(255, 255, 255, 0.4);\n"
 "    border-bottom: none;\n"
 "    border-right: none;\n"
 "    border-left: none;\n"
-"    \n"
+"\n"
 "    /* \u6dfb\u52a0\u8fb9\u6846\u6548\u679c */\n"
-"    border: 2px solid #B9E87E;\n"
+"    border: 2px solid #FADB5F;\n"
 "}\n"
 "\n"
 "QLabel#message_bubble[selected=\"true\"] {\n"
@@ -96,15 +95,15 @@ class Ui_chat_bubble_opp(object):
         self.horizontalLayout.addWidget(self.widgetMain)
 
 
-        self.retranslateUi(chat_bubble_opp)
+        self.retranslateUi(chat_bubble_me)
 
-        QMetaObject.connectSlotsByName(chat_bubble_opp)
+        QMetaObject.connectSlotsByName(chat_bubble_me)
     # setupUi
 
-    def retranslateUi(self, chat_bubble_opp):
-        chat_bubble_opp.setWindowTitle(QCoreApplication.translate("chat_bubble_opp", u"Form", None))
-        self.cur_time.setText(QCoreApplication.translate("chat_bubble_opp", u"01/01/2015 09:00:00", None))
-        self.message_bubble.setText(QCoreApplication.translate("chat_bubble_opp", u"qss css html", None))
-        self.who.setText(QCoreApplication.translate("chat_bubble_opp", u"name", None))
+    def retranslateUi(self, chat_bubble_me):
+        chat_bubble_me.setWindowTitle(QCoreApplication.translate("chat_bubble_me", u"Form", None))
+        self.cur_time.setText(QCoreApplication.translate("chat_bubble_me", u"01/01/2015 09:00:00", None))
+        self.message_bubble.setText(QCoreApplication.translate("chat_bubble_me", u"qss css html", None))
+        self.who.setText(QCoreApplication.translate("chat_bubble_me", u"name", None))
     # retranslateUi
 

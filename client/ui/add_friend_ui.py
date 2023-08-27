@@ -20,13 +20,13 @@ class Ui_add_friend(object):
         add_friend.resize(400, 300)
         self.id_in = QLineEdit(add_friend)
         self.id_in.setObjectName(u"id_in")
-        self.id_in.setGeometry(QRect(110, 60, 113, 25))
+        self.id_in.setGeometry(QRect(110, 70, 113, 25))
         self.label = QLabel(add_friend)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(110, 30, 131, 17))
+        self.label.setGeometry(QRect(100, 20, 141, 41))
         self.add_fri_butt = QPushButton(add_friend)
         self.add_fri_butt.setObjectName(u"add_fri_butt")
-        self.add_fri_butt.setGeometry(QRect(120, 100, 89, 25))
+        self.add_fri_butt.setGeometry(QRect(120, 110, 89, 25))
 
         self.retranslateUi(add_friend)
 

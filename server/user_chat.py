@@ -12,11 +12,11 @@ def user_chat(received_data, socket, address, database):
         if msg_type == "friend_chat":
             receivers = [content["receiver"], content["sender"]]
 
-        elif msg_type == "broadcast":
-            receivers = # TODO 所有已注册用户
+        # elif msg_type == "broadcast":
+        #     receivers = # TODO 所有已注册用户
 
-        elif msg_type == "group_chat":
-            receivers = # TODO 根据group_id查所有群成员
+        # elif msg_type == "group_chat":
+        #     receivers = # TODO 根据group_id查所有群成员
 
         elif msg_type == "private_group_chat":
             pass

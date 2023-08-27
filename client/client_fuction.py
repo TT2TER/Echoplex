@@ -189,7 +189,7 @@ class Client:
         # 发送添加好友请求
         # 包括发送者的用户ID、接收者的用户ID和时间戳
         # 发送请求添加好友时间
-        print(target_id)
+        #print(target_id)
         now = datetime.now()
         _time = datetime.timestamp(now)
         data = {

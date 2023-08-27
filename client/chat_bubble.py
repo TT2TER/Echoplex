@@ -11,18 +11,19 @@ class Message_bubble(QWidget):
     # 只用来定义 message_bubble 的行为
     selected = Signal(str)
 
-    def __init__(self, who,avatar_path, time, msg):
+    def __init__(self, who,name,avatar_path, time, msg):
         super().__init__()
         
         if who== 1:
             self.ui = Ui_chat_bubble_me()
             self.ui.setupUi(self)
         else :
-            self.ui = Ui_chat_bubble_opp
+            self.ui = Ui_chat_bubble_opp()
             self.ui.setupUi(self)
             
         self.time = time
         self.msg = msg
+        self.name = name
 
 
         self.padding=10#如果在样式表里更改了，记得改这里
@@ -57,6 +58,9 @@ class Message_bubble(QWidget):
         image = QPixmap(avatar_path)  # 用实际的图像路径替换
         self.avatar_label.setPixmap(image)
         self.avatar_label.setScaledContents(True)  # 自适应图像大小
+
+        #顯示發件人
+        self.ui.who.setText(str(self.name))
 
         self.ui.message_bubble.mousePressEvent = self.toggle_selection  # 替换点击事件
 

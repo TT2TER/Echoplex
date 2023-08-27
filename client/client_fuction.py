@@ -27,8 +27,8 @@ class Client:
                 'user_receive_file': self.receive_file,
                 'friend_chat': self.receive_friend_message,
                 'group_chat': self.receive_group_message,
-                'user_addfriend': self.rcv_addfriend,
-                'ans_addfriend': self.rcv_ans_addfriend
+                'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
+                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend#self.rcv_ans_addfriend
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -187,6 +187,7 @@ class Client:
         # 发送添加好友请求
         # 包括发送者的用户ID、接收者的用户ID和时间戳
         # 发送请求添加好友时间
+        print(target_id)
         now = datetime.now()
         _time = datetime.timestamp(now)
         data = {
@@ -200,13 +201,13 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_addfriend(self, back_data, content):
-        # 对方接收到添加好友请求
-        # 返回发送者的用户ID和时间戳
+    # def rcv_addfriend(self, back_data, content):
+    #     # 对方接收到添加好友请求
+    #     # 返回发送者的用户ID和时间戳
 
-        sender = content["sender"]
-        time = content["time"]
-        print(("收到了好友申请", sender, time))
+    #     sender = content["sender"]
+    #     time = content["time"]
+    #     print(("收到了好友申请", sender, time))
 
     def ans_addfriend(self, ans, target_id, partition):
         # 发送同意或拒绝添加好友请求
@@ -228,19 +229,19 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def rcv_ans_addfriend(self, back_data, content):
-        # 对方接收到同意或拒绝添加好友请求的回复
-        # 返回发送者的用户ID、时间戳和回复内容
+    # def rcv_ans_addfriend(self, back_data, content):
+    #     # 对方接收到同意或拒绝添加好友请求的回复
+    #     # 返回发送者的用户ID、时间戳和回复内容
 
-        # 对方收到好友请求并确定是否同意
-        if back_data == "0000":
+    #     # 对方收到好友请求并确定是否同意
+    #     if back_data == "0000":
 
-            sender = content["sender"]
-            time = content["time"]
-            ans = content["ans"]
-            print( [sender, time, ans])
-        elif back_data == "0001":
-            print("查无此人")
+    #         sender = content["sender"]
+    #         time = content["time"]
+    #         ans = content["ans"]
+    #         print( [sender, time, ans])
+    #     elif back_data == "0001":
+    #         print("查无此人")
 
 
 

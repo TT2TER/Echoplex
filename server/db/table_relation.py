@@ -48,6 +48,18 @@ def insert_table_relation(con,user_id,friend_id,relation,table_name="table_relat
         con.rollback()
         return False
 
+def update_table_relation(con,table_name,user_id,friend_id,relation):
+    cursor=con.cursor()
+    try:
+        sql="UPDATE "+table_name+" set relation =? where user_id=? AND friend_id=?"
+        cursor.execute(sql,(relation,user_id,friend_id))
+        con.commit()
+        print("Successfully Update")
+        return True
+    except:
+        print("Update Failed")
+        con.rollback()
+        return False
 
 def search_relation(con,user_id,relation,table_name="table_relation"):
     """

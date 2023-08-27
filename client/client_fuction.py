@@ -420,7 +420,7 @@ class Client:
         if back_data == "0012":
             # 好友列表获取成功
             return friend_list_info
-            #friend_list_info是（id，name，partition）的list     
+            #friend_list_info是字典，partition，id,name
             print("这里需要my根据partion，分组显示好友")
 
         elif back_data == "0013":

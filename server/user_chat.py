@@ -66,7 +66,7 @@ def send_message(sender, receiver, msg, time, filepath, filesize):
 
 def send_group_message(sender, group_id, msg, time, filepath, filesize):
     message = {
-    "type": "new_message",
+    "type": "group_chat",
     "content": {
         "sender": sender,
         "group_id": group_id,

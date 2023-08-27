@@ -5,3 +5,5 @@ from db.table_group import *
 from db.table_group_member import *
 from db.table_chat import *
 from db.table_file import *
+from db.view_chat import *
+from db.table_relation import *

@@ -391,3 +391,18 @@ class Client:
         else:
             # 未知错误
             return None
+
+    def del_friend(self,friend_id):
+        try:
+            data = {
+                "type": "del_friend",
+                "content": {
+                    "sender": self.user_id,
+                    "friend_id": friend_id
+                }
+            }
+            json_data = json.dumps(data).encode('utf-8')
+            self.client_socket.sendall(json_data)
+        except Exception as e:
+            print("del_friend寄了，寄在client_function,del_friend里头：" + str(e))
+

@@ -11,13 +11,12 @@ ans_addfriendlist = defaultdict(list)
 
 def ans_addfriend(received_data, socket, address, database):
     try:
-        msg = json.loads(received_data)
-        content = msg["content"]
+        content = received_data["content"]
         sender = content["sender"]
         receiver = content["receiver"]
         time = content["time"]
         ans = content["ans"]
-        send_message(ans,sender, receiver, time,)
+        send_message(ans, sender, receiver, time)
             #没有数据库插入好友请求回应
             #TODO：
     except Exception as e:
@@ -25,7 +24,7 @@ def ans_addfriend(received_data, socket, address, database):
      #更新好友列表数据库
     try:
         if ans == "yes":
-            concatenated_str = str(min(sender,receiver)) + str(max(receiver))
+            concatenated_str = str(min(sender,receiver)) + str(max(sender, receiver))
             chatid = int(concatenated_str)
             insert_table_user_friend(database, "user-friend", min(sender,receiver),max( receiver,sender), chatid)
     except Exception as e:

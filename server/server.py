@@ -12,7 +12,7 @@ from db.table_user import *
 from db.table_user_friend import *
 from db.table_relation import *
 import sys
-from user_chat import user_chat
+from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 
 
@@ -41,7 +41,8 @@ def handle_client(socket, address):
                 'user_send_file': user_send_file,
                 'user_receive_file': user_receive_file,
                 'user_addfriend': user_addfriend,
-                'ans_addfriend': ans_addfriend
+                'ans_addfriend': ans_addfriend,
+                'pull_message': retrieve_messages
             }
             handler = message_handlers.get(received_data['type'])
             if handler:

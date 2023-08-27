@@ -199,7 +199,7 @@ class Client:
 
         sender = content["sender"]
         time = content["time"]
-        return [sender, time]
+        print(("收到了好友申请", sender, time))
 
     def ans_addfriend(self, ans, target_id, partition):
         # 发送同意或拒绝添加好友请求

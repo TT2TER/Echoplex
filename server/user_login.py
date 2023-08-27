@@ -23,7 +23,10 @@ def user_login(data, socket, address, con):
         # if content["user_pwd"] == res[0][2]:
             back_data = {
                 "type": "user_login",
-                'back_data': "0003"
+                'back_data': "0003",
+                'content': {
+                    'user_id': int(data['content']['user_id'])
+                }
             }
             result = "成功"
             # 登录成功，维护在线用户表
@@ -32,7 +35,10 @@ def user_login(data, socket, address, con):
         else:
             back_data = {
                 "type": "user_login",
-                'back_data': "0004"
+                'back_data': "0004",
+                'content':{
+                    'user_id': int(data['content']['user_id'])
+                }
             }
             result = "密码大概是错了"
     back_json_data = json.dumps(back_data).encode('utf-8')

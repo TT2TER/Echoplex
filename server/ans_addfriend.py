@@ -1,6 +1,6 @@
 import json
 from collections import defaultdict
-from global_data import online_clients
+from global_data import online_clients, user_mailboxes
 from db.DataDB import select_table
 from db.table_user_friend import insert_table_user_friend
 from db.table_relation import insert_table_relation
@@ -52,5 +52,5 @@ def send_message(ans,sender, receiver, time):
             receiver_socket, _ = online_clients[receiver]
             receiver_socket.sendall(json_message)
     else:
-        ans_addfriendlist[receiver].append((sender, json_message))
+        user_mailboxes[receiver].append((sender, json_message))
         print("好友请求回应已缓存")

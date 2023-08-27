@@ -6,7 +6,7 @@ import os
 
 def user_receive_file(received_data, _socket, address, database):
     send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    send_socket.bind(('0.0.0.0', 0))
+    send_socket.bind(('127.0.0.1', 0))
     ip, port = send_socket.getsockname()
     send_socket.listen(1)
     print(f"File server listening on {ip}:{port}")
@@ -24,7 +24,7 @@ def user_receive_file(received_data, _socket, address, database):
                         "sender_ip": ip,
                         "port": port,
                         "filepath": filepath,
-                        "file_size": filesize
+                        "filesize": filesize
                     }
                 }
                 json_message = json.dumps(message).encode('utf-8')

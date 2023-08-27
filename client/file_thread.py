@@ -13,31 +13,39 @@ class FileSendThread(QThread):
 
     def __init__(self, ip, port, file_path, filesize):
         super().__init__()
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_address = (ip, port)
-        self.socket.connect(self.server_address)
-        self.file_path = file_path
-        self.filesize = filesize
+        try:
+            print("开始初始化")
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server_address = (ip, port)
+            # self.socket.connect(("127.0.0.1", port))
+            self.socket.connect(self.server_address)# TODO 这里寄了
+            self.file_path = file_path
+            self.filesize = filesize
+            print("初始化完成")
+        except Exception as e:
+            print("file_thread初始化寄了" + str(e))
 
     # 处理要做的业务逻辑
     def run(self):
         # 发送文件
         buff_size = 10240
         #TODO 根据文件大小发送文件
+        print("Begin sending……")
         with open(self.file_path, 'rb') as file:
             while True:
-                data = file.read(4096)
-                if not data:
-                    break
-                self.socket.send(data)
-
-        print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
-        with open(self.file_path, 'rb') as f:
-            while True:
-                data = f.read(buff_size)
+                data = file.read(buff_size)
+                print("read file")
                 if not data:
                     break
                 self.socket.sendall(data)
+
+        print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
+        # with open(self.file_path, 'rb') as f:
+        #     while True:
+        #         data = f.read(buff_size)
+        #         if not data:
+        #             break
+        #         self.socket.sendall(data)
         print("文件发送完毕,准备关闭线程socket")
         self.socket.close()
         # 发送结束，向主线程发送信号
@@ -67,12 +75,19 @@ class FileReceiveThread(QThread):
     notify = Signal(dict)
 
     def __init__(self, ip, port, file_path, filesize):
+        print(0)
         super().__init__()
+        print(1)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print(2)
         self.server_address = (ip, port)
+        print(3)
         self.socket.connect(self.server_address)
+        print(4)
         self.filepath = file_path
+        print(5)
         self.filesize = filesize
+        print("FileReceiveThread初始化成功")
 
     # 接收文件
     def run(self):

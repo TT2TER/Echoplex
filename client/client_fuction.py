@@ -416,10 +416,13 @@ class Client:
 
     def rcv_friendlist(self,back_data,content):
         
-        friend_ids = content["friend_ids"]
+        friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
-            return friend_ids
+            return friend_list_info
+            #friend_list_info是（id，name，partition）的list     
+            print("这里需要my根据partion，分组显示好友")
+
         elif back_data == "0013":
             # 好友列表获取失败
             return None

@@ -13,27 +13,23 @@ def user_friendlist(received_data, socket, address, database):
     # 查询给定用户的所有好友
     #cursor.execute(sql, (user_id,user_id))
     #results = cursor.fetchall()
-    results = search_firend(database,user_id,"user_friend")
+    results = search_firend(database,user_id) #results是（id，partion）的list
     
     if results:
         #friend_ids = [row[0] for row in results]
         #查询id对应的昵称，将返回值组织成一个（id，name）的list
         newre = []
         for i in results:
-             re = select_table(database,"user",user_id=i)
+             re = select_table(database,"user",user_id=i[0])
              name = re[0][1]
-             newre[i]=(i,name)
+             newre.append((i[0],name,i[1]))
         #查询id对应的分组，将返回值组织成一个（id,name,partition)的list
         
-        for j in results:
-            re = select_table(database,"table_relation",user_id=j)
-            partition = re[0][2]
-            newre[j] = (j,name,partition)
         back_data = {
             'type': "user_friendlist",
             'back_data': "0012",
             'content': {
-                'friend_ids': newre
+                'friend_list_info': newre
             }
         }
         back_json_data = json.dumps(back_data).encode('utf-8')

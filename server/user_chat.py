@@ -12,8 +12,7 @@ user_mailboxes = defaultdict(list)
 
 def user_chat(received_data, socket, address, database):
     try:
-        message = json.loads(received_data)
-        content = message["content"]
+        content = received_data["content"]
         msg_type = content["msg_type"]
 
         if msg_type == "friend_chat":
@@ -21,7 +20,9 @@ def user_chat(received_data, socket, address, database):
             receiver = content["receiver"]
             msg = content["msg"]
             time = content["time"]
-            send_message(sender, receiver, msg, time)
+            filepath = content["filepath"]
+            filesize = content["filepath"]
+            send_message(sender, receiver, msg, time, filepath, filesize)
             # 需要向数据库中插入数据、需要向客户端返回数据
             # TODO:
 
@@ -30,7 +31,9 @@ def user_chat(received_data, socket, address, database):
             group_id = content["group_id"]
             msg = content["msg"]
             time = content["time"]
-            send_group_message(sender, group_id, msg, time)
+            filepath = content["filepath"]
+            filesize = content["filesize"]
+            send_group_message(sender, group_id, msg, time, filepath, filesize)
 
         elif msg_type == "private_group_chat":
             sender = content["sender"]
@@ -45,39 +48,43 @@ def user_chat(received_data, socket, address, database):
         pass
 
 
-def send_message(sender, receiver, msg, time):
+def send_message(sender, receiver, msg, time, filepath, filesize):
     message = {
         "type": "friend_chat",
         # "back_data": True,
         "content": {
             "sender": sender,
             "msg": msg,
-            "time": time
+            "time": time,
+            "filepath": filepath,
+            "filesize": filesize
         }
     }
     json_message = json.dumps(message).encode('utf-8')
     # 发给sender，若reveiver也在线就发，不在线加进mailbox内
-    sender_socket = online_clients[sender]
+    sender_socket, _ = online_clients[sender]
     sender_socket.sendall(json_message)
     if receiver in online_clients:
-        receiver_socket = online_clients[receiver]
+        receiver_socket, _ = online_clients[receiver]
         receiver_socket.sendall(json_message)
     else:
         user_mailboxes[receiver].append(json_message)
 
 
-def send_group_message(sender, group_id, msg, time):
+def send_group_message(sender, group_id, msg, time, filepath, filesize):
     # receivers = SQL TODO
     for receiver in receivers:
         if receiver in online_clients:
-            receiver_socket = online_clients[receiver]
+            receiver_socket, _ = online_clients[receiver]
             message = {
                 "type": "new_message",
                 "content": {
                     "sender": sender,
                     "group_id": group_id,
                     "msg": msg,
-                    "time": time
+                    "time": time,
+                    "filepath": filepath,
+                    "filesize": filesize
                 }
             }
             receiver_socket.send(json.dumps(message).encode('utf-8'))
@@ -88,7 +95,7 @@ def send_group_message(sender, group_id, msg, time):
 def send_secret_group_message(sender, group_id, msg, receiver=[100001, 100002]):
     # receiver = SQL TODO
     if receiver in online_clients:
-        receiver_socket = online_clients[receiver]
+        receiver_socket, _ = online_clients[receiver]
         message = {
             "type": "new_message",
             "content": {
@@ -109,7 +116,8 @@ def retrieve_messages(client_id):
             while mailbox:
                 json_message = mailbox.pop(0)  # 从队列头中取出一条消息
                 try:
-                    online_clients[client_id].sendall(json_message)  # 发送消息
+                    socket, _ = online_clients[client_id] # 发送消息
+                    socket.sendall(json_message)
                 except Exception as e:
                     print(f"Error sending message to client {client_id}: {e}")
             # user_mailboxes[client_id] = []  # 清空该用户的邮件箱

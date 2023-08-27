@@ -14,23 +14,59 @@ from PySide2.QtWidgets import *
 
 from qfluentwidgets import PushButton
 from qfluentwidgets import TextEdit
-from qfluentwidgets import ListWidget
 
 
 class Ui_chatroom(object):
     def setupUi(self, chatroom):
         if not chatroom.objectName():
             chatroom.setObjectName(u"chatroom")
-        chatroom.resize(802, 419)
-        self.layoutWidget = QWidget(chatroom)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(0, 0, 760, 398))
-        self.horizontalLayout_3 = QHBoxLayout(self.layoutWidget)
+        chatroom.resize(725, 419)
+        chatroom.setStyleSheet(u"/* \u8bbe\u7f6e\u6574\u4e2a QTabWidget \u7684\u6837\u5f0f */\n"
+"QTabWidget {\n"
+"    background-color: #f0f0f0;\n"
+"    border: 1px solid #d0d0d0;\n"
+"    border-radius: 10px; /* \u6dfb\u52a0\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e\u9009\u9879\u5361\u90e8\u5206\u7684\u6837\u5f0f */\n"
+"QTabBar {\n"
+"    background-color: #e0e0e0;\n"
+"    border-top-left-radius: 10px; /* \u6dfb\u52a0\u5de6\u4e0a\u89d2\u5706\u89d2 */\n"
+"    border-top-right-radius: 10px; /* \u6dfb\u52a0\u53f3\u4e0a\u89d2\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e\u9009\u4e2d\u9009\u9879\u5361\u7684\u6837\u5f0f */\n"
+"QTabBar::tab:selected {\n"
+"    background-color: white;\n"
+"    color: #333333;\n"
+"    border-top-left-radius: 10px; /* \u6dfb\u52a0\u5de6\u4e0a\u89d2\u5706\u89d2 */\n"
+"    border-top-right-radius: 10px; /* \u6dfb\u52a0\u53f3\u4e0a\u89d2\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e\u672a\u9009\u4e2d\u9009\u9879\u5361\u7684\u6837\u5f0f */\n"
+"QTabBar::tab {\n"
+"    background-color: #c0c0c0;\n"
+"    color: #666666;\n"
+""
+                        "    border-top-left-radius: 10px; /* \u6dfb\u52a0\u5de6\u4e0a\u89d2\u5706\u89d2 */\n"
+"    border-top-right-radius: 10px; /* \u6dfb\u52a0\u53f3\u4e0a\u89d2\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e QTabWidget \u5185\u90e8\u7684\u6837\u5f0f */\n"
+"QTabWidget::pane {\n"
+"    border-top: 1px solid #d0d0d0;\n"
+"    background-color: white;\n"
+"    border-bottom-left-radius: 10px; /* \u6dfb\u52a0\u5de6\u4e0b\u89d2\u5706\u89d2 */\n"
+"    border-bottom-right-radius: 10px; /* \u6dfb\u52a0\u53f3\u4e0b\u89d2\u5706\u89d2 */\n"
+"}\n"
+"")
+        self.horizontalLayout_4 = QHBoxLayout(chatroom)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.img_show = QLabel(self.layoutWidget)
+        self.img_show = QLabel(chatroom)
         self.img_show.setObjectName(u"img_show")
         self.img_show.setMinimumSize(QSize(50, 50))
         self.img_show.setMaximumSize(QSize(80, 80))
@@ -58,7 +94,7 @@ class Ui_chatroom(object):
 
         self.verticalLayout_7.addWidget(self.img_show)
 
-        self.img_butt = PushButton(self.layoutWidget)
+        self.img_butt = PushButton(chatroom)
         self.img_butt.setObjectName(u"img_butt")
         self.img_butt.setMaximumSize(QSize(100, 16777215))
         palette1 = QPalette()
@@ -84,21 +120,130 @@ class Ui_chatroom(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.tabWidget = QTabWidget(self.layoutWidget)
-        self.tabWidget.setObjectName(u"tabWidget")
-        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.view_box = QListWidget(chatroom)
+        self.view_box.setObjectName(u"view_box")
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
-        self.tabWidget.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.view_box.sizePolicy().hasHeightForWidth())
+        self.view_box.setSizePolicy(sizePolicy)
+
+        self.verticalLayout_2.addWidget(self.view_box)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.text_in = TextEdit(chatroom)
+        self.text_in.setObjectName(u"text_in")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.text_in.sizePolicy().hasHeightForWidth())
+        self.text_in.setSizePolicy(sizePolicy1)
+
+        self.horizontalLayout.addWidget(self.text_in)
+
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer)
+
+        self.pushButton = QPushButton(chatroom)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.verticalLayout.addWidget(self.pushButton)
+
+        self.send_butt = PushButton(chatroom)
+        self.send_butt.setObjectName(u"send_butt")
+
+        self.verticalLayout.addWidget(self.send_butt)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
+
+        self.tabWidget = QTabWidget(chatroom)
+        self.tabWidget.setObjectName(u"tabWidget")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
+        self.tabWidget.setSizePolicy(sizePolicy2)
+        self.tabWidget.setMinimumSize(QSize(420, 0))
+        self.tabWidget.setMaximumSize(QSize(420, 16777215))
+        self.tabWidget.setStyleSheet(u"/* \u8bbe\u7f6e\u6574\u4e2a QTabWidget \u7684\u6837\u5f0f */\n"
+"QTabWidget {\n"
+"    background-color: #f0f0f0;\n"
+"    border: 2px solid #d0d0d0;\n"
+"    border-radius: 10px; /* \u6dfb\u52a0\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e\u9009\u9879\u5361\u90e8\u5206\u7684\u6837\u5f0f */\n"
+"QTabBar {\n"
+"    background-color: #e0e0e0;\n"
+"    border-top-left-radius: 5px; /* \u6dfb\u52a0\u5de6\u4e0a\u89d2\u5706\u89d2 */\n"
+"    border-top-right-radius: 5px; /* \u6dfb\u52a0\u53f3\u4e0a\u89d2\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e\u9009\u4e2d\u9009\u9879\u5361\u7684\u6837\u5f0f */\n"
+"QTabBar::tab:selected {\n"
+"    background-color: white;\n"
+"    color: #333333;\n"
+"    border-top-left-radius: 5px; /* \u6dfb\u52a0\u5de6\u4e0a\u89d2\u5706\u89d2 */\n"
+"    border-top-right-radius: 5px; /* \u6dfb\u52a0\u53f3\u4e0a\u89d2\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e\u672a\u9009\u4e2d\u9009\u9879\u5361\u7684\u6837\u5f0f */\n"
+"QTabBar::tab {\n"
+"    background-color: #c0c0c0;\n"
+"    color: #666666;\n"
+"   "
+                        " border-top-left-radius: 5px; /* \u6dfb\u52a0\u5de6\u4e0a\u89d2\u5706\u89d2 */\n"
+"    border-top-right-radius: 5px; /* \u6dfb\u52a0\u53f3\u4e0a\u89d2\u5706\u89d2 */\n"
+"}\n"
+"\n"
+"/* \u8bbe\u7f6e QTabWidget \u5185\u90e8\u7684\u6837\u5f0f */\n"
+"QTabWidget::pane {\n"
+"    border-top: 1px solid #d0d0d0;\n"
+"    background-color: white;\n"
+"    border-bottom-left-radius: 10px; /* \u6dfb\u52a0\u5de6\u4e0b\u89d2\u5706\u89d2 */\n"
+"    border-bottom-right-radius: 10px; /* \u6dfb\u52a0\u53f3\u4e0b\u89d2\u5706\u89d2 */\n"
+"	border-top-right-radius: 10px;\n"
+"}\n"
+"")
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.verticalLayout_3 = QVBoxLayout(self.tab)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.chat_list_view = ListWidget(self.tab)
+        self.chat_list_view = QListWidget(self.tab)
         self.chat_list_view.setObjectName(u"chat_list_view")
         sizePolicy.setHeightForWidth(self.chat_list_view.sizePolicy().hasHeightForWidth())
         self.chat_list_view.setSizePolicy(sizePolicy)
+        self.chat_list_view.setMinimumSize(QSize(380, 0))
+        self.chat_list_view.setMaximumSize(QSize(380, 16777215))
+        self.chat_list_view.setStyleSheet(u"QListWidget {\n"
+"    border-radius: 10px;\n"
+"    background-color: #f0f0f0; /* \u8bbe\u7f6e\u80cc\u666f\u989c\u8272 */\n"
+"    border: 3px solid #d0d0d0; /* \u8bbe\u7f6e\u8fb9\u6846 */\n"
+"    padding: 5px; /* \u8bbe\u7f6e\u5185\u8fb9\u8ddd */\n"
+"}\n"
+"\n"
+"QListWidget::item {\n"
+"    padding: 5px; /* \u8bbe\u7f6e\u5217\u8868\u9879\u5185\u8fb9\u8ddd */\n"
+"}\n"
+"\n"
+"QListWidget::item:selected {\n"
+"    background-color: #a0a0a0; /* \u8bbe\u7f6e\u9009\u4e2d\u9879\u7684\u80cc\u666f\u989c\u8272 */\n"
+"    color: white; /* \u8bbe\u7f6e\u9009\u4e2d\u9879\u7684\u6587\u5b57\u989c\u8272 */\n"
+"}\n"
+"")
 
         self.verticalLayout_3.addWidget(self.chat_list_view)
 
@@ -111,7 +256,7 @@ class Ui_chatroom(object):
         self.toolBox.setObjectName(u"toolBox")
         self.page = QWidget()
         self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 98, 88))
+        self.page.setGeometry(QRect(0, 0, 88, 88))
         self.verticalLayout_4 = QVBoxLayout(self.page)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.listWidget_2 = QListWidget(self.page)
@@ -122,7 +267,7 @@ class Ui_chatroom(object):
         self.toolBox.addItem(self.page, u"\u6211\u7684\u597d\u53cb")
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
-        self.page_2.setGeometry(QRect(0, 0, 274, 277))
+        self.page_2.setGeometry(QRect(0, 0, 402, 293))
         self.verticalLayout_5 = QVBoxLayout(self.page_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.listWidget_3 = QListWidget(self.page_2)
@@ -138,47 +283,11 @@ class Ui_chatroom(object):
 
         self.horizontalLayout_2.addWidget(self.tabWidget)
 
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.view_box = QListWidget(self.layoutWidget)
-        self.view_box.setObjectName(u"view_box")
-
-        self.verticalLayout_2.addWidget(self.view_box)
-
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.text_in = TextEdit(self.layoutWidget)
-        self.text_in.setObjectName(u"text_in")
-
-        self.horizontalLayout.addWidget(self.text_in)
-
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer)
-
-        self.pushButton = QPushButton(self.layoutWidget)
-        self.pushButton.setObjectName(u"pushButton")
-
-        self.verticalLayout.addWidget(self.pushButton)
-
-        self.send_butt = PushButton(self.layoutWidget)
-        self.send_butt.setObjectName(u"send_butt")
-
-        self.verticalLayout.addWidget(self.send_butt)
-
-
-        self.horizontalLayout.addLayout(self.verticalLayout)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
-
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
-
 
         self.horizontalLayout_3.addLayout(self.horizontalLayout_2)
+
+
+        self.horizontalLayout_4.addLayout(self.horizontalLayout_3)
 
 
         self.retranslateUi(chatroom)
@@ -194,11 +303,11 @@ class Ui_chatroom(object):
         chatroom.setWindowTitle(QCoreApplication.translate("chatroom", u"Form", None))
         self.img_show.setText(QCoreApplication.translate("chatroom", u"<html><head/><body><p><br/></p></body></html>", None))
         self.img_butt.setText(QCoreApplication.translate("chatroom", u"\u70b9\u51fb\u4e0a\u4f20\u5934\u50cf", None))
+        self.pushButton.setText(QCoreApplication.translate("chatroom", u"PushButton", None))
+        self.send_butt.setText(QCoreApplication.translate("chatroom", u"send", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("chatroom", u"Tab 1", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("chatroom", u"\u6211\u7684\u597d\u53cb", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("chatroom", u"Page 2", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("chatroom", u"Tab 2", None))
-        self.pushButton.setText(QCoreApplication.translate("chatroom", u"PushButton", None))
-        self.send_butt.setText(QCoreApplication.translate("chatroom", u"send", None))
     # retranslateUi
 

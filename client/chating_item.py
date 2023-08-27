@@ -1,24 +1,38 @@
 from PySide2.QtWidgets import QWidget, QMessageBox, QSpacerItem
 from PySide2.QtWidgets import QListWidget, QListWidgetItem, QHBoxLayout, QVBoxLayout, QLabel, QSizePolicy
 from PySide2.QtGui import QPixmap
-from PySide2.QtCore import Signal,Qt
+from PySide2.QtCore import Signal,Qt,QRect
 from PySide2 import QtCore
 from ui.chating_item_ui import Ui_chating_item
-from ui.test_ui import Ui_MsgItem
+import os
 
 class Chating_item(QWidget):
 
-    itemClicked = Signal(int)  # 自定义信号，用于发出项被点击的信号
+    itemClicked = Signal(str)  # 自定义信号，用于发出项被点击的信号
 
     def __init__(self, avatar_path, name, recent_msg, parent=None):
         super().__init__(parent)
 
         #看看想办法弄一个仿照的ui
-        #self.ui= Ui_chating_item()
-        #self.ui.setupUi(self)
-        self.ui= Ui_MsgItem()
-        self.ui.setupUi(self)
-        # layout = QHBoxLayout(self)
+        self.ui= Ui_chating_item()
+        self.ui.setupUi(self) 
+
+        #设置实例变量
+        self.id=name
+
+        #初始化更新姓名
+        self.ui.name.setText(name)
+        
+        #初始化头像
+        self.avatar_label = QLabel(self.ui.avatar)
+        self.avatar_label.setGeometry(QRect(0, 0, 48, 48))
+        self.avatar_label.setStyleSheet(u"background-color: transparent; border-radius: 6px;")
+        image = QPixmap(avatar_path)  # 用实际的图像路径替换
+        self.avatar_label.setPixmap(image)
+        self.avatar_label.setScaledContents(True)  # 自适应图像大小
+        self.ui.resent_message.setText(recent_msg)
+
+        #layout = QHBoxLayout(self)
         # avatar_label = QLabel() # 头像
         # pixmap = QPixmap(avatar_path)
         # avatar_label.setPixmap(pixmap.scaled(51, 51))  # 设置头像图片大小为 51x51
@@ -28,7 +42,7 @@ class Chating_item(QWidget):
         # v_layout = QVBoxLayout()
         # v_layout.addSpacerItem(QSpacerItem(10, 10, QSizePolicy.Fixed, QSizePolicy.Fixed)) # 用户名上方空隙，改第二个数字可调节
         # v_layout.addWidget(name_label, alignment=QtCore.Qt.AlignTop)  # 将用户名对齐到顶部
-        # v_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Fixed, QSizePolicy.Fixed)) # 用户名和最新消息之间的空隙
+        #v_layout.addSpacerItem(QSpacerItem(10, 5, QSizePolicy.Fixed, QSizePolicy.Fixed)) # 用户名和最新消息之间的空隙
         # recent_msg_label = QLabel(recent_msg)
         # recent_msg_label.setStyleSheet("color: gray;")  # 设置最新消息标签的字体颜色为灰色
         # v_layout.addWidget(recent_msg_label, alignment=QtCore.Qt.AlignTop)  # 将最新消息对齐到顶部
@@ -41,5 +55,5 @@ class Chating_item(QWidget):
         if event.button() == Qt.LeftButton:
             print("Widget clicked")
             # 在这里可以执行选中效果的操作，例如修改颜色、样式等
-            self.itemClicked.emit(11)
+            self.itemClicked.emit(self.id)
 

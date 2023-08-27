@@ -1,3 +1,9 @@
 
-.idea/IMsoftware.iml
-.idea/misc.xml
+.idea/
+__pycache__/
+*.py[cod]
+testDB.db
+../__pycache__/
+server/new_userid.txt
+
+

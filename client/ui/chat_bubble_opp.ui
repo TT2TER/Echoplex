@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>chat_bubble_opp</class>
+ <widget class="QWidget" name="chat_bubble_opp">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>818</width>
+    <height>147</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>114514</width>
+    <height>114514</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QWidget" name="widgetMain" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>800</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>800</width>
+       <height>114514</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget#widgetMain{
+	border-radius: 10px;
+	border-bottom: 2px solid #F2F2F2;
+}
+
+</string>
+     </property>
+     <widget class="QWidget" name="avatar" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>50</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget#avatar{
+	background-color: rgba(191, 64, 64, 0);
+	border: 2px solid rgb(115, 210, 22);
+}</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="cur_time">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>20</y>
+        <width>141</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel#cur_time{
+	background-color: transparent;
+	font: 75 11pt &quot;Arial&quot;;
+	color: #888888;
+}</string>
+      </property>
+      <property name="text">
+       <string>01/01/2015 09:00:00</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="message_bubble">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>60</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel#message_bubble {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #DCF8C6, stop:1 #B9E87E);
+    border-radius: 15px;
+    border-top-left-radius: 0px;
+    padding: 10px;
+    
+    
+    /* 添加轻微的内发光效果 */
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+    
+    /* 添加边框效果 */
+    border: 2px solid #B9E87E;
+}
+
+QLabel#message_bubble[selected=&quot;true&quot;] {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #1DA1F2, stop:1 #127FBF);
+    color: white;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>qss css html</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

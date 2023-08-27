@@ -3,12 +3,16 @@ import threading
 import json
 from user_register import user_register
 from user_login import user_login
-from user_send_file import receive_file
+from user_send_file import user_send_file
+from user_receive_file import user_receive_file
+from user_addfriend import user_addfriend
+from ans_addfriend import ans_addfriend
 from db.DataDB import *
 from db.table_user import *
+from db.table_user_friend import *
 import sys
 from user_chat import user_chat
-from global_data import online_clients,server_address
+from global_data import online_clients, server_address
 
 
 def handle_client(socket, address):
@@ -33,7 +37,10 @@ def handle_client(socket, address):
                 'user_register': user_register,
                 'user_login': user_login,
                 'user_chat': user_chat,
-                'user_send_file':receive_file
+                'user_send_file': user_send_file,
+                'user_receive_file': user_receive_file,
+                'user_addfriend': user_addfriend,
+                'ans_addfriend': ans_addfriend
             }
             handler = message_handlers.get(received_data['type'])
             if handler:
@@ -49,7 +56,7 @@ def handle_client(socket, address):
         finally:
             print("服务器完工，等待下一个请求oVo")
     try:
-        #简单地维护在线用户字典，可能会有问题
+        # 简单地维护在线用户字典，可能会有问题
         # 遍历字典中的项
         for user_id, (_socket, _address) in online_clients.items():
             if _socket == socket:
@@ -58,8 +65,10 @@ def handle_client(socket, address):
     except:
         pass
 
+
 def init_server(database):
     create_table_user(database, )
+    create_table_user_friend(database, "user_friend")
 
 
 if __name__ == "__main__":

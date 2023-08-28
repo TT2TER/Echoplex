@@ -15,30 +15,7 @@ from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 import queue
 
-message_queue = queue.Queue()
-
-
-def receive_and_parse(socket, address):
-    while True:
-        try:
-            # bufsize 指定要接收的最大数据量
-            received_data = socket.recv(10240)
-            print("收到客户端消息，尝试分割")
-            parse_received_data_with_brackets(received_data)
-        except Exception as e:
-            print("客户端已经下线或者收消息过程中寄了，自己看报错吧：" + str(e))
-            break
-    try:
-        # 简单地维护在线用户字典，可能会有问题
-        # 遍历字典中的项
-        for user_id, (_socket, _address) in online_clients.items():
-            if _socket == socket:
-                # 找到匹配的项，删除它
-                del online_clients[user_id]
-    except:
-        pass
-
-
+socket_queue_dict = {}
 
 
 def parse_received_data_with_brackets(received_data):
@@ -47,18 +24,16 @@ def parse_received_data_with_brackets(received_data):
 
     for char in received_data.decode('utf-8'):
         current_json += char
-
         if char == '{':
             open_brackets += 1
         elif char == '}':
             open_brackets -= 1
-
         if open_brackets == 0:
             try:
                 json_obj = json.loads(current_json)
-                message_queue.put(json_obj)  # 将消息放入队列
+                socket_queue_dict[new_socket].put(json_obj)  # 将消息放入队列
                 print("成功将消息放入队列", json_obj)
-                size = message_queue.qsize()
+                size = socket_queue_dict[new_socket].qsize()
                 print(f"队列中当前有{size}项")
                 current_json = ""
             except json.JSONDecodeError:
@@ -74,33 +49,46 @@ def handle_client(socket, address):
         return
     while True:
         try:
-            received_data = message_queue.get()
-            print("处理ing……")
-            message_handlers = {
-                'user_register': user_register,
-                'user_login': user_login,
-                'user_chat': user_chat,
-                'user_send_file': user_send_file,
-                'user_receive_file': user_receive_file,
-                'user_addfriend': user_addfriend,
-                'ans_addfriend': ans_addfriend,
-                'pull_message': retrieve_messages,
-                'init_msg_list': init_msg_list,
-                'pull_friendlist':  user_friendlist
-            }
-            handler = message_handlers.get(received_data['type'])
-            if handler:
-                print("handler为" + getattr(handler, "__name__", "unknown_function"))
-                succ = handler(received_data, socket, address, database)
-                print("处理结果：" + str(succ))
-            else:
-                print("收到了服务器不认识的消息类型欸")
+            # bufsize 指定要接收的最大数据量
+            received_data = socket.recv(10240)
+            if not received_data:
+                print("对方已断开连接")
                 break
+            print(received_data)
+            parse_received_data_with_brackets(received_data)
         except Exception as e:
-            print(str(address) + " 连接异常，准备断开: " + str(e))
+            print(f"{address}已经下线或者收消息过程中寄了，自己看报错吧：" + str(e))
             break
-        finally:
-            print("服务器完工，等待下一个请求oVo")
+        while not socket_queue_dict[socket].empty():
+            try:
+                received_data = socket_queue_dict[new_socket].get()
+                print("处理ing……")
+                message_handlers = {
+                    'user_register': user_register,
+                    'user_login': user_login,
+                    'user_chat': user_chat,
+                    'user_send_file': user_send_file,
+                    'user_receive_file': user_receive_file,
+                    'user_addfriend': user_addfriend,
+                    'ans_addfriend': ans_addfriend,
+                    'pull_message': retrieve_messages,
+                    'init_msg_list': init_msg_list,
+                    'pull_friendlist':  user_friendlist
+                }
+                handler = message_handlers.get(received_data['type'])
+                if handler:
+                    print(f"处理来自{client_address}的请求")
+                    print("handler为" + getattr(handler, "__name__", "unknown_function"))
+                    succ = handler(received_data, socket, address, database)
+                    print("处理结果：" + str(succ))
+                else:
+                    print("收到了服务器不认识的消息类型欸")
+                    break
+            except Exception as e:
+                print(str(address) + " 连接异常，准备断开: " + str(e))
+                break
+            finally:
+                print("服务器完工，等待下一个请求oVo")
     try:
         # 简单地维护在线用户字典，可能会有问题
         # 遍历字典中的项
@@ -148,11 +136,13 @@ if __name__ == "__main__":
         while True:
             new_socket, client_address = server_socket.accept()
             print("服务器连接上了客户端" + str(client_address) + "，准备干活！")
+            server_queue = queue.Queue()
+            socket_queue_dict[new_socket] = server_queue
             client_handler = threading.Thread(target=handle_client, args=(new_socket, client_address))
-            message_receiver = threading.Thread(target=receive_and_parse, args=(new_socket, client_address))
-            message_receiver.daemon = True
+            # message_receiver = threading.Thread(target=receive_and_parse, args=(new_socket, client_address))
+            # message_receiver.daemon = True
             client_handler.daemon = True
-            message_receiver.start()
+            # message_receiver.start()
             client_handler.start()
     except Exception as e:
         print("服务器socket寄了，原因是：" + str(e))

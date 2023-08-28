@@ -384,6 +384,7 @@ class Client:
         msg = content["msg"]
         time = content["time"]
         filepath = content["filepath"]
+        print(filepath)
         if not filepath:
             #消息
             shared_module.main_page.print_online_message(chat_id, sender_id, time , msg)
@@ -531,9 +532,11 @@ class Client:
 
     def rcv_create_group(self,back_data,content):
         if back_data=="0000":
+            pass
             #群聊创建成功
             #   UI function 
         elif back_data=="0001":
+            pass
             #群聊创建失败
             #   UI function
         else:
@@ -541,9 +544,11 @@ class Client:
 
     def rcv_delete_group(self,back_data,content):
         if back_data=="0000":
+            pass
             #群聊删除成功
             #   UI function 
         elif back_data=="0001":
+            pass
             #群聊删除失败
             #   UI function
         else:
@@ -551,9 +556,11 @@ class Client:
 
     def rcv_add_new_member(self,back_data,content):
         if back_data=="0000":
+            pass
             #添加成员成功
             #   UI function 
         elif back_data=="0001":
+            pass
             #添加成员失败
             #   UI function
         else:

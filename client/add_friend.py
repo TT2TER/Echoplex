@@ -14,5 +14,5 @@ class Add_friend(QWidget):
 
     def add_friend(self):
         opp_id=self.ui.id_in.text()
-        #print(opp_id)
+        print(opp_id)
         shared_module.client.user_addfriend(opp_id)

@@ -94,20 +94,30 @@ class Main_win(QWidget):
         #维护一个当下的聊天对象的id
         # 在这里添加发送的功能
         #请在这里给我发消息的对象id
-        opp_id=self.cur_id
-        me_id=1
-        #TODO:
+        chat_id=self.cur_id #私聊是10位，群聊是五位，2開頭
         
-        if message:
-            # 以下是展示用的，证明客户端发消息是好的
-            id=me_id
-            name=id
-            time= datetime.now()
-            self.img_path = "lib/login_back.png"
-            self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-            self.add_message(id,name,self.image_path,str(time),message)
-            # 清空发送框
-            self.ui.text_in.clear()
+        #TODO： lihao寫這裡的邏輯
+        #如果chat_id是群聊，調用group_chat(self, msg, group_id)
+        #如果是私聊，調用friend_chat(self, msg, chat_id)
+
+        self.ui.text_in.clear()
+        
+    def print_online_message(self,chat_id, sender_id, time:str="" , msg:str=""):
+        """把在線的消息打印出來,如果不是當前窗口，存在文件里
+        要找name,avatar_path
+        """
+
+        #在這裡面找到sender_name和sender_avatar_path
+        sender_name="sender_name"
+        sender_avatar_path="sender_avatar_path"
+        #在這裡面找到sender_name和sender_avatar_path
+        if self.cur_id==chat_id:
+            self.add_one_message(sender_id,sender_name,sender_avatar_path, time, msg)
+            pass
+        else :
+            #在這裡寫直接存消息的東西
+            pass
+
 #以上是收發消息相關函數
 
 #以下是聊天列表的功能函數
@@ -120,7 +130,6 @@ class Main_win(QWidget):
             self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
             #上面寫找到頭像路徑的函數
             #找到對方名字的函數
-            #請在這裡處理成opp_id
             name = shared_module.client.find_name(chat_id)
             #下面調用之增加一個list的函數
             self.add_one_list(chat_id, sender_id, name,self.image_path, time, msg)
@@ -161,7 +170,7 @@ class Main_win(QWidget):
     
 
 #以下是聊天窗口的功能函數
-    def chating_item_clicked(self,opp_id):
+    def chating_item_clicked(self,chat_id):
         """
         这是跳转函数，点击聊天列表跳转到对应的聊天，具体实现如下：
 
@@ -169,15 +178,15 @@ class Main_win(QWidget):
         #获取对应用户的历史聊天记录（从本地）
         #循环加载add_message
         """
-        print("Item clicked with value:", opp_id)
+        print("Item clicked with value:", chat_id)
 
         #如果點擊到的列表本身就是窗口里的，pass
-        if self.cur_id==opp_id:
+        if self.cur_id==chat_id:
             pass
         #如果列表本身是新的，清空列表模擬重新加載
         else :  
             self.ui.view_box.clear()
-            self.cur_id=opp_id
+            self.cur_id=chat_id
             pass
 
         if len(shared_module.client.msg_list) == 0:
@@ -187,11 +196,13 @@ class Main_win(QWidget):
             #TODO lihao将上述元组的數據來源改一下
             #同時我只需要sender_id,sender_name,chat_time,chat_content。
             #chat_id是整数，sender_id是整数，chat_time是datetime格式，chat_content是字符串
-            self.add_message(sender_id,sender_name,avatar_path,chat_time, chat_content)
+            sender_name=str(sender_id)
+            avatar_path="test"
+            self.add_one_message(sender_id,sender_name,avatar_path,chat_time, chat_content)
 
-        print(opp_id,"的消息列表打印完毕")
+        print(chat_id,"的消息列表打印完毕")
 
-    def add_message(self,sender_id,sender_name,sender_avatar_path, time:str="", msg:str=""):
+    def add_one_message(self,sender_id,sender_name,sender_avatar_path, time:str="", msg:str=""):
         """
         調用這個函數來打印消息
 

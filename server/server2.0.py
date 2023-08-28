@@ -14,9 +14,6 @@ import sys
 from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 import queue
-import sys
-sys.path.append("..")
-from global_config import *
 import platform
 
 socket_queue_dict = {}

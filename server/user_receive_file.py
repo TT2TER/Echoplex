@@ -2,9 +2,6 @@ import socket
 import threading
 import json
 import os
-import sys
-sys.path.append("..")
-from global_var import *
 
 def user_receive_file(received_data, _socket, address, database):
     send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -3,8 +3,6 @@ import threading
 import time
 import argparse
 from video_chat import Video_Server, Video_Client,Audio_Server, Audio_Client
-sys.path.append("..")
-from global_config import *
 
 
 
@@ -22,8 +20,8 @@ from global_config import *
 # PORT = args.port
 # VERSION = args.version
 # LEVEL = args.level
-IP = get_value('client_address')
-PORT = get_value('client_port')
+IP = '127.0.0.1'
+PORT = 10087
 VERSION = 4
 LEVEL = 1
 

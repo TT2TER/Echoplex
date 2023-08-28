@@ -12,10 +12,6 @@ from db import *
 import sys
 from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
-import sys
-sys.path.append("..")
-from global_var import *
-
 
 def handle_client(socket, address):
     try:

@@ -5,16 +5,17 @@ from ui.chat_bubble_opp_ui import Ui_chat_bubble_opp
 from ui.chat_bubble_me_ui import Ui_chat_bubble_me
 from PySide2.QtGui import QTextDocument, QPixmap
 from datetime import datetime
+from lib.public import shared_module
 import os
 
 class Message_bubble(QWidget):
     # 只用来定义 message_bubble 的行为
     selected = Signal(str)
 
-    def __init__(self, who,name,avatar_path, time, msg):
+    def __init__(self, sender_id,name,avatar_path, time, msg):
         super().__init__()
         
-        if who== 1:
+        if sender_id== shared_module.client.user_id:
             self.ui = Ui_chat_bubble_me()
             self.ui.setupUi(self)
         else :

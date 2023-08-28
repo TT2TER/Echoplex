@@ -39,7 +39,8 @@ class Chating_item(QWidget):
 #以下按鍵功能僅供測試時使用，測試完畢後請在這裡和ui里刪除這個按鈕
         self.ui.close_butt.clicked.connect(self.close)
     def close(self):
-        shared_module.main_page
+        print("clicked")
+        shared_module.main_page.del_one_list(self.chat_id)
         pass
 #以上是測試用
     def mousePressEvent(self, event):

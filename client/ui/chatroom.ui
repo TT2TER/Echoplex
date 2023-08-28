@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1454</width>
-    <height>986</height>
+    <height>1056</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -286,6 +286,9 @@ QTabWidget::pane {
            <height>600</height>
           </size>
          </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
         </widget>
        </item>
        <item>
@@ -526,7 +529,7 @@ QTabWidget::pane {
              <item>
               <widget class="QPushButton" name="add_new_chat">
                <property name="text">
-                <string>调试添加新消息用</string>
+                <string>调试用</string>
                </property>
               </widget>
              </item>

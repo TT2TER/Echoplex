@@ -57,7 +57,7 @@ class New_friends(QWidget):
         self.item.remove(i)
         item_to_remove=self.ui.new_friends_box.takeItem(ind)
         item_to_remove=None
-        #把好友请求队列里的也山了
+        #把好友请求队列里的也刪了
         for j in shared_module.client.add_friend_list:
             if j[0] == opp_id:
                 shared_module.client.add_friend_list.remove(j)

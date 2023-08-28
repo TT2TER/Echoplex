@@ -20,7 +20,7 @@ class Ui_chatroom(object):
     def setupUi(self, chatroom):
         if not chatroom.objectName():
             chatroom.setObjectName(u"chatroom")
-        chatroom.resize(1454, 986)
+        chatroom.resize(1454, 1056)
         chatroom.setStyleSheet(u"/* \u8bbe\u7f6e\u6574\u4e2a QTabWidget \u7684\u6837\u5f0f */\n"
 "QTabWidget {\n"
 "    background-color: #f0f0f0;\n"
@@ -143,6 +143,7 @@ class Ui_chatroom(object):
         sizePolicy2.setHeightForWidth(self.view_box.sizePolicy().hasHeightForWidth())
         self.view_box.setSizePolicy(sizePolicy2)
         self.view_box.setMinimumSize(QSize(900, 600))
+        self.view_box.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         self.middle.addWidget(self.view_box)
 
@@ -389,7 +390,7 @@ class Ui_chatroom(object):
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.text), QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6d88\u606f", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_2), QCoreApplication.translate("chatroom", u"\u8868\u60c5", None))
         self.new_group_butt.setText(QCoreApplication.translate("chatroom", u"\u521b\u5efa\u7fa4\u804a\u952e", None))
-        self.add_new_chat.setText(QCoreApplication.translate("chatroom", u"\u8c03\u8bd5\u6dfb\u52a0\u65b0\u6d88\u606f\u7528", None))
+        self.add_new_chat.setText(QCoreApplication.translate("chatroom", u"\u8c03\u8bd5\u7528", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.chat_list), QCoreApplication.translate("chatroom", u"\u6d88\u606f\u5217\u8868", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("chatroom", u"\u6211\u7684\u597d\u53cb", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("chatroom", u"Page 2", None))

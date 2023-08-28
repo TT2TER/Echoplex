@@ -15,7 +15,7 @@ from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 import queue
 
-message_queue = queue.Queue()
+socket_queue_dict = {}
 
 
 def receive_and_parse(socket, address):
@@ -56,9 +56,9 @@ def parse_received_data_with_brackets(received_data):
         if open_brackets == 0:
             try:
                 json_obj = json.loads(current_json)
-                message_queue.put(json_obj)  # 将消息放入队列
+                socket_queue_dict[new_socket].put(json_obj)  # 将消息放入队列
                 print("成功将消息放入队列", json_obj)
-                size = message_queue.qsize()
+                size = socket_queue_dict[new_socket].qsize()
                 print(f"队列中当前有{size}项")
                 current_json = ""
             except json.JSONDecodeError:
@@ -74,7 +74,7 @@ def handle_client(socket, address):
         return
     while True:
         try:
-            received_data = message_queue.get()
+            received_data = socket_queue_dict[new_socket].get()
             print("处理ing……")
             message_handlers = {
                 'user_register': user_register,
@@ -149,6 +149,8 @@ if __name__ == "__main__":
         while True:
             new_socket, client_address = server_socket.accept()
             print("服务器连接上了客户端" + str(client_address) + "，准备干活！")
+            server_queue = queue.Queue()
+            socket_queue_dict[new_socket] = server_queue
             client_handler = threading.Thread(target=handle_client, args=(new_socket, client_address))
             message_receiver = threading.Thread(target=receive_and_parse, args=(new_socket, client_address))
             message_receiver.daemon = True

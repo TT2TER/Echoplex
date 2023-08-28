@@ -427,7 +427,7 @@ class Client:
         friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
-            return friend_list_info
+            
             #friend_list_info是字典，partition，id,name
             print("这里需要my根据partion，分组显示好友")
             print(friend_list_info)

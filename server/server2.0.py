@@ -21,10 +21,10 @@ def receive_and_parse(socket, address):
         try:
             # bufsize 指定要接收的最大数据量
             received_data = socket.recv(10240)
-            print("收到客户端消息，尝试分割")
+            print(received_data)
             parse_received_data_with_brackets(received_data)
         except Exception as e:
-            print("客户端已经下线或者收消息过程中寄了，自己看报错吧：" + str(e))
+            print(f"{address}已经下线或者收消息过程中寄了，自己看报错吧：" + str(e))
             break
     try:
         # 简单地维护在线用户字典，可能会有问题
@@ -86,6 +86,7 @@ def handle_client(socket, address):
             }
             handler = message_handlers.get(received_data['type'])
             if handler:
+                print(f"处理来自{client_address}的请求")
                 print("handler为" + getattr(handler, "__name__", "unknown_function"))
                 succ = handler(received_data, socket, address, database)
                 print("处理结果：" + str(succ))

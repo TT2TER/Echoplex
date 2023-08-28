@@ -19,6 +19,10 @@ class Main_win(QWidget):
         self.ui.get_new_friend.clicked.connect(self.check_add_friend)
         #維護一個當前顯示的對象id
         self.cur_id =None
+
+        # 用于动态维护的好友列表和消息列表
+        self.friend_item = []
+        self.chat_item = []
         
 
 #以上是最終實現的信號槽
@@ -38,6 +42,7 @@ class Main_win(QWidget):
     
     def add_friend(self):
         shared_module.add_friend.show()
+
         #测试成功
         
 
@@ -72,12 +77,11 @@ class Main_win(QWidget):
             ans = content["ans"]
             name = content["name"]
             print( [sender, time, ans,name])
-            #TODO 显示在好友列表里
 
             if ans == "yes":
                 #TODO：添加到好友列表 defult
                 #TODO：添加到聊天列表
-                #TODO：zf 返回对方昵称,over
+
                 pass
             else : 
                 #别知道了 ，，或者是在信号由申请列表显示谁谁谁拒绝

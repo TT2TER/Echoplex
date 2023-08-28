@@ -15,6 +15,8 @@ from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 import queue
 import platform
+from group_management import create_group,delete_group,add_new_member
+
 
 socket_queue_dict = {}
 
@@ -74,7 +76,10 @@ def handle_client(socket, address):
                     'ans_addfriend': ans_addfriend,
                     'pull_message': retrieve_messages,
                     'init_msg_list': init_msg_list,
-                    'pull_friendlist':  user_friendlist
+                    'pull_friendlist':  user_friendlist,
+                    'create_group':create_group,
+                    'delete_group':delete_group,
+                    'add_new_member':add_new_member,
                 }
                 handler = message_handlers.get(received_data['type'])
                 if handler:

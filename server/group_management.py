@@ -58,7 +58,13 @@ def create_group(data, socket, address, database):
         if succ:
             back_data = {
                 "type": "create_group",
-                "back_data": "0000",
+                "back_data": "0000",    #0000代表成功
+                'content':{
+                    'succ':succ,
+                    'group_id':group_id,
+                    'group_manager':group_manager,
+                    'group_member':group_member,    #List
+                }
             }
             save_new_groupid(new_groupid)
             back_json_data = json.dumps(back_data).encode('utf-8')
@@ -67,7 +73,10 @@ def create_group(data, socket, address, database):
             new_groupid -= 1
             back_data = {
                 "type": "create_group",
-                "back_data": "0001",
+                "back_data": "0001",    #0001代表失败
+                'content':{
+                    'succ':succ,
+                }
             }
             save_new_groupid(new_groupid)
             back_json_data = json.dumps(back_data).encode('utf-8')
@@ -78,9 +87,19 @@ def delete_group(data, socket, address, database):
     try:
         content = data['content']
         group_id=content['group_id']
-        delete_table_index(database,"group",group_id=group_id)
-    except:
-        pass
+        succ=delete_table_index(database,"group",group_id=group_id)
+    except Exception as e:
+        print("An error occurred:", e)
+    finally:
+        back_data={
+            'type':'delete_group',
+            'back_data':"0002",
+            'content':{
+                'succ':succ,
+            }
+        }
+        back_json_data = json.dumps(back_data).encode('utf-8')
+        socket.sendall(back_json_data)
 
 def add_new_member(data, socket, address, database):
     try:
@@ -88,8 +107,15 @@ def add_new_member(data, socket, address, database):
         group_id = content['group_id']
         member_id = content['member_id']
 
-        insert_table_group_member(database,"group_member", group_id, member_id)
-    except:
-        pass
+        succ=insert_table_group_member(database,"group_member", group_id, member_id)
+    except Exception as e:
+        print("An error occurred:", e)
     finally:
-        pass
+        if succ:
+            back_data={
+                'type':'rcv_add_new_member',
+                'back_data':"0000",
+                'content':{
+                    
+                }
+            }

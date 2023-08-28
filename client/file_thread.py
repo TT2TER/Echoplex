@@ -22,6 +22,7 @@ class FileSendThread(QThread):
             self.socket.connect(self.server_address)
             self.file_path = file_path
             self.filesize = filesize
+            self.sent_percentage = 0
             print("初始化完成")
         except Exception as e:
             print("file_thread初始化寄了" + str(e))
@@ -33,12 +34,15 @@ class FileSendThread(QThread):
         # 根据文件大小发送文件
         print("Begin sending……")
         with open(self.file_path, 'rb') as file:
-            while True:
+            data_sent = 0
+            while data_sent < self.filesize:
                 data = file.read(buff_size)
                 print("read file")
                 if not data:
                     break
                 self.socket.sendall(data)
+                data_sent += data
+                self.sent_percentage = data_sent * 100 / self.filesize
         print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
         print("文件发送完毕,准备关闭线程socket")
         self.socket.close()
@@ -71,12 +75,14 @@ class FileReceiveThread(QThread):
     def __init__(self, content):
         super().__init__()
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_address = (content["ip"], content["port"])
+        print(content)
+        self.server_address = (content["sender_ip"], content["port"])
         self.socket.connect(self.server_address)
         self.filepath = content["filepath"]
         self.filesize = content["filesize"]
         self.is_avatar = content["is_avatar"]
         self.sender_id = content["sender"]
+        self.received_percentage = 0
         print("FileReceiveThread初始化成功")
 
     # 接收文件
@@ -98,6 +104,7 @@ class FileReceiveThread(QThread):
                     data = self.socket.recv(4096)
                     received_size += len(data)
                     file.write(data)
+                    self.received_percentage = received_size * 100 / self.filesize
 
             print(f"File '{self.filepath}' received and saved")
         except FileExistsError:

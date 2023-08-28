@@ -14,6 +14,7 @@ import sys
 from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 import queue
+import platform
 
 socket_queue_dict = {}
 
@@ -101,6 +102,14 @@ def handle_client(socket, address):
 
 
 def init_server(database):
+    system_name = platform.system()
+    if system_name == "Windows":
+        print("当前操作系统是 Windows")
+    elif system_name == "Linux":
+        print("当前操作系统是 Linux")
+    else:
+        print("当前操作系统是", system_name)
+    # 划了红色下划线，但是能跑。python，很神奇吧？
     create_table_user(database, "user")
     create_table_user_friend(database, "user_friend")
     create_table_relation(database,"table_relation")
@@ -108,6 +117,7 @@ def init_server(database):
     create_table_group_member(database,"group_member")
     create_table_chat(database,"chat")
     create_view_chat(database,"view_chat")
+
 
 
 if __name__ == "__main__":

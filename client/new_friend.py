@@ -14,6 +14,7 @@ class New_friends(QWidget):
         self.item = []
 
     def back(self):
+        self.ui.new_friends_box.clear()
         self.close()
 
     def add_message(self):
@@ -26,7 +27,6 @@ class New_friends(QWidget):
             list_item=QListWidgetItem(self.ui.new_friends_box)
             list_item.setSizeHint(new_friend_bar.sizeHint())
             self.ui.new_friends_box.setItemWidget(list_item,new_friend_bar)
-
         pass
 
     def del_message(self,opp_id):

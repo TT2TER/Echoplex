@@ -207,6 +207,7 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+        print("here")
 
     # def rcv_addfriend(self, back_data, content):
     #     # 对方接收到添加好友请求

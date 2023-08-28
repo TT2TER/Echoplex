@@ -38,6 +38,7 @@ class Main_win(QWidget):
     
     def add_friend(self):
         shared_module.add_friend.show()
+
         #测试成功
         
 
@@ -72,7 +73,6 @@ class Main_win(QWidget):
             ans = content["ans"]
             name = content["name"]
             print( [sender, time, ans,name])
-            #TODO 显示在好友列表里
 
             if ans == "yes":
                 #TODO：添加到好友列表 defult

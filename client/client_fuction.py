@@ -15,8 +15,9 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = None
+            self.msg_list = []
             self.add_friend_list = []
+            self.friend_list = []
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -283,7 +284,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": file_size
+                "filesize": file_size,
+                "is_avatar": False
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -306,7 +308,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": file_size
+                "filesize": file_size,
+                "is_avatar": True,
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -319,7 +322,7 @@ class Client:
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
-            'type': 'user_send_file',
+            'type': 'user_receive_file',
             'content': {
                 "msg_type": "friend_chat",
                 "sender": self.user_id,
@@ -327,7 +330,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": None
+                "filesize": None,
+                "is_avatar": False
             }
         }
         json_data = json.dumps(data).encode('utf-8')

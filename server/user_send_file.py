@@ -27,7 +27,7 @@ def user_send_file(received_data, _socket, address, database):
                 "port": port,
                 "filepath": filepath,
                 "filesize": filesize,
-                "is_avatar": is_avatar
+                "is_avatar": is_avatar,
             }
         }
         json_message = json.dumps(message).encode('utf-8')

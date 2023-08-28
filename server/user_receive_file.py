@@ -11,6 +11,9 @@ def user_receive_file(received_data, _socket, address, database):
     send_socket.listen(1)
     print(f"File server listening on {ip}:{port}")
     filepath = received_data['content']['filepath']
+    is_avatar = received_data['content']['is_avatar']
+    chat_id = received_data['content']['chat_id']
+    sender = received_data['content']['sender']
 
 
     def send_file():
@@ -24,7 +27,10 @@ def user_receive_file(received_data, _socket, address, database):
                         "sender_ip": ip,
                         "port": port,
                         "filepath": filepath,
-                        "filesize": filesize
+                        "filesize": filesize,
+                        "is_avatar": is_avatar,
+                        "chat_id": chat_id,
+                        "sender": sender
                     }
                 }
                 json_message = json.dumps(message).encode('utf-8')

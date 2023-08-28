@@ -8,6 +8,21 @@ import pickle
 import time
 
 
+def show_myself():
+    cap = cv2.VideoCapture(0)  # 打开摄像头，参数0表示默认摄像头
+    while True:
+        ret, frame = cap.read()  # 读取摄像头捕捉的帧
+        if not ret:
+            print("无法捕获帧，可能摄像头未连接或不可用")
+            break
+        cv2.imshow('Camera', frame)  # 显示帧内容
+        # 按下ESC键退出循环
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+    cap.release()  # 释放摄像头
+    cv2.destroyAllWindows()  # 关闭所有窗口
+
+
 class Video_Server(threading.Thread):
     def __init__(self, port, version):
         threading.Thread.__init__(self)
@@ -47,12 +62,13 @@ class Video_Server(threading.Thread):
             frame_data = zlib.decompress(zframe_data)
             frame = pickle.loads(frame_data)
             cv2.imshow('Remote', frame)
+            # show_myself()
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
 
 class Video_Client(threading.Thread):
-    def __init__(self, ip, port, level, version):
+    def __init__(self ,ip, port, level, version):
         threading.Thread.__init__(self)
         self.setDaemon(True)
         self.ADDR = (ip, port)
@@ -61,7 +77,7 @@ class Video_Client(threading.Thread):
         else:
             self.interval = 3
         self.fx = 1 / (self.interval + 1)
-        if self.fx < 0.3:  # 限制最大帧间隔为3帧
+        if self.fx < 0.3:	# 限制最大帧间隔为3帧
             self.fx = 0.3
         if version == 4:
             self.sock = socket(AF_INET, SOCK_STREAM)
@@ -69,7 +85,7 @@ class Video_Client(threading.Thread):
             self.sock = socket(AF_INET6, SOCK_STREAM)
         self.cap = cv2.VideoCapture(0)
 
-    def __del__(self):
+    def __del__(self) :
         self.sock.close()
         self.cap.release()
 
@@ -83,9 +99,21 @@ class Video_Client(threading.Thread):
                 time.sleep(3)
                 continue
         print("VIDEO client connected...")
+
+        cv2.namedWindow('Client', cv2.WINDOW_NORMAL)  # 创建一个窗口
+
         while self.cap.isOpened():
             ret, frame = self.cap.read()
-            sframe = cv2.resize(frame, (0, 0), fx=self.fx, fy=self.fx)
+
+            if not ret:
+                print("无法捕获帧，可能摄像头未连接或不可用")
+                break
+
+            # 显示摄像头捕捉的实时内容
+            # cv2.imshow('Client', frame)
+
+            sframe = cv2.resize(frame, (0,0), fx=self.fx, fy=self.fx)
+            cv2.imshow('Client', sframe)
             data = pickle.dumps(sframe)
             zdata = zlib.compress(data, zlib.Z_BEST_COMPRESSION)
             try:
@@ -94,6 +122,12 @@ class Video_Client(threading.Thread):
                 break
             for i in range(self.interval):
                 self.cap.read()
+
+            if cv2.waitKey(1) & 0xFF == 27:
+                break
+
+        cv2.destroyAllWindows()  # 关闭窗口
+
 
 
 CHUNK = 1024

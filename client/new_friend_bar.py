@@ -4,6 +4,7 @@ from PySide2.QtGui import QPixmap
 from PySide2.QtCore import Signal, Qt, QRect
 from ui.new_friend_bar_ui import Ui_new_friend_bar
 from lib.public import shared_module
+from datetime import datetime
 
 
 class New_friend_bar(QWidget):
@@ -42,4 +43,13 @@ class New_friend_bar(QWidget):
 
         #TODO: #把对方放到defult
         #加載新聊天窗口
+        if self.opp_id>shared_module.client.user_id:
+            chat_id=shared_module.client.user_id*10000+self.opp_id
+        else :
+            chat_id=shared_module.client.user_id+self.opp_id*10000
+        sender_id=self.opp_id
+        name=self.name
+        now = datetime.now()
+        time = datetime.timestamp(now)
+        shared_module.main_page.add_one_list(chat_id, sender_id,name,"", time , name+"已经成为了您的新好友")
         pass

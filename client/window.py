@@ -1,11 +1,11 @@
-from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem
+from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem, QFileDialog
 from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
 from datetime import datetime
-import os
+import os,sys
 class Main_win(QWidget):
 
     def __init__(self):
@@ -17,6 +17,7 @@ class Main_win(QWidget):
         self.ui.send_butt.clicked.connect(self.send)
         self.ui.add_friend_butt.clicked.connect(self.add_friend)
         self.ui.get_new_friend.clicked.connect(self.check_add_friend)
+        self.ui.send_file_butt.clicked.connect(self.show_file_dialog)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -87,6 +88,31 @@ class Main_win(QWidget):
 
 #以上是添加好友相關函數
 
+#以下是发送文件功能
+    def show_file_dialog(self):
+        """这个函数负责让用户选择要发送的文件并将文件地址提取出来"""
+        options = QFileDialog.Options()
+        options |= QFileDialog.ReadOnly
+        full_path, _ = QFileDialog.getOpenFileName(self, 'Open File', '', 'All Files (*)', options=options)
+
+        if full_path:
+            # 这个里面有full_path, base_name是文件名称的“example.txt",file_extension是文件类型字符串
+            print('Selected File:', full_path)
+            base_name = os.path.basename(full_path)
+            file_extension = os.path.splitext(base_name)[1]
+            display_text = f'<a href="file:{full_path}">文件名：{base_name}</a><br>文件类型：{file_extension}'
+
+    def update_label(self, text):
+        self.text_browser.setHtml(text)
+
+    def open_file(self, link):
+        if sys.platform.startswith('win'):
+            os.startfile(link)  # 适用于Windows系统
+        elif sys.platform.startswith('darwin'):
+            os.system(f'open "{link}"')  # 适用于macOS系统
+        elif sys.platform.startswith('linux'):
+            os.system(f'xdg-open "{link}"')  # 适用于Linux系统
+#以上是发送文件功能
 #以下是收發消息相關函數
     def send(self):
         # 获取发送框中的文本
@@ -187,20 +213,18 @@ class Main_win(QWidget):
         else :  
             self.ui.view_box.clear()
             self.cur_id=chat_id
-            pass
-
-        if len(shared_module.client.msg_list) == 0:
-            print("聊天消息列表为空")
-        while len(shared_module.client.msg_list) > 0:
-            (chat_id, sender_id, chat_time, chat_content) = shared_module.client.msg_list.pop(0)
-            #TODO lihao将上述元组的數據來源改一下
-            #同時我只需要sender_id,sender_name,chat_time,chat_content。
-            #chat_id是整数，sender_id是整数，chat_time是datetime格式，chat_content是字符串
-            sender_name=str(sender_id)
-            avatar_path="test"
-            self.add_one_message(sender_id,sender_name,avatar_path,chat_time, chat_content)
-
-        print(chat_id,"的消息列表打印完毕")
+            if len(shared_module.client.msg_list) == 0:
+                print("聊天消息列表为空")
+            while len(shared_module.client.msg_list) > 0:
+                #这里要pop吗？
+                (chat_id, sender_id, chat_time, chat_content) = shared_module.client.msg_list.pop(0)
+                #TODO lihao将上述元组的數據來源改一下
+                #同時我只需要sender_id,sender_name,chat_time,chat_content。
+                #chat_id是整数，sender_id是整数，chat_time是datetime格式，chat_content是字符串
+                sender_name=str(sender_id)
+                avatar_path="test"
+                self.add_one_message(sender_id,sender_name,avatar_path,chat_time, chat_content)
+                print(chat_id,"的消息列表打印完毕")
 
     def add_one_message(self,sender_id,sender_name,sender_avatar_path, time:str="", msg:str=""):
         """

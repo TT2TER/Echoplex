@@ -1,9 +1,12 @@
 import socket
 import json
 import threading
+import sys
+sys.path.append("..")
+from global_config import *
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = ('127.0.0.1', 13579)
+server_address = (get_value('server_address'), get_value('server_port'))
 client_socket.connect(server_address)
 
 

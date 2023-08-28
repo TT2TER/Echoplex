@@ -3,7 +3,8 @@ import threading
 import json
 import sys
 from time import sleep
-
+sys.path.append("..")
+from global_config import *
 
 def handle_client(socket, address):
     try:
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         # 创建TCPsocket对象
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # 绑定地址和端口
-        server_address = ('127.0.0.1', 13579)
+        server_address = (get_value('server_address'), get_value('server_port')
         server_socket.bind(server_address)
         print("TCP Server is listening on {}:{}".format(server_address[0], server_address[1]))
         # 创建UDPsocket对象

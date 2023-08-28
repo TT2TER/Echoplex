@@ -2,11 +2,13 @@ import socket
 import threading
 import json
 import os
-
+import sys
+sys.path.append("..")
+from global_var import *
 
 def user_receive_file(received_data, _socket, address, database):
     send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    send_socket.bind(('127.0.0.1', 0))
+    send_socket.bind((get_value('server_address'), 0))
     ip, port = send_socket.getsockname()
     send_socket.listen(1)
     print(f"File server listening on {ip}:{port}")

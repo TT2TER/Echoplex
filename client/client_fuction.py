@@ -33,7 +33,8 @@ class Client:
                 'group_chat': self.receive_group_message,
                 'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
                 'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
-                'init_msg_list': self.init_msg_list
+                'init_msg_list': self.init_msg_list,
+                'user_friendlist': self.rcv_friendlist
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -429,6 +430,7 @@ class Client:
             return friend_list_info
             #friend_list_info是字典，partition，id,name
             print("这里需要my根据partion，分组显示好友")
+            print(friend_list_info)
 
         elif back_data == "0013":
             # 好友列表获取失败

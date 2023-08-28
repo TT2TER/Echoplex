@@ -434,17 +434,18 @@ class Client:
         friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
-            return friend_list_info
+            self.friend_list = friend_list_info
             #friend_list_info是字典，partition，id,name
-            print("这里需要my根据partion，分组显示好友")
+            print("拉取到了好友列表")
             print(friend_list_info)
 
         elif back_data == "0013":
             # 好友列表获取失败
-            return None
+            self.friend_list = friend_list_info
+            print("好友列表为空")
         else:
             # 未知错误
-            return None        
+            return None
 
     def del_friend(self,friend_id):
         try:

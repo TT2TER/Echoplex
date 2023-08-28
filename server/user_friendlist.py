@@ -32,6 +32,8 @@ def user_friendlist(received_data, socket, address, database):
             if partition not in result_dict:
                 result_dict[partition] = {}
                 result_dict[partition][id] = name
+            else :
+                result_dict[partition][id] = name
 
         back_data = {
             'type': "user_friendlist",
@@ -48,7 +50,7 @@ def user_friendlist(received_data, socket, address, database):
             'type': "user_friendlist",
             'back_data': "0013",
             'content': {
-                'friend_ids': []
+                'friend_list_info': {}
             }
         }
         back_json_data = json.dumps(back_data).encode('utf-8')

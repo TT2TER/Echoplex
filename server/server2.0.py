@@ -7,6 +7,8 @@ from user_send_file import user_send_file
 from user_receive_file import user_receive_file
 from user_addfriend import user_addfriend
 from ans_addfriend import ans_addfriend
+from init_msg_list import init_msg_list
+from user_friendlist import user_friendlist
 from db import *
 import sys
 from user_chat import user_chat, retrieve_messages
@@ -82,7 +84,9 @@ def handle_client(socket, address):
                 'user_receive_file': user_receive_file,
                 'user_addfriend': user_addfriend,
                 'ans_addfriend': ans_addfriend,
-                'pull_message': retrieve_messages
+                'pull_message': retrieve_messages,
+                'init_msg_list': init_msg_list,
+                'pull_friendlist':  user_friendlist
             }
             handler = message_handlers.get(received_data['type'])
             if handler:

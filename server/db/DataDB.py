@@ -122,7 +122,7 @@ def search_member(con,table_name,group_id):
 
 def search_firend(con,user_id,table_name="table_relation"):
     """
-    查找用户的所有好友ID
+    查找用户的所有好友ID和关系
     """
     friend=[]
     try:

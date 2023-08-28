@@ -76,6 +76,7 @@ class Main_win(QWidget):
 
             if ans == "yes":
                 #TODO：添加到好友列表 defult
+                shared_module.client.friend_list['def'][str(sender)]=name
                 #TODO：添加到聊天列表
 
                 pass
@@ -214,11 +215,13 @@ class Main_win(QWidget):
         else :  
             self.ui.view_box.clear()
             self.cur_id=chat_id
+
+
             if len(shared_module.client.msg_list) == 0:
                 print("聊天消息列表为空")
             while len(shared_module.client.msg_list) > 0:
                 #这里要pop吗？
-                (chat_id, sender_id, chat_time, chat_content) = shared_module.client.msg_list.pop(0)
+
                 #TODO lihao将上述元组的數據來源改一下
                 #同時我只需要sender_id,sender_name,chat_time,chat_content。
                 #chat_id是整数，sender_id是整数，chat_time是datetime格式，chat_content是字符串

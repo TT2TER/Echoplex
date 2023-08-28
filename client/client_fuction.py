@@ -103,7 +103,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def friend_chat(self, msg, receiver):
+    def friend_chat(self, msg, chat_id):
         # 发送聊天消息给另一个用户
         # 包括消息内容、发送者的用户ID、接收者的用户ID和时间戳
         # 发送消息的时间
@@ -112,10 +112,10 @@ class Client:
         data = {
             "type": "user_chat",
             "content": {
-                "msg_type": "friend_chat",
+                "is_avatar": False,
                 "msg": msg,
                 "sender": self.user_id,
-                "receiver": receiver,
+                "chat_id": chat_id,
                 "time": timestamp,
                 "filesize": None,
                 "filepath": None
@@ -125,7 +125,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def group_chat(self, msg, group_id):
+    def group_chat(self, msg, chat_id):
         # 发送聊天消息到一个群组
         # 包括消息内容、发送者的用户ID、群组ID和时间戳
         # 发送消息的时间
@@ -134,10 +134,10 @@ class Client:
         data = {
             "type": "user_chat",
             "content": {
-                "msg_type": "group_chat",
+                "is_avatar": False,
                 "msg": msg,
                 "sender": self.user_id,
-                "group_id": group_id,
+                "chat_id": chat_id,
                 "time": timestamp,
                 "filepath": None,
                 "filesize":None
@@ -216,7 +216,7 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        print("here")
+        return 0
 
     # def rcv_addfriend(self, back_data, content):
     #     # 对方接收到添加好友请求
@@ -515,3 +515,17 @@ class Client:
                 opp_name = value[opp_id]
         print(opp_name)
         return opp_name
+    
+    def append_msg(self, chat_id, sender_id, msg, time):
+        filepath = 'file/chats/'+str(chat_id)
+        msg_list = []
+        if not os.path.exists(filepath):
+            with open(filepath, 'w') as files:
+                msg_list = []
+        else:
+            with open(filepath, 'r') as files:
+                msg_list = json.load(files)
+
+        msg_list.insert(0, [chat_id, sender_id, msg, time])
+        with open(filepath, 'w') as files:
+            json.dump(msg_list, files)

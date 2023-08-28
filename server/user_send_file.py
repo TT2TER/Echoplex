@@ -7,6 +7,10 @@ from tool_fuction import find_userid_by_socket
 import sys
 sys.path.append("..")
 from global_config import *
+import platform
+
+
+
 
 def user_send_file(received_data, _socket, address, database):
     receive_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,10 +44,16 @@ def user_send_file(received_data, _socket, address, database):
             # 分离文件名字、创建目录、根据大小接受文件
             filename = os.path.basename(filepath)
             user_id = find_userid_by_socket(_socket)
+            system_name = platform.system()
             if is_avatar:
-                savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
+                windows_savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
             elif chat_id is not None:
-                savepath = "files/" + str(chat_id) + "/" + filename
+                windows_savepath = "files/" + str(chat_id) + "/" + filename
+            linux_savepath = windows_savepath.replace("\\", "/")
+            if system_name == "Windows":
+                savepath = windows_savepath
+            elif system_name == "Linux":
+                savepath = linux_savepath
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             recv_data = 0
             with open(savepath, 'xb') as file:
@@ -69,14 +79,3 @@ def user_send_file(received_data, _socket, address, database):
                                    args=(ip, port, filepath, _socket, receive_socket, filesize, is_avatar))
     send_thread.start()
 
-    # client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # client_socket.connect((ip, port))
-    # with open(filepath, 'rb') as file:
-    #     while True:
-    #         data = file.read(4096)
-    #         if not data:
-    #             break
-    #         client_socket.send(data)
-    # client_socket.shutdown(socket.SHUT_WR)
-    # print(f"File '{filepath}' sent")
-    # client_socket.close()

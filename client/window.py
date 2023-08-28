@@ -122,26 +122,27 @@ class Main_win(QWidget):
         #请在这里给我发消息的对象id
         chat_id=self.cur_id #私聊是10位，群聊是五位，2開頭
         
-        #TODO： lihao寫這裡的邏輯
-        #如果chat_id是群聊，調用group_chat(self, msg, group_id)
-        #如果是私聊，調用friend_chat(self, msg, chat_id)
+        if chat_id>1000000:
+            shared_module.client.friend_chat(message, chat_id)
+        else :
+            shared_module.client.group_chat(message, chat_id)
 
         self.ui.text_in.clear()
         
     def print_online_message(self,chat_id, sender_id, time:str="" , msg:str=""):
-        """把在線的消息打印出來,如果不是當前窗口，存在文件里
+        """把在線的消息打印出來,如果不是當前窗口，存在文件里。
         要找name,avatar_path
         """
-
+        #先把消息存到历史消息里
+        shared_module.client.append_msg(chat_id, sender_id, msg, time )
         #在這裡面找到sender_name和sender_avatar_path
-        sender_name="sender_name"
+        sender_name=shared_module.client.find_name(chat_id)
         sender_avatar_path="sender_avatar_path"
         #在這裡面找到sender_name和sender_avatar_path
         if self.cur_id==chat_id:
             self.add_one_message(sender_id,sender_name,sender_avatar_path, time, msg)
             pass
         else :
-            #在這裡寫直接存消息的東西
             pass
 
 #以上是收發消息相關函數

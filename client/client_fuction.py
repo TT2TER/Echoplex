@@ -41,7 +41,10 @@ class Client:
                 'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
                 'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
                 'init_msg_list': self.init_msg_list,
-                'user_friendlist': self.rcv_friendlist
+                'user_friendlist': self.rcv_friendlist,
+                'create_group':self.rcv_create_group,
+                'delete_group':self.rcv_delete_group,
+                'add_new_member':self.rcv_add_new_member,
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -515,3 +518,34 @@ class Client:
                 opp_name = value[opp_id]
         print(opp_name)
         return opp_name
+
+
+    def rcv_create_group(self,back_data,content):
+        if back_data=="0000":
+            #群聊创建成功
+            #   UI function 
+        elif back_data=="0001":
+            #群聊创建失败
+            #   UI function
+        else:
+            return None
+
+    def rcv_delete_group(self,back_data,content):
+        if back_data=="0000":
+            #群聊删除成功
+            #   UI function 
+        elif back_data=="0001":
+            #群聊删除失败
+            #   UI function
+        else:
+            return None
+
+    def rcv_add_new_member(self,back_data,content):
+        if back_data=="0000":
+            #添加成员成功
+            #   UI function 
+        elif back_data=="0001":
+            #添加成员失败
+            #   UI function
+        else:
+            return None

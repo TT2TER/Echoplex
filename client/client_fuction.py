@@ -558,3 +558,17 @@ class Client:
             #   UI function
         else:
             return None
+        
+    def append_msg(self, chat_id, sender_id, msg, time):
+        filepath = 'file/chats/'+str(chat_id)
+        msg_list = []
+        if not os.path.exists(filepath):
+            with open(filepath, 'w') as files:
+                msg_list = []
+        else:
+            with open(filepath, 'r') as files:
+                msg_list = json.load(files)
+
+        msg_list.insert(0, [chat_id, sender_id, msg, time])
+        with open(filepath, 'w') as files:
+            json.dump(msg_list, files)

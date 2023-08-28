@@ -16,7 +16,7 @@ def create_table_user(con, table_name="user"):
                   "user_name text,"
                   "user_pwd text,"
                   "user_email text,"
-                  "user_image BLOB)")
+                  "user_image text)")
         con.commit()
         print("table is created")
         return True

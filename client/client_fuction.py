@@ -532,10 +532,15 @@ class Client:
     def rcv_create_group(self,back_data,content):
         if back_data=="0000":
             #群聊创建成功
+            group_id=content['group_id']
+            group_manager=content['group_manager']
+            group_name=content['group_name']
+            group_member=content['group_member']
             #   UI function 
         elif back_data=="0001":
             #群聊创建失败
             #   UI function
+            pass
         else:
             return None
 
@@ -543,18 +548,24 @@ class Client:
         if back_data=="0000":
             #群聊删除成功
             #   UI function 
+            pass
         elif back_data=="0001":
             #群聊删除失败
             #   UI function
+            pass
         else:
             return None
 
     def rcv_add_new_member(self,back_data,content):
         if back_data=="0000":
             #添加成员成功
+            group_id=content['group_id']
+            group_name=content['group_name']
+            group_member=content['group_member']
             #   UI function 
         elif back_data=="0001":
             #添加成员失败
             #   UI function
+            pass
         else:
             return None

@@ -32,6 +32,8 @@ def user_friendlist(received_data, socket, address, database):
             if partition not in result_dict:
                 result_dict[partition] = {}
                 result_dict[partition][id] = name
+            else :
+                result_dict[partition][id] = name
 
         back_data = {
             'type': "user_friendlist",

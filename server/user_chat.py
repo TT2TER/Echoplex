@@ -18,7 +18,15 @@ def user_chat(received_data, socket, address, database):
             # 一个是发送者，一个是接收者，但不知道是哪个
             first_five = int(chat_id[:5])
             last_five = int(chat_id[5:])
-            receivers = [first_five, last_five]
+            sender_id = content["sender"]
+            if first_five == sender_id:
+                receiver_id = last_five
+            elif last_five == sender_id:
+                receiver_id = first_five
+            else:
+                print("无法确定 receiver_id，可能存在错误。")
+            content["receiver"] = receiver_id
+            receivers = [sender_id, receiver_id]
         # 广播
         elif chat_id is None:
             receivers = search_all_user(database, "user")

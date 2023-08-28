@@ -15,8 +15,9 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = None
-            self.add_friend_list = [(10002, 1, "jojidjwo"),(10003, 1, "dksfjdsk")]
+            self.msg_list = []  #(chat_id, sender_id, time, msg)
+            self.add_friend_list = []
+            self.friend_list = {}
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -32,7 +33,8 @@ class Client:
                 'group_chat': self.receive_group_message,
                 'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
                 'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
-                'init_msg_list': self.init_msg_list
+                'init_msg_list': self.init_msg_list,
+                'user_friendlist': self.rcv_friendlist
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -282,7 +284,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": file_size
+                "filesize": file_size,
+                "is_avatar": False
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -305,7 +308,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": file_size
+                "filesize": file_size,
+                "is_avatar": True,
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -318,7 +322,7 @@ class Client:
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
-            'type': 'user_send_file',
+            'type': 'user_receive_file',
             'content': {
                 "msg_type": "friend_chat",
                 "sender": self.user_id,
@@ -326,7 +330,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": None
+                "filesize": None,
+                "is_avatar": False
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -425,6 +430,7 @@ class Client:
             return friend_list_info
             #friend_list_info是字典，partition，id,name
             print("这里需要my根据partion，分组显示好友")
+            print(friend_list_info)
 
         elif back_data == "0013":
             # 好友列表获取失败
@@ -486,3 +492,16 @@ class Client:
             self.msg_list = content["list"]
         else:
             print("申请消息列表失败")
+
+    def find_name(self, chat_id):
+        num1 = int(str(chat_id)[0:5])
+        num2 = int(str(chat_id)[5:10])
+        if num1 == self.user_id:
+            opp_id = num2
+        else:
+            opp_id = num1
+        opp_name = ''
+        for value in self.friend_list.values():
+            if opp_id in value.keys() :
+                opp_name = value[opp_id]
+        print(opp_name)

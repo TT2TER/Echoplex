@@ -1,10 +1,12 @@
 import json
 from global_data import online_clients
 from global_data import user_mailboxes
-from db.DataDB import search_member, search_all_user
+from db.DataDB import search_member, search_all_user,sql_connection
 
 
 def user_chat(received_data, socket, address, database):
+    # user_chat可能被user_send_file在别的线程调用，要重新建一个
+    database = sql_connection()
     try:
         content = received_data["content"]
         msg_type = content["msg_type"]
@@ -15,6 +17,8 @@ def user_chat(received_data, socket, address, database):
 
         elif msg_type == "broadcast":
             receivers = search_all_user(database, "user")
+            print("broadcast找到的receivers:")
+            print(receivers)
 
         elif msg_type == "group_chat":
             group_id = content["group_id"]

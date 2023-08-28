@@ -39,7 +39,6 @@ class Ui_new_friend_bar(object):
 "    border-bottom: 0;\n"
 "    padding: 7px;\n"
 "    margin: 7px;\n"
-"    box-shadow: 0px 5px 0px #F2F2F2; /* \u6dfb\u52a0\u5e95\u90e8\u8fb9\u6846\u6548\u679c */\n"
 "}\n"
 "")
         self.name = QLabel(self.widgetMain)

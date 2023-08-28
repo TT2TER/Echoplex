@@ -15,9 +15,16 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = []  #(chat_id, sender_id, time, msg)
+            self.msg_list = [(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
             self.add_friend_list = []
-            self.friend_list = {}
+            self.friend_list = {
+                'def': {
+                    '10001': "靈藥",
+                    '10002': "222",
+                    '10003': '3333',
+                    '10004': '4444'
+                }
+            }
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -427,17 +434,18 @@ class Client:
         friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
-            
+            self.friend_list = friend_list_info
             #friend_list_info是字典，partition，id,name
-            print("这里需要my根据partion，分组显示好友")
+            print("拉取到了好友列表")
             print(friend_list_info)
 
         elif back_data == "0013":
             # 好友列表获取失败
-            return None
+            self.friend_list = friend_list_info
+            print("好友列表为空")
         else:
             # 未知错误
-            return None        
+            return None
 
     def del_friend(self,friend_id):
         try:
@@ -489,7 +497,7 @@ class Client:
     def init_msg_list(self, back_data, content):
         if back_data == "0000":
             print("申请消息列表成功")
-            self.msg_list = content["list"]
+            self.msg_list = content["list"].reverse()
         else:
             print("申请消息列表失败")
 
@@ -501,7 +509,9 @@ class Client:
         else:
             opp_id = num1
         opp_name = ''
+        opp_id = str(opp_id)
         for value in self.friend_list.values():
             if opp_id in value.keys() :
                 opp_name = value[opp_id]
         print(opp_name)
+        return opp_name

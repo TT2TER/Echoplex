@@ -31,9 +31,9 @@ class Ui_chating_item(object):
         self.widgetMain.setStyleSheet(u"QWidget#widgetMain {\n"
 "        background-color: rgba(70, 236, 206, 87);\n"
 "        border-radius: 10px;\n"
-"        border-bottom: 5px solid #F2F2F2;\n"
-"        padding: 7px;\n"
-"        margin: 7px;\n"
+"    	border-bottom: 0;\n"
+"    	padding: 7px;\n"
+"   	 margin: 7px;\n"
 "    }")
         self.avatar = QWidget(self.widgetMain)
         self.avatar.setObjectName(u"avatar")
@@ -104,7 +104,7 @@ class Ui_chating_item(object):
 "}")
         self.close_butt = QPushButton(self.widgetMain)
         self.close_butt.setObjectName(u"close_butt")
-        self.close_butt.setGeometry(QRect(320, 40, 20, 20))
+        self.close_butt.setGeometry(QRect(320, 30, 20, 20))
         self.close_butt.setStyleSheet(u"QPushButton#close_butt{\n"
 "	border-radius: 10px;\n"
 "	background-color: red;\n"

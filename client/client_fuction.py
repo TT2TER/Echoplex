@@ -279,7 +279,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": file_size
+                "filesize": file_size,
+                "is_avatar": False
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -302,7 +303,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": file_size
+                "filesize": file_size,
+                "is_avatar": True,
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -315,7 +317,7 @@ class Client:
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
-            'type': 'user_send_file',
+            'type': 'user_receive_file',
             'content': {
                 "msg_type": "friend_chat",
                 "sender": self.user_id,
@@ -323,7 +325,8 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-                "filesize": None
+                "filesize": None,
+                "is_avatar": False
             }
         }
         json_data = json.dumps(data).encode('utf-8')

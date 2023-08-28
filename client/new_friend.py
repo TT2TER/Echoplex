@@ -60,5 +60,6 @@ class New_friends(QWidget):
         #把好友请求队列里的也山了
         for j in shared_module.client.add_friend_list:
             if j[0] == opp_id:
+                shared_module.client.add_friend_list.remove(j)
                 break
-        shared_module.client.add_friend_list.remove(j)
+

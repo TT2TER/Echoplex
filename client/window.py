@@ -38,17 +38,14 @@ class Main_win(QWidget):
     
     def add_friend(self):
         shared_module.add_friend.show()
+
         #测试成功
         
 
     def check_add_friend(self):
         
         shared_module.new_friends.show()
-        while len(shared_module.client.add_friend_list) > 0:
-            (sender, time, name) = shared_module.client.add_friend_list.pop(0)
-
-            #TODO mayu 将name请求者姓名显示在表上
-            print("消息列表打印完毕")
+        shared_module.new_friends.add_message()
         #opp_id。
         #shared_module.client.ans_addfriend(yes_or_no, opp_id,defult)
         pass
@@ -76,7 +73,6 @@ class Main_win(QWidget):
             ans = content["ans"]
             name = content["name"]
             print( [sender, time, ans,name])
-            #TODO 显示在好友列表里
 
             if ans == "yes":
                 #TODO：添加到好友列表 defult

@@ -142,7 +142,7 @@ class Ui_chatroom(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.view_box.sizePolicy().hasHeightForWidth())
         self.view_box.setSizePolicy(sizePolicy2)
-        self.view_box.setMinimumSize(QSize(900, 900))
+        self.view_box.setMinimumSize(QSize(900, 600))
 
         self.middle.addWidget(self.view_box)
 
@@ -171,7 +171,7 @@ class Ui_chatroom(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.tabWidget_2.sizePolicy().hasHeightForWidth())
         self.tabWidget_2.setSizePolicy(sizePolicy3)
-        self.tabWidget_2.setMinimumSize(QSize(0, 370))
+        self.tabWidget_2.setMinimumSize(QSize(0, 340))
         self.tabWidget_2.setMaximumSize(QSize(16777215, 370))
         self.text = QWidget()
         self.text.setObjectName(u"text")
@@ -179,7 +179,7 @@ class Ui_chatroom(object):
         self.text.setSizePolicy(sizePolicy2)
         self.layoutWidget = QWidget(self.text)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(10, 0, 702, 335))
+        self.layoutWidget.setGeometry(QRect(10, 0, 802, 335))
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -188,7 +188,7 @@ class Ui_chatroom(object):
         self.text_in.setObjectName(u"text_in")
         sizePolicy3.setHeightForWidth(self.text_in.sizePolicy().hasHeightForWidth())
         self.text_in.setSizePolicy(sizePolicy3)
-        self.text_in.setMinimumSize(QSize(700, 300))
+        self.text_in.setMinimumSize(QSize(800, 250))
         self.text_in.setMaximumSize(QSize(700, 300))
 
         self.verticalLayout.addWidget(self.text_in)
@@ -367,7 +367,7 @@ class Ui_chatroom(object):
 
         self.retranslateUi(chatroom)
 
-        self.tabWidget_2.setCurrentIndex(0)
+        self.tabWidget_2.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
         self.toolBox.setCurrentIndex(0)
 

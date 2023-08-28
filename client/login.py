@@ -47,11 +47,12 @@ class Login(QWidget):
         #以下部分是信息反馈
         if back_data == "0003":
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
+
             shared_module.client.user_id = content['user_id']
             shared_module.client.user_name = content['user_name']
-            shared_module.client.pull_message()
-            sleep(1)
-            shared_module.client.pull_msg_list()
+            # shared_module.client.pull_friendlist()
+            # shared_module.client.pull_message()
+            # shared_module.client.pull_msg_list()
             # 创建主界面窗口
             shared_module.main_page.show()
             # 关闭自身窗口

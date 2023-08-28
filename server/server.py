@@ -7,6 +7,7 @@ from user_send_file import user_send_file
 from user_receive_file import user_receive_file
 from user_addfriend import user_addfriend
 from ans_addfriend import ans_addfriend
+from user_friendlist import user_friendlist
 from db import *
 import sys
 from user_chat import user_chat, retrieve_messages
@@ -39,7 +40,8 @@ def handle_client(socket, address):
                 'user_receive_file': user_receive_file,
                 'user_addfriend': user_addfriend,
                 'ans_addfriend': ans_addfriend,
-                'pull_message': retrieve_messages
+                'pull_message': retrieve_messages,
+                'pull_friendlist': user_friendlist,
             }
             handler = message_handlers.get(received_data['type'])
             if handler:
@@ -48,7 +50,6 @@ def handle_client(socket, address):
                 print("处理结果：" + str(succ))
             else:
                 print("收到了服务器不认识的消息类型欸")
-                break
         except Exception as e:
             print(str(address) + " 连接异常，准备断开: " + str(e))
             break

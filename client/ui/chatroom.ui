@@ -283,7 +283,7 @@ QTabWidget::pane {
          <property name="minimumSize">
           <size>
            <width>900</width>
-           <height>900</height>
+           <height>600</height>
           </size>
          </property>
         </widget>
@@ -341,7 +341,7 @@ QTabWidget::pane {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>370</height>
+           <height>340</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -351,7 +351,7 @@ QTabWidget::pane {
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="text">
           <property name="sizePolicy">
@@ -368,7 +368,7 @@ QTabWidget::pane {
             <rect>
              <x>10</x>
              <y>0</y>
-             <width>702</width>
+             <width>802</width>
              <height>335</height>
             </rect>
            </property>
@@ -386,8 +386,8 @@ QTabWidget::pane {
               </property>
               <property name="minimumSize">
                <size>
-                <width>700</width>
-                <height>300</height>
+                <width>800</width>
+                <height>250</height>
                </size>
               </property>
               <property name="maximumSize">

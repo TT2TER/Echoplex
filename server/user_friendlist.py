@@ -7,7 +7,8 @@ from db.table_user import *
 
 def user_friendlist(received_data, socket, address, database):
     #获取好友列表
-    user_id = received_data['content']['user_id']
+    print(received_data)
+    user_id = received_data['content']['sender']
     #cursor = database.cursor()
     #sql = "SELECT friend_id FROM user_friend WHERE user_id = ? OR SELECT user_id FROM user_friend WHERE friend_id = ?"
     # 查询给定用户的所有好友
@@ -25,11 +26,18 @@ def user_friendlist(received_data, socket, address, database):
              newre.append((i[0],name,i[1]))
         #查询id对应的分组，将返回值组织成一个（id,name,partition)的list
         
+        #将上述元组列表转换成嵌套字典类型
+        result_dict = {}
+        for id, name, partition in newre:
+            if partition not in result_dict:
+                result_dict[partition] = {}
+                result_dict[partition][id] = name
+
         back_data = {
             'type': "user_friendlist",
             'back_data': "0012",
             'content': {
-                'friend_list_info': newre
+                'friend_list_info': result_dict
             }
         }
         back_json_data = json.dumps(back_data).encode('utf-8')

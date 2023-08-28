@@ -7,7 +7,6 @@ from video_chat import Video_Server, Video_Client,Audio_Server, Audio_Client
 
 
 
-
 # parser = argparse.ArgumentParser()
 #
 # parser.add_argument('--host', type=str, default='127.0.0.1')
@@ -21,7 +20,7 @@ from video_chat import Video_Server, Video_Client,Audio_Server, Audio_Client
 # PORT = args.port
 # VERSION = args.version
 # LEVEL = args.level
-IP = "127.0.0.1"
+IP = '127.0.0.1'
 PORT = 10087
 VERSION = 4
 LEVEL = 1

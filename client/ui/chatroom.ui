@@ -327,7 +327,7 @@ QTabWidget::pane {
             </size>
            </property>
            <property name="text">
-            <string>上传文件</string>
+            <string>发送文件</string>
            </property>
           </widget>
          </item>
@@ -600,8 +600,8 @@ QListWidget::item:selected {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>210</height>
+            <width>88</width>
+            <height>88</height>
            </rect>
           </property>
           <attribute name="label">

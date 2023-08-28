@@ -3,8 +3,9 @@ from user_receive_file import *
 import socket
 # from server.db import *
 from db.DataDB import *
+
 database = sql_connection()
-server_address = ("127.0.0.1", 12340)
+server_address = ('127.0.0.1', 12340)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(server_address)
 server_socket.listen(5)

@@ -1,1 +1,1 @@
-QListWidgetItem
+itemClicked

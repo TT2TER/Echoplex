@@ -106,7 +106,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def friend_chat(self, msg, receiver):
+    def friend_chat(self, msg, chat_id):
         # 发送聊天消息给另一个用户
         # 包括消息内容、发送者的用户ID、接收者的用户ID和时间戳
         # 发送消息的时间
@@ -115,10 +115,10 @@ class Client:
         data = {
             "type": "user_chat",
             "content": {
-                "msg_type": "friend_chat",
+                "is_avatar": False,
                 "msg": msg,
                 "sender": self.user_id,
-                "receiver": receiver,
+                "chat_id": chat_id,
                 "time": timestamp,
                 "filesize": None,
                 "filepath": None
@@ -128,7 +128,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def group_chat(self, msg, group_id):
+    def group_chat(self, msg, chat_id):
         # 发送聊天消息到一个群组
         # 包括消息内容、发送者的用户ID、群组ID和时间戳
         # 发送消息的时间
@@ -137,10 +137,10 @@ class Client:
         data = {
             "type": "user_chat",
             "content": {
-                "msg_type": "group_chat",
+                "is_avatar": False,
                 "msg": msg,
                 "sender": self.user_id,
-                "group_id": group_id,
+                "chat_id": chat_id,
                 "time": timestamp,
                 "filepath": None,
                 "filesize":None
@@ -219,7 +219,7 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-        print("here")
+        return 0
 
     # def rcv_addfriend(self, back_data, content):
     #     # 对方接收到添加好友请求
@@ -379,36 +379,45 @@ class Client:
             print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
 
     def receive_friend_message(self, back_data, content):
-        sender = content["sender"]
+        sender_id = content["sender"]
+        chat_id=content["chat_id"]
         msg = content["msg"]
         time = content["time"]
         filepath = content["filepath"]
-        if sender == self.user_id:
-            if not filepath:
-                # 自己的消息发送成功
-                # 在聊天窗口打印自己的消息
-                # 在文件中写入自己的消息
-                print("消息发送成功消息内容是" + msg)
-            if not msg:
-                # 自己的文件发送成功
-                # 在聊天窗口显示人间发送成功
-                print("文件发送成功")
-        else:
-            try:
-                if not filepath:
-                    # 收到的是文本消息
-                    print("收到的是来自" + str(content['sender']) + "文本消息：" + content["msg"])
-                    # 写入一个文件
+        if not filepath:
+            #消息
+            shared_module.main_page.print_online_message(chat_id, sender_id, time , msg)
 
-                    # 进行窗口交互
+            pass
+        else :
+            pass
+        # filepath = content["filepath"]
+        # if sender == self.user_id:
+        #     if not filepath:
+        #         # 自己的消息发送成功
+        #         # 在聊天窗口打印自己的消息
+        #         # 在文件中写入自己的消息
+        #         print("消息发送成功消息内容是" + msg)
+        #     if not msg:
+        #         # 自己的文件发送成功
+        #         # 在聊天窗口显示人间发送成功
+        #         print("文件发送成功")
+        # else:
+        #     try:
+        #         if not filepath:
+        #             # 收到的是文本消息
+        #             print("收到的是来自" + str(content['sender']) + "文本消息：" + content["msg"])
+        #             # 写入一个文件
 
-                elif not msg:
-                    print("收到的是来自" + str(content['sender']) + "文件")
+        #             # 进行窗口交互
 
-                    # 进行窗口交互
-                    # 将文件 消息 显示在聊天中
-            except Exception as e:
-                print("receive_friend_message寄了，寄在client_function,receive_friend_message里头：" + str(e))
+        #         elif not msg:
+        #             print("收到的是来自" + str(content['sender']) + "文件")
+
+        #             # 进行窗口交互
+        #             # 将文件 消息 显示在聊天中
+        #     except Exception as e:
+        #         print("receive_friend_message寄了，寄在client_function,receive_friend_message里头：" + str(e))
 
     def receive_group_message(self, back_data, content):
         sender = content["sender"]

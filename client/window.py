@@ -13,6 +13,7 @@ class Main_win(QWidget):
         self.ui= Ui_chatroom()
         self.ui.setupUi(self)
         
+        
 #以下是正式的的信號槽和函數
         self.ui.send_butt.clicked.connect(self.send)
         self.ui.add_friend_butt.clicked.connect(self.add_friend)
@@ -22,20 +23,21 @@ class Main_win(QWidget):
         
 
 #以上是最終實現的信號槽
-        #以下是測試用的信號槽和函數
+#以下是測試用的信號槽和函數
         self.ui.add_new_chat.clicked.connect(self.add_test)
     
     def add_test(self):
             #以下測試
             
-            opp_id=self.cur_id=2
+            chat_id=opp_id=self.cur_id=2
             #以上測試
             name=opp_id
             time= datetime.now()
             self.img_path = "lib/login_back.png"
             self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-            self.add_list(opp_id,str(name),self.image_path, time, "最近消息測試")
-    
+            self.add_list(chat_id,opp_id,str(name),self.image_path, time, "最近消息測試")
+#以上是測試用的函數和槽
+
     def add_friend(self):
         shared_module.add_friend.show()
 
@@ -128,10 +130,10 @@ class Main_win(QWidget):
 
 
 
-    def add_list(self,opp_id,name,avatar_path, time:str="" , msg:str=""):
+    def add_list(self,chat_id, sender_id,name,avatar_path, time:str="" , msg:str=""):
 
         #實例化一個消息列表框
-        new_chat_bar=Chating_item(opp_id,name,avatar_path,time,msg)
+        new_chat_bar=Chating_item(chat_id,sender_id,name,avatar_path,time,msg)
         #將消息列表框放進item里
         list_item=QListWidgetItem(self.ui.chat_list_view)
         list_item.setSizeHint(new_chat_bar.sizeHint())
@@ -148,11 +150,16 @@ class Main_win(QWidget):
         message_item.setSizeHint(show_message.sizeHint())
         self.ui.view_box.setItemWidget(message_item,show_message)
     
-    def renew(self,id,name,avatar_path, time:str="", msg:str=""):
+    def renew_list(self,chat_id, sender_id,name,avatar_path, time:str="" , msg:str=""):
         list_item=QListWidgetItem()
-        show_message=Message_bubble(id,name,avatar_path,time,msg)
-        list_item.setSizeHint(show_message.sizeHint())
-        self.ui.view_box.insertItemWidget(list_item,show_message)
+        new_chat_bar=Chating_item(chat_id,sender_id,name,avatar_path,time,msg)
+        list_item.setSizeHint(new_chat_bar.sizeHint())
+        self.ui.view_box.insertItemWidget(list_item,new_chat_bar)
+
+        item_to_remove=self.ui.new_friends_box.takeItem(3)
+        item_to_remove=None
+
+        inser
 
 
 

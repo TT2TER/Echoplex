@@ -20,7 +20,7 @@ class Ui_chatroom(object):
     def setupUi(self, chatroom):
         if not chatroom.objectName():
             chatroom.setObjectName(u"chatroom")
-        chatroom.resize(1454, 1326)
+        chatroom.resize(1454, 986)
         chatroom.setStyleSheet(u"/* \u8bbe\u7f6e\u6574\u4e2a QTabWidget \u7684\u6837\u5f0f */\n"
 "QTabWidget {\n"
 "    background-color: #f0f0f0;\n"
@@ -166,12 +166,12 @@ class Ui_chatroom(object):
 
         self.tabWidget_2 = QTabWidget(chatroom)
         self.tabWidget_2.setObjectName(u"tabWidget_2")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.tabWidget_2.sizePolicy().hasHeightForWidth())
         self.tabWidget_2.setSizePolicy(sizePolicy3)
-        self.tabWidget_2.setMinimumSize(QSize(0, 340))
+        self.tabWidget_2.setMinimumSize(QSize(0, 400))
         self.tabWidget_2.setMaximumSize(QSize(16777215, 370))
         self.text = QWidget()
         self.text.setObjectName(u"text")
@@ -186,14 +186,18 @@ class Ui_chatroom(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.text_in = TextEdit(self.layoutWidget)
         self.text_in.setObjectName(u"text_in")
-        sizePolicy3.setHeightForWidth(self.text_in.sizePolicy().hasHeightForWidth())
-        self.text_in.setSizePolicy(sizePolicy3)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.text_in.sizePolicy().hasHeightForWidth())
+        self.text_in.setSizePolicy(sizePolicy4)
         self.text_in.setMinimumSize(QSize(800, 250))
         self.text_in.setMaximumSize(QSize(700, 300))
 
         self.verticalLayout.addWidget(self.text_in)
 
         self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -221,11 +225,11 @@ class Ui_chatroom(object):
 
         self.tabWidget = QTabWidget(chatroom)
         self.tabWidget.setObjectName(u"tabWidget")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
-        self.tabWidget.setSizePolicy(sizePolicy4)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
+        self.tabWidget.setSizePolicy(sizePolicy5)
         self.tabWidget.setMinimumSize(QSize(420, 0))
         self.tabWidget.setMaximumSize(QSize(420, 16777215))
         self.tabWidget.setStyleSheet(u"/* \u8bbe\u7f6e\u6574\u4e2a QTabWidget \u7684\u6837\u5f0f */\n"
@@ -367,7 +371,7 @@ class Ui_chatroom(object):
 
         self.retranslateUi(chatroom)
 
-        self.tabWidget_2.setCurrentIndex(1)
+        self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         self.toolBox.setCurrentIndex(0)
 

@@ -1,7 +1,7 @@
 import json
 from global_data import online_clients
 from global_data import user_mailboxes
-from db.DataDB import search_member, search_all_user,sql_connection
+from db.DataDB import search_member, search_all_user, sql_connection
 
 
 def user_chat(received_data, socket, address, database):
@@ -9,25 +9,28 @@ def user_chat(received_data, socket, address, database):
     database = sql_connection()
     try:
         content = received_data["content"]
-        msg_type = content["msg_type"]
-        content["type"] = msg_type
+        chat_id = content["chat_id"]
+        if chat_id is not None:
+            chat_id = str(chat_id)
 
-        if msg_type == "friend_chat":
-            receivers = [content["receiver"], content["sender"]]
-
-        elif msg_type == "broadcast":
+        # 私聊
+        if len(chat_id) == 10:
+            # 一个是发送者，一个是接收者，但不知道是哪个
+            first_five = int(chat_id[:5])
+            last_five = int(chat_id[5:])
+            receivers = [first_five, last_five]
+        # 广播
+        elif chat_id is None:
             receivers = search_all_user(database, "user")
             print("broadcast找到的receivers:")
             print(receivers)
-
-        elif msg_type == "group_chat":
-            group_id = content["group_id"]
-            receivers = search_member(database, "chat", group_id)
-
-        elif msg_type == "private_group_chat":
-            pass
-    except json.JSONDecodeError:
-        pass
+        # 群聊
+        elif len(chat_id) == 5:
+            receivers = search_member(database, "chat", chat_id)
+        else:
+            print(f"chat_id:{chat_id}不符合格式，请检查")
+    except Exception as e:
+        print("user_chat寄了，看报错吧", e)
     finally:
         json_message = json.dumps(received_data).encode('utf-8')
         for receiver in receivers:

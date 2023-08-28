@@ -15,9 +15,9 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = []
+            self.msg_list = []  #(chat_id, sender_id, time, msg)
             self.add_friend_list = []
-            self.friend_list = []
+            self.friend_list = {}
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -490,3 +490,16 @@ class Client:
             self.msg_list = content["list"]
         else:
             print("申请消息列表失败")
+
+    def find_name(self, chat_id):
+        num1 = int(str(chat_id)[0:5])
+        num2 = int(str(chat_id)[5:10])
+        if num1 == self.user_id:
+            opp_id = num2
+        else:
+            opp_id = num1
+        opp_name = ''
+        for value in self.friend_list.values():
+            if opp_id in value.keys() :
+                opp_name = value[opp_id]
+        print(opp_name)

@@ -15,11 +15,13 @@ from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 import queue
 import platform
+from group_management import create_group,delete_group,add_new_member
+
 
 socket_queue_dict = {}
 
 
-def parse_received_data_with_brackets(received_data):
+def parse_received_data_with_brackets(socket, received_data):
     current_json = ""
     open_brackets = 0
 
@@ -32,9 +34,9 @@ def parse_received_data_with_brackets(received_data):
         if open_brackets == 0:
             try:
                 json_obj = json.loads(current_json)
-                socket_queue_dict[new_socket].put(json_obj)  # 将消息放入队列
+                socket_queue_dict[socket].put(json_obj)  # 将消息放入队列
                 print("成功将消息放入队列", json_obj)
-                size = socket_queue_dict[new_socket].qsize()
+                size = socket_queue_dict[socket].qsize()
                 print(f"队列中当前有{size}项")
                 current_json = ""
             except json.JSONDecodeError:
@@ -56,13 +58,13 @@ def handle_client(socket, address):
                 print("对方已断开连接")
                 break
             print(received_data)
-            parse_received_data_with_brackets(received_data)
+            parse_received_data_with_brackets(socket, received_data)
         except Exception as e:
             print(f"{address}已经下线或者收消息过程中寄了，自己看报错吧：" + str(e))
             break
         while not socket_queue_dict[socket].empty():
             try:
-                received_data = socket_queue_dict[new_socket].get()
+                received_data = socket_queue_dict[socket].get()
                 print("处理ing……")
                 message_handlers = {
                     'user_register': user_register,
@@ -74,7 +76,10 @@ def handle_client(socket, address):
                     'ans_addfriend': ans_addfriend,
                     'pull_message': retrieve_messages,
                     'init_msg_list': init_msg_list,
-                    'pull_friendlist':  user_friendlist
+                    'pull_friendlist':  user_friendlist,
+                    'create_group':create_group,
+                    'delete_group':delete_group,
+                    'add_new_member':add_new_member,
                 }
                 handler = message_handlers.get(received_data['type'])
                 if handler:

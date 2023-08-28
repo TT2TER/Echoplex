@@ -36,12 +36,14 @@ class Client:
                 'user_login': shared_module.login_page.recv_login,
                 'user_send_file': self.send_file,
                 'user_receive_file': self.receive_file,
-                'friend_chat': self.receive_friend_message,
-                'group_chat': self.receive_group_message,
+                'user_chat': self.receive_friend_message,
                 'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
                 'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
                 'init_msg_list': self.init_msg_list,
-                'user_friendlist': self.rcv_friendlist
+                'user_friendlist': self.rcv_friendlist,
+                'create_group':self.rcv_create_group,
+                'delete_group':self.rcv_delete_group,
+                'add_new_member':self.rcv_add_new_member,
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -70,6 +72,7 @@ class Client:
             }
         }
         json_data = json.dumps(data).encode('utf-8')
+        print("User_login已发送", data )
         self.client_socket.sendall(json_data)
 
     # 向服务端发送注册请求
@@ -381,6 +384,7 @@ class Client:
         msg = content["msg"]
         time = content["time"]
         filepath = content["filepath"]
+        print(filepath)
         if not filepath:
             #消息
             shared_module.main_page.print_online_message(chat_id, sender_id, time , msg)
@@ -416,27 +420,27 @@ class Client:
         #     except Exception as e:
         #         print("receive_friend_message寄了，寄在client_function,receive_friend_message里头：" + str(e))
 
-    def receive_group_message(self, back_data, content):
-        sender = content["sender"]
-        msg = content["msg"]
-        time = content["time"]
-        group_id = content["group_id"]
-        filepath = content["filepath"]
-        try:
-            if not filepath:
-                # 收到的是文本消息
-                print("收到的是来自" + str(content['sender']) + "群组文本消息：" + content["msg"])
-                # 写入一个文件
-
-                # 进行窗口交互
-
-            elif not filepath:
-                print("收到的是来自" + str(content['sender']) + "群组文件")
-
-                # 进行窗口交互
-                # 将文件 消息 显示在聊天中
-        except Exception as e:
-            print("receive_group_message寄了，寄在client_function,receive_group_message里头：" + str(e))
+    # def receive_group_message(self, back_data, content):
+    #     sender = content["sender"]
+    #     msg = content["msg"]
+    #     time = content["time"]
+    #     group_id = content["group_id"]
+    #     filepath = content["filepath"]
+    #     try:
+    #         if not filepath:
+    #             # 收到的是文本消息
+    #             print("收到的是来自" + str(content['sender']) + "群组文本消息：" + content["msg"])
+    #             # 写入一个文件
+    #
+    #             # 进行窗口交互
+    #
+    #         elif not filepath:
+    #             print("收到的是来自" + str(content['sender']) + "群组文件")
+    #
+    #             # 进行窗口交互
+    #             # 将文件 消息 显示在聊天中
+    #     except Exception as e:
+    #         print("receive_group_message寄了，寄在client_function,receive_group_message里头：" + str(e))
 
     def rcv_friendlist(self,back_data,content):
         
@@ -524,7 +528,44 @@ class Client:
                 opp_name = value[opp_id]
         print(opp_name)
         return opp_name
-    
+
+
+    def rcv_create_group(self,back_data,content):
+        if back_data=="0000":
+            pass
+            #群聊创建成功
+            #   UI function 
+        elif back_data=="0001":
+            pass
+            #群聊创建失败
+            #   UI function
+        else:
+            return None
+
+    def rcv_delete_group(self,back_data,content):
+        if back_data=="0000":
+            pass
+            #群聊删除成功
+            #   UI function 
+        elif back_data=="0001":
+            pass
+            #群聊删除失败
+            #   UI function
+        else:
+            return None
+
+    def rcv_add_new_member(self,back_data,content):
+        if back_data=="0000":
+            pass
+            #添加成员成功
+            #   UI function 
+        elif back_data=="0001":
+            pass
+            #添加成员失败
+            #   UI function
+        else:
+            return None
+        
     def append_msg(self, chat_id, sender_id, msg, time):
         filepath = 'file/chats/'+str(chat_id)
         msg_list = []

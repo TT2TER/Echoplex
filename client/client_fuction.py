@@ -578,11 +578,18 @@ class Client:
             return None
         
     def append_msg(self, chat_id, sender_id, msg, time):
-        filepath = 'file/chats/'+str(chat_id)
+        # TODO
+
+        filepath = 'files/chats/' + str(chat_id) + '.json'
+        if not os.path.exists('files/chats/'):
+            os.makedirs('files/chats/')
+        # 如filepath不存在，创建目录
         msg_list = []
         if not os.path.exists(filepath):
+            # 如果文件不存在，创建空文件
+            # 往空文件中写入json格式的"[]"
             with open(filepath, 'w') as files:
-                msg_list = []
+                json.dump(msg_list, files)
         else:
             with open(filepath, 'r') as files:
                 msg_list = json.load(files)

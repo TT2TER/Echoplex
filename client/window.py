@@ -229,7 +229,7 @@ class Main_win(QWidget):
             else:
                 for msg in msg_list:
                     [chat_id, sender_id, msg, time] = msg
-                    #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
+                    #chat_id是整数，sender_id是整数，chat_time是datetime格式，msg是字符串
                     sender_name=str(sender_id)
                     avatar_path="test"
                     self.add_one_message(sender_id,sender_name,avatar_path, time, msg)

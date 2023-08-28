@@ -111,7 +111,7 @@ class Client:
         # 包括消息内容、发送者的用户ID、接收者的用户ID和时间戳
         # 发送消息的时间
         now = datetime.now()
-        timestamp = datetime.timestamp(now)
+#        timestamp = datetime.timestamp(now)
         data = {
             "type": "user_chat",
             "content": {
@@ -119,9 +119,10 @@ class Client:
                 "msg": msg,
                 "sender": self.user_id,
                 "chat_id": chat_id,
-                "time": timestamp,
+#                "time": timestamp,
+                "time":now,
                 "filesize": None,
-                "filepath": None
+                "filepath": None,
             }
         }
         # 向服务端发送消息
@@ -133,7 +134,7 @@ class Client:
         # 包括消息内容、发送者的用户ID、群组ID和时间戳
         # 发送消息的时间
         now = datetime.now()
-        timestamp = datetime.timestamp(now)
+#        timestamp = datetime.timestamp(now)
         data = {
             "type": "user_chat",
             "content": {
@@ -141,7 +142,8 @@ class Client:
                 "msg": msg,
                 "sender": self.user_id,
                 "chat_id": chat_id,
-                "time": timestamp,
+#                "time": timestamp,
+                "time":now,
                 "filepath": None,
                 "filesize":None
             }
@@ -156,7 +158,7 @@ class Client:
 
         # 发送消息的时间
         now = datetime.now()
-        timestamp = datetime.timestamp(now)
+#        timestamp = datetime.timestamp(now)
         data = {
             "type": "user_chat",
             "content": {
@@ -165,7 +167,8 @@ class Client:
                 "sender": self.user_id,
                 "group_id": group_id,
                 "receiver": receiver,
-                "time": timestamp
+#                "time": timestamp,
+                "time": now,
             }
         }
         # 向服务端发送消息
@@ -207,13 +210,14 @@ class Client:
         # 发送请求添加好友时间
         #print(target_id)
         now = datetime.now()
-        _time = datetime.timestamp(now)
+#        _time = datetime.timestamp(now)
         data = {
             "type": "user_addfriend",
             "content": {
                 "sender": self.user_id,
                 "receiver": target_id,
-                "time": _time,
+#                "time": _time,
+                "time":now,
                 "name": self.user_name
             }
         }
@@ -237,13 +241,14 @@ class Client:
         # 搜索自己的昵称
       
         now = datetime.now()
-        time = datetime.timestamp(now)
+#        time = datetime.timestamp(now)
         data = {
             "type": "ans_addfriend",
             "content": {
                 "sender": self.user_id,
                 "receiver": target_id,
-                "time": time,
+#                "time": time,
+                "time":now,
                 "ans": ans,
                 "name": self.user_name
             }
@@ -283,7 +288,7 @@ class Client:
         # 向服务器发送文件发送请求
         # 包括接收者的ID地址、和本机文件路径
         now = datetime.now()
-        timestamp = datetime.timestamp(now)
+#        timestamp = datetime.timestamp(now)
         file_size = os.path.getsize(file_path)
         data = {
             'type': 'user_send_file',
@@ -293,7 +298,8 @@ class Client:
                 "chat_id": chat_id,
                 "msg": None,
                 "filepath": file_path,
-                "time": timestamp,
+#                "time": timestamp,
+                "time":now,
                 "filesize": file_size,
                 "is_avatar": False
             }
@@ -306,7 +312,7 @@ class Client:
         # 向服务器发送文件发送请求
         # 包括本机文件路径
         now = datetime.now()
-        timestamp = datetime.timestamp(now)
+#        timestamp = datetime.timestamp(now)
         file_size = os.path.getsize(file_path)
         data = {
             # 要复用user_send_file
@@ -317,7 +323,8 @@ class Client:
                 "chat_id": None,
                 "msg": None,
                 "filepath": file_path,
-                "time": timestamp,
+#                "time": timestamp,
+                "time":now,
                 "filesize": file_size,
                 "is_avatar": True,
             }
@@ -330,7 +337,7 @@ class Client:
         # 向服务器发送文件接受请求
         # 包括接收者的ID地址、和服务端文件路径
         now = datetime.now()
-        timestamp = datetime.timestamp(now)
+#        timestamp = datetime.timestamp(now)
         data = {
             'type': 'user_receive_file',
             'content': {
@@ -339,7 +346,8 @@ class Client:
                 "chat_id": chat_id,
                 "msg": None,
                 "filepath": file_path,
-                "time": timestamp,
+#                "time": timestamp,
+                "time":now,
                 "filesize": None,
                 "is_avatar": False
             }

@@ -41,12 +41,16 @@ class New_friend_bar(QWidget):
         shared_module.new_friends.del_message(self.opp_id)
         shared_module.client.ans_addfriend("yes",self.opp_id)
 
+
         #TODO: #把对方放到defult
+        shared_module.client.friend_list['def'][str(self.opp_id)] = self.name
+
+
         #加載新聊天窗口
         if self.opp_id>shared_module.client.user_id:
-            chat_id=shared_module.client.user_id*10000+self.opp_id
+            chat_id=shared_module.client.user_id*100000+self.opp_id
         else :
-            chat_id=shared_module.client.user_id+self.opp_id*10000
+            chat_id=shared_module.client.user_id+self.opp_id*100000
         sender_id=self.opp_id
         name=self.name
         now = datetime.now()

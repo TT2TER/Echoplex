@@ -6,6 +6,7 @@ from chating_item import Chating_item
 from chat_bubble import Message_bubble
 from datetime import datetime
 import os,sys
+import json
 class Main_win(QWidget):
 
     def __init__(self):
@@ -76,6 +77,7 @@ class Main_win(QWidget):
 
             if ans == "yes":
                 #TODO：添加到好友列表 defult
+                shared_module.client.friend_list['def'][str(sender)]=name
                 #TODO：添加到聊天列表
 
                 pass
@@ -214,18 +216,24 @@ class Main_win(QWidget):
         else :  
             self.ui.view_box.clear()
             self.cur_id=chat_id
-            if len(shared_module.client.msg_list) == 0:
-                print("聊天消息列表为空")
-            while len(shared_module.client.msg_list) > 0:
-                #这里要pop吗？
-                (chat_id, sender_id, chat_time, chat_content) = shared_module.client.msg_list.pop(0)
-                #TODO lihao将上述元组的數據來源改一下
-                #同時我只需要sender_id,sender_name,chat_time,chat_content。
-                #chat_id是整数，sender_id是整数，chat_time是datetime格式，chat_content是字符串
-                sender_name=str(sender_id)
-                avatar_path="test"
-                self.add_one_message(sender_id,sender_name,avatar_path,chat_time, chat_content)
-                print(chat_id,"的消息列表打印完毕")
+            filepath = 'file/chats/' + str(chat_id)
+            msg_list = []
+            if not os.path.exists(filepath):
+                with open(filepath, 'w') as f:
+                    msg_list = []
+            else:
+                with open(filepath, 'r') as f:
+                    msg_list = json.loads(f)
+            if len(msg_list) == 0:
+                print("消息记录为空")
+            else:
+                for msg in msg_list:
+                    [chat_id, sender_id, msg, time] = msg
+                    #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
+                    sender_name=str(sender_id)
+                    avatar_path="test"
+                    self.add_one_message(sender_id,sender_name,avatar_path, time, msg)
+                    print(chat_id,"的消息列表打印完毕")
 
     def add_one_message(self,sender_id,sender_name,sender_avatar_path, time:str="", msg:str=""):
         """

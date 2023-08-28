@@ -15,8 +15,9 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = None
+            self.msg_list = []
             self.add_friend_list = []
+            self.friend_list = []
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 

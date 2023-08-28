@@ -51,7 +51,7 @@ class Login(QWidget):
             shared_module.client.user_id = content['user_id']
             shared_module.client.user_name = content['user_name']
             # shared_module.client.pull_friendlist()
-            # shared_module.client.pull_message()
+            shared_module.client.pull_message()
             # shared_module.client.pull_msg_list()
             # 创建主界面窗口
             shared_module.main_page.show()

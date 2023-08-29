@@ -19,6 +19,7 @@ class Client:
             self.msg_list = []  # [(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
             self.add_friend_list = []
             self.friend_list = []
+            self.group_list=[]
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -35,6 +36,7 @@ class Client:
                 'ans_addfriend': shared_module.main_page.rcv_ans_addfriend,  # self.rcv_ans_addfriend
                 'init_msg_list': self.init_msg_list,
                 'user_friendlist': self.rcv_friendlist,
+                'group_list':self.rcv_group_list,
                 'create_group': self.rcv_create_group,
                 'delete_group': self.rcv_delete_group,
                 'add_new_member': self.rcv_add_new_member,
@@ -302,8 +304,18 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
+    
+    def pull_grouplist(self):
+        data={
+            "type":"pull_group_list",
+            "content":{
+                "owner":self.user_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
 
-    # 以下是发送文件的函数
+#以下是发送文件的函数
     def send_file_request(self, chat_id, file_path):
         # 向服务器发送文件发送请求
         # 包括接收者的ID地址、和本机文件路径
@@ -511,7 +523,19 @@ class Client:
             # 未知错误
             return None
 
-    def del_friend(self, friend_id):
+    def rcv_group_list(self,back_data,content):
+        group_list_info= content['group_list_info']
+        if back_data=="0012":
+            self.group_list=group_list_info
+            print("拉取到了群聊列表")
+            print(self.group_list)
+        elif back_data=="0013":
+            print("群聊列表为空")
+        else:
+            return None
+
+
+    def del_friend(self,friend_id):
         try:
             data = {
                 "type": "del_friend",
@@ -579,17 +603,31 @@ class Client:
                 opp_name = name
         print(opp_name)
         return opp_name
+    
+    def find_group_name(self,chat_id):
+        n=''
+        for group_id,group_name in self.group_list:
+            if group_id==chat_id:
+                n=group_name
+                return n
+        print(n)
+        return n
 
-    def rcv_create_group(self, back_data, content):
-        if back_data == "0000":
-            pass
-            # 群聊创建成功
-            group_id = content['group_id']
-            group_manager = content['group_manager']
-            group_name = content['group_name']
-            group_member = content['group_member']
+
+    def rcv_create_group(self,back_data,content):
+        if back_data=="0000":
+            #群聊创建成功
+            group_id=content['group_id']
+            group_manager=content['group_manager']
+            group_name=content['group_name']
+            group_member=content['group_member']
             #   UI function 
-        elif back_data == "0001":
+            #group_chat()
+            self.group_list.append([group_id,group_name])
+            if group_manager==self.user_id:
+                self.friend_chat("群组已经创建！",group_id)
+            #
+        elif back_data=="0001":
             pass
             # 群聊创建失败
             #   UI function
@@ -614,12 +652,14 @@ class Client:
     def rcv_add_new_member(self, back_data, content):
         if back_data == "0000":
             pass
-            # 添加成员成功
-            group_id = content['group_id']
-            group_name = content['group_name']
-            group_member = content['group_member']
+            #添加成员成功
+            group_id=content['group_id']
+            group_name=content['group_name']
+#            group_member=content['group_member']
             #   UI function 
-        elif back_data == "0001":
+            self.group_list.append([group_id,group_name])
+            self.friend_chat("我已加群！",group_id)
+        elif back_data=="0001": 
             pass
             # 添加成员失败
             #   UI function

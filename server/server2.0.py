@@ -16,6 +16,7 @@ from global_data import online_clients, server_address
 import queue
 import platform
 from group_management import create_group, delete_group, add_new_member
+from group_list import group_list
 from user_video_chat import user_video_chat
 from ans_video_chat import ans_video_chat
 
@@ -78,6 +79,7 @@ def handle_client(socket, address):
                     'pull_message': retrieve_messages,
                     'init_msg_list': init_msg_list,
                     'pull_friendlist': user_friendlist,
+                    'pull_grouplist':group_list,
                     'create_group': create_group,
                     'delete_group': delete_group,
                     'add_new_member': add_new_member,

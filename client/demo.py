@@ -2,7 +2,8 @@ import sys
 import os
 import subprocess
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QTextBrowser
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QUrl
+from PySide2.QtGui import QDesktopServices
 
 class FileDialogExample(QMainWindow):
     def __init__(self):
@@ -50,16 +51,19 @@ class FileDialogExample(QMainWindow):
     def open_directory(self, link):
         if link.startswith('dir:'):
             dir_path = link[4:]  # 去除 "dir:" 前缀
-            if sys.platform.startswith('win'):
-                os.startfile(dir_path)  # 适用于Windows系统
-            elif sys.platform.startswith('darwin'):
-                os.system(f'open "{dir_path}"')  # 适用于macOS系统
-            else:
-                try:
-                    subprocess.run(['xdg-open', dir_path])
-                except FileNotFoundError:
-                    print("No suitable command found to open directory.")
+            # if sys.platform.startswith('win'):
+            #     os.startfile(dir_path)  # 适用于Windows系统
+            # elif sys.platform.startswith('darwin'):
+            #     os.system(f'open "{dir_path}"')  # 适用于macOS系统
+            # else:
+            #     try:
+            #         subprocess.run(['xdg-open', dir_path])
+            #     except FileNotFoundError:
+            #         print("No suitable command found to open directory.")
 
+        # 转换为URL并打开系统文件管理器
+        directory_url = QUrl.fromLocalFile(dir_path)
+        QDesktopServices.openUrl(directory_url)
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = FileDialogExample()

@@ -286,6 +286,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
+#以下是发送文件的函数
     def send_file_request(self, chat_id, file_path):
         # 向服务器发送文件发送请求
         # 包括接收者的ID地址、和本机文件路径
@@ -337,6 +338,7 @@ class Client:
 
     def receive_file_request(self, chat_id, file_path):
         # 向服务器发送文件接受请求
+        #file_path是服务器发给我的，我要再发回去
         # 包括接收者的ID地址、和服务端文件路径
         now = datetime.now()
         timestamp = datetime.timestamp(now)
@@ -360,6 +362,7 @@ class Client:
         # 在从服务器收到允许发文件的答复后，开始发文件线程
 
     def send_file(self, back_data, content):
+        #发送发送文件请求，服务器同意接受，在这里
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
@@ -378,11 +381,12 @@ class Client:
     def receive_file(self, back_data, content):
         try:
             if back_data == "0000":
-                print("服务器允许接收文件，准备接收力")
+                print("服务器允许接收文件，我准备接收力")
                 shared_module.file_thread = FileReceiveThread(content)
 
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
+                #写接收进度
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:
@@ -394,13 +398,17 @@ class Client:
         msg = content["msg"]
         time = content["time"]
         filepath = content["filepath"]
-        print(filepath)
+        filesize = content['filesize']
+        print("进入了receive_friend_message\n")
         if not filepath:
             #消息
             shared_module.main_page.print_online_message(chat_id, sender_id, time , msg)
-
+            print("这确实不是个文件")
             pass
         else :
+            #TODO：
+            #处理这是一个文件
+            #我得在里面调用receive_file_request
             pass
         # filepath = content["filepath"]
         # if sender == self.user_id:
@@ -605,5 +613,6 @@ class Client:
                 msg_list = json.load(files)
 
         msg_list.insert(0, [chat_id, sender_id, msg, time])
+        print(msg_list)
         with open(filepath, 'w') as files:
             json.dump(msg_list, files)

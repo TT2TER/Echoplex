@@ -150,19 +150,36 @@ class Main_win(QWidget):
         shared_module.client.append_msg(chat_id, sender_id, msg, _time )
         #在這裡面找到sender_name和sender_avatar_path
         sender_name=shared_module.client.find_name(chat_id)
-        if sender_id == shared_module.client.user_id:
-            sender_name = shared_module.client.user_name
-        sender_avatar_path="sender_avatar_path"
+
+        self.img_path = "lib/login_back.png"
+        self.image_path = os.path.join(os.path.dirname(__file__), self.img_path)
         timestamp = int(_time)
         timeArray = time.localtime(timestamp)
         timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+
+        flag = 0
+        for i in self.chat_item:
+            if i.chat_id == chat_id:
+                self.renew_list(chat_id, sender_id, sender_name, self.image_path, timestr, msg)
+                flag = 1
+            break
+        if flag == 0 :
+            self.add_one_list(chat_id, sender_id, sender_name, self.image_path, timestr, msg)
+
+        sender_avatar_path = self.image_path
+        if sender_id == shared_module.client.user_id:
+            sender_name = shared_module.client.user_name
         #在這裡面找到sender_name和sender_avatar_path
         if self.cur_id==chat_id:
-            self.add_one_message(sender_id,sender_name,sender_avatar_path, timestr, msg)
+            self.add_one_message(sender_id,sender_name, sender_avatar_path, timestr, msg)
             pass
         else :
             print("不是当前窗口，等待用户点击后加载")
             pass
+
+
+
+
 
 #以上是收發消息相關函數
 
@@ -182,11 +199,10 @@ class Main_win(QWidget):
             timeArray = time.localtime(timestamp)
             timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
             self.add_one_list(chat_id, sender_id, name,self.image_path, timestr, msg)
-
         pass
 
     def add_one_list(self,chat_id, sender_id,name,avatar_path, time:str="" , msg:str=""):
-
+        print("实例化了", chat_id)
         """實例化一個消息列表框"""
         new_chat_bar=Chating_item(chat_id,sender_id,name,avatar_path,time,msg)
         self.chat_item.insert(0,new_chat_bar)
@@ -214,7 +230,7 @@ class Main_win(QWidget):
     def renew_list(self,chat_id, sender_id,name,avatar_path, time:str="" , msg:str=""):
         """更新消息的時候要用"""
         self.del_one_list(chat_id)
-        self.add_one_list(self,chat_id, sender_id,name,avatar_path, time , msg)
+        self.add_one_list(chat_id, sender_id,name,avatar_path, time , msg)
 #以上是聊天列表的功能函數
     
 

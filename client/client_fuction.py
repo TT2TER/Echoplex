@@ -115,7 +115,7 @@ class Client:
                 "time": timestamp,
 #                "time":now,
                 "filesize": None,
-                "filepath": None,
+                "filepath": None
             }
         }
         # 向服务端发送消息

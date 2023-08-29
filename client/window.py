@@ -87,7 +87,8 @@ class Main_win(QWidget):
                 else :
                     chat_id=shared_module.client.user_id+sender*100000
                 sender_id=sender
-                shared_module.main_page.add_one_list(chat_id, sender_id,name,"", time , name+"已经成为了您的新好友")
+                #TODO: 这里可能有bug
+                #shared_module.main_page.add_one_list(chat_id, sender_id,name,"", time , name+"已经成为了您的新好友")
                 pass
                 print("收到",name,"的消息，对方同意，已经添加到聊天列表中了")
             else : 
@@ -130,23 +131,23 @@ class Main_win(QWidget):
         elif sys.platform.startswith('linux'):
             os.system(f'xdg-open "{link}"')  # 适用于Linux系统
 
-    def receive_a_file(self,chat_id,sender_id,time,filepath,filesize):
-        """收到一个文件形式的消息
+    # def receive_a_file(self,content):
+    #     """收到一个文件形式的消息
         
-        如果发件人是自己，直接显示
-        如果发件人不是自己，直接显示，点击的时候调用 client.receive_file_request
+    #     如果发件人是自己，直接显示
+    #     如果发件人不是自己，直接显示，点击的时候调用 client.receive_file_request
 
-        """
-        print("进入文件处理流程")
-        if sender_id==shared_module.client.user_id:
-            msg="@T%^gGs!.?y6;"+"文件发送成功;"+filepath+";文件大小为;"+str(filesize)
-            print("文件发送成功消息已进入消息框处理")
-            self.print_online_message(chat_id,sender_id,time,msg)
+    #     """
+    #     print("进入文件处理流程")
+    #     if sender_id==shared_module.client.user_id:
+    #         msg="@T%^gGs!.?y6;"+"文件发送成功;"+filepath+";文件大小为;"+str(filesize)
+    #         print("文件发送成功消息已进入消息框处理")
+    #         self.print_online_message(chat_id,sender_id,time,msg)
             
-        else :
-            msg="@T%^gGs!.?y6""收到一个文件"+filepath+"\n文件大小为:"+str(filesize)+"点击消息接收"
-            print("文件接收消息已进入消息框处理")
-            self.print_online_message(chat_id,sender_id,time,msg)
+    #     else :
+    #         msg="@T%^gGs!.?y6""收到一个文件"+filepath+"\n文件大小为:"+str(filesize)+"点击消息接收"
+    #         print("文件接收消息已进入消息框处理")
+    #         self.print_online_message(chat_id,sender_id,time,msg)
             
 
 
@@ -167,38 +168,41 @@ class Main_win(QWidget):
 
         self.ui.text_in.clear()
         
-    def print_online_message(self,chat_id, sender_id, _time , msg:str=""):
+    def print_online_message(self,content):
         """把在線的消息打印出來,如果不是當前窗口，存在文件里。
         要找name,avatar_path
         """
         print("进入了打印在线消息\n")
         # time_string = time.strftime("%Y-%m-%d %H:%M:%S")
         #先把消息存到历史消息里
+        #TODO:
         shared_module.client.append_msg(chat_id, sender_id, msg, _time )
         #在這裡面找到sender_name和sender_avatar_path
-        sender_name=shared_module.client.find_name(chat_id)
+        chat_id=content["chat_id"]
+        #下面是重构的垃圾
+        # sender_name=shared_module.client.find_name(chat_id)
 
-        self.img_path = "lib/login_back.png"
-        self.image_path = os.path.join(os.path.dirname(__file__), self.img_path)
-        timestamp = int(_time)
-        timeArray = time.localtime(timestamp)
-        timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+        # self.img_path = "lib/login_back.png"
+        # self.image_path = os.path.join(os.path.dirname(__file__), self.img_path)
+        # timestamp = int(_time)
+        # timeArray = time.localtime(timestamp)
+        # timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
 
         flag = 0
         for i in self.chat_item:
             if i.chat_id == chat_id:
-                self.renew_list(chat_id, sender_id, sender_name, self.image_path, timestr, msg)
+                self.renew_list(content)
                 flag = 1
             break
         if flag == 0 :
-            self.add_one_list(chat_id, sender_id, sender_name, self.image_path, timestr, msg)
+            self.add_one_list(content)
 
-        sender_avatar_path = self.image_path
-        if sender_id == shared_module.client.user_id:
-            sender_name = shared_module.client.user_name
-        #在這裡面找到sender_name和sender_avatar_path
+        # sender_avatar_path = self.image_path
+        # if sender_id == shared_module.client.user_id:
+        #     sender_name = shared_module.client.user_name
+        # #在這裡面找到sender_name和sender_avatar_path
         if self.cur_id==chat_id:
-            self.add_one_message(sender_id,sender_name, sender_avatar_path, timestr, msg)
+            self.add_one_message(content)
             pass
         else :
             print("不是当前窗口，等待用户点击后加载")
@@ -228,14 +232,15 @@ class Main_win(QWidget):
             timeArray = time.localtime(timestamp)
             timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
             print(timestr)
-            self.add_one_list(chat_id, sender_id, name,self.image_path, timestr, msg)
+            #TODO:lh在这里补一个content
+            self.add_one_list(content)
         pass
 
-    def add_one_list(self,chat_id, sender_id,name,avatar_path, time:str="" , msg:str=""):
+    def add_one_list(self,content):
+        chat_id=content["chat_id"]
         print("实例化了", chat_id)
-        print(time)
         """實例化一個消息列表框"""
-        new_chat_bar=Chating_item(chat_id,sender_id,name,avatar_path,time,msg)
+        new_chat_bar=Chating_item(content)
         self.chat_item.insert(0,new_chat_bar)
         #將消息列表框放進item里
         list_item=QListWidgetItem()
@@ -258,10 +263,11 @@ class Main_win(QWidget):
         item_to_remove=None
         pass
 
-    def renew_list(self,chat_id, sender_id,name,avatar_path, time:str="" , msg:str=""):
+    def renew_list(self,content):
         """更新消息的時候要用"""
+        chat_id=content["chat_id"]
         self.del_one_list(chat_id)
-        self.add_one_list(chat_id, sender_id,name,avatar_path, time , msg)
+        self.add_one_list(content)
 #以上是聊天列表的功能函數
     
 
@@ -314,7 +320,7 @@ class Main_win(QWidget):
                 with open(filepath, 'r') as f:
                     msg_list = json.load(f)
 
-
+            #TODO:给我content
             if len(msg_list) == 0:
                 print("消息记录为空")
             else:
@@ -328,11 +334,11 @@ class Main_win(QWidget):
                     timestamp = int(_time)
                     timeArray = time.localtime(timestamp)
                     timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-                    self.add_one_message(sender_id,sender_name,avatar_path, timestr, msg)
+                    self.add_one_message(content)
                     print(chat_id,"的消息列表打印完毕")
 
 
-    def add_one_message(self,sender_id,sender_name,sender_avatar_path, time:str="", msg:str=""):
+    def add_one_message(self,content):
         """
         調用這個函數來打印消息
 
@@ -340,7 +346,7 @@ class Main_win(QWidget):
 
         :avatar_path,time为收到该条消息的时间，msg为消息内容
         """
-        show_message=Message_bubble(sender_id,sender_name,sender_avatar_path,time,msg)
+        show_message=Message_bubble(content)
         message_item=QListWidgetItem(self.ui.view_box)
         message_item.setSizeHint(show_message.sizeHint())
         self.ui.view_box.setItemWidget(message_item,show_message)

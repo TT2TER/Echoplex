@@ -426,21 +426,24 @@ class Client:
         filesize = content['filesize']
         is_avatar=content['is_avatar']
         print("进入了receive_friend_message\n")
-        if not filepath:
-            #消息
-            shared_module.main_page.print_online_message(chat_id, sender_id, time , msg)
-            print("收到一条消息，正在处理……")
-            pass
-        elif  is_avatar==False :
-            shared_module.main_page.receive_a_file(chat_id,sender_id,time,filepath,filesize)
-            print("收到一个文件，正在处理……")
-        elif is_avatar:
+        # if not filepath:
+        #     #消息
+        #     shared_module.main_page.print_online_message(content)
+        #     print("收到一条消息，正在处理……")
+        #     pass
+        # elif  is_avatar==False :
+        #     shared_module.main_page.receive_a_file(content)
+        #     print("收到一个文件，正在处理……")
+            #这个是要留的
+        if is_avatar:
             print("收到一个头像，正在存储……")
             #TODO：
-            
+        else:
+            shared_module.main_page.print_online_message(content)
+            print("收到一条消息/文件，正在处理……")
+            pass
             #处理这是一个文件
             #我得在里面调用receive_file_request
-            pass
         # filepath = content["filepath"]
         # if sender == self.user_id:
         #     if not filepath:

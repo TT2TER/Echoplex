@@ -134,7 +134,7 @@ class Client:
         # 包括消息内容、发送者的用户ID、群组ID和时间戳
         # 发送消息的时间
         now = datetime.now()
-#        timestamp = datetime.timestamp(now)
+        timestamp = datetime.timestamp(now)
         data = {
             "type": "user_chat",
             "content": {
@@ -142,8 +142,8 @@ class Client:
                 "msg": msg,
                 "sender": self.user_id,
                 "chat_id": chat_id,
-#                "time": timestamp,
-                "time":now,
+                "time": timestamp,
+                # "time":now,
                 "filepath": None,
                 "filesize":None
             }
@@ -191,7 +191,7 @@ class Client:
     def create_group(self, group_member, group_name,image_path):
         # 创建一个群组
         # 包括群主的用户ID、成员列表和群组名称
-        now=datetime.now()
+        now = datetime.now()
         timestamp = datetime.timestamp(now)
         data = {
             "type": "create_group",
@@ -199,7 +199,7 @@ class Client:
                 "group_manager": self.user_id,
                 "group_member": group_member,
                 "group_name": group_name,
-                "group_create_time":timestamp,
+                "group_create_time": timestamp,
                 "group_image":image_path
             }
         }
@@ -219,7 +219,7 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": _time,
-#                "time":now,
+                # "time":now,
                 "name": self.user_name
             }
         }
@@ -250,7 +250,7 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": time,
-#                "time":now,
+                # "time":now,
                 "ans": ans,
                 "name": self.user_name
             }
@@ -302,7 +302,7 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-#                "time":now,
+                # "time":now,
                 "filesize": file_size,
                 "is_avatar": False
             }
@@ -327,7 +327,7 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-#                "time":now,
+                # "time":now,
                 "filesize": file_size,
                 "is_avatar": True,
             }
@@ -351,7 +351,7 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
-#                "time":now,
+                # "time":now,
                 "filesize": None,
                 "is_avatar": False
             }
@@ -587,7 +587,7 @@ class Client:
             group_name=content['group_name']
             group_member=content['group_member']
             #   UI function 
-        elif back_data=="0001":
+        elif back_data=="0001": 
             pass
             #添加成员失败
             #   UI function

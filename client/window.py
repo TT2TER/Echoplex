@@ -5,6 +5,7 @@ from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
 from datetime import datetime
+import time
 import os,sys
 import json
 class Main_win(QWidget):
@@ -79,7 +80,7 @@ class Main_win(QWidget):
 
             if ans == "yes":
                 #TODO：添加到好友列表 defult
-                shared_module.client.friend_list['def'][str(sender)]=name
+                shared_module.client.friend_list['def'][str(sender)] = name
                 #TODO：添加到聊天列表
                 if sender>shared_module.client.user_id:
                     chat_id=shared_module.client.user_id*100000+sender
@@ -139,23 +140,23 @@ class Main_win(QWidget):
 
         self.ui.text_in.clear()
         
-    def print_online_message(self,chat_id, sender_id, time:str="" , msg:str=""):
+    def print_online_message(self,chat_id, sender_id, _time , msg:str=""):
         """把在線的消息打印出來,如果不是當前窗口，存在文件里。
         要找name,avatar_path
         """
         print("进入了打印在线消息\n")
-        time_string = time.strftime("%Y-%m-%d %H:%M:%S")
+        # time_string = time.strftime("%Y-%m-%d %H:%M:%S")
         #先把消息存到历史消息里
-        shared_module.client.append_msg(chat_id, sender_id, msg, time )
-        print("从append里出来了\n")
+        shared_module.client.append_msg(chat_id, sender_id, msg, _time )
         #在這裡面找到sender_name和sender_avatar_path
         sender_name=shared_module.client.find_name(chat_id)
-        sender_avatar_path=self.image_path
-        print(sender_name,sender_avatar_path,chat_id,self.cur_id)
+        sender_avatar_path="sender_avatar_path"
+        timestamp = int(_time)
+        timeArray = time.localtime(timestamp)
+        timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
         #在這裡面找到sender_name和sender_avatar_path
         if self.cur_id==chat_id:
-            print("是当前窗口，直接加载")
-            self.add_one_message(sender_id,sender_name,sender_avatar_path, time, msg)
+            self.add_one_message(sender_id,sender_name,sender_avatar_path, timestr, msg)
             pass
         else :
             print("不是当前窗口，等待用户点击后加载")
@@ -175,7 +176,10 @@ class Main_win(QWidget):
             #找到對方名字的函數
             name = shared_module.client.find_name(chat_id)
             #下面調用之增加一個list的函數
-            self.add_one_list(chat_id, sender_id, name,self.image_path, time, msg)
+            time = int(time)
+            timeArray = datetime.localtime(time)
+            timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+            self.add_one_list(chat_id, sender_id, name,self.image_path, timestr, msg)
 
         pass
 
@@ -267,10 +271,13 @@ class Main_win(QWidget):
             else:
                 for msg in msg_list:
                     [chat_id, sender_id, msg, time] = msg
-                    #chat_id是整数，sender_id是整数，chat_time是datetime格式，msg是字符串
+                    #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
                     sender_name=str(sender_id)
                     avatar_path="test"
-                    self.add_one_message(sender_id,sender_name,avatar_path, time, msg)
+                    time = int(time)
+                    timeArray = datetime.localtime(time)
+                    timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+                    self.add_one_message(sender_id,sender_name,avatar_path, timestr, msg)
                     print(chat_id,"的消息列表打印完毕")
 
 

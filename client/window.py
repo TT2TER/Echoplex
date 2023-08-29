@@ -20,6 +20,8 @@ class Main_win(QWidget):
         self.ui.add_friend_butt.clicked.connect(self.add_friend)
         self.ui.get_new_friend.clicked.connect(self.check_add_friend)
         self.ui.send_file_butt.clicked.connect(self.show_file_dialog)
+        self.ui.group_manage_butt.clicked.connect(self.manage_group)
+        self.ui.new_group_butt.clicked.connect(self.add_new_group)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -98,7 +100,7 @@ class Main_win(QWidget):
             print("查无此人")
             QMessageBox.information(self,"查无此人","请检查id是否正确")
 
-#以上是添加好友相關函數
+#以上是添加好友相關函數杀人
 
 #以下是发送文件功能
     def show_file_dialog(self):
@@ -152,7 +154,8 @@ class Main_win(QWidget):
 
 
 #以上是发送文件功能
-#以下是收發消息相關函數
+
+#以下是私聊收發消息相關函數（群聊也许能复用
     def send(self):
         # 获取发送框中的文本
         message = self.ui.text_in.toPlainText()
@@ -176,9 +179,9 @@ class Main_win(QWidget):
         # time_string = time.strftime("%Y-%m-%d %H:%M:%S")
         #先把消息存到历史消息里
         #TODO:
-        shared_module.client.append_msg(chat_id, sender_id, msg, _time )
+        shared_module.client.append_msg(content)
         #在這裡面找到sender_name和sender_avatar_path
-        chat_id=content["chat_id"]
+        chat_id = content["chat_id"]
         #下面是重构的垃圾
         # sender_name=shared_module.client.find_name(chat_id)
 
@@ -192,8 +195,9 @@ class Main_win(QWidget):
         for i in self.chat_item:
             if i.chat_id == chat_id:
                 self.renew_list(content)
-                flag = 1
-            break
+                flag=1
+                break
+
         if flag == 0 :
             self.add_one_list(content)
 
@@ -201,39 +205,39 @@ class Main_win(QWidget):
         # if sender_id == shared_module.client.user_id:
         #     sender_name = shared_module.client.user_name
         # #在這裡面找到sender_name和sender_avatar_path
-        if self.cur_id==chat_id:
+        if self.cur_id == chat_id:
             self.add_one_message(content)
             pass
         else :
             print("不是当前窗口，等待用户点击后加载")
             pass
 
-
-
-
-
-#以上是收發消息相關函數
+#以上是私聊收發消息相關函數（群聊也许能复用
 
 #以下是聊天列表的功能函數
     def init_chat_list(self):
         """這個函數用來從登陸界面打開時初始化聊天列表"""
         print(shared_module.client.msg_list)
         for chat_id, sender_id, _time, msg in shared_module.client.msg_list :
-            
-            #TODO：
-            #這裡寫找到頭像路徑的函數
-            self.img_path = "lib/login_back.png"
-            self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-            #上面寫找到頭像路徑的函數
-            #找到對方名字的函數
-            name = shared_module.client.find_name(chat_id)
-            #下面調用之增加一個list的函數
-            timestamp = int(_time)
-            timeArray = time.localtime(timestamp)
-            timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-            print(timestr)
-            #TODO:lh在这里补一个content
-            self.add_one_list(content)
+
+            content = {
+                'chat_id' : chat_id,
+                'sender': sender_id,
+                'time': _time,
+                'msg': msg,
+                'filepath': None,
+                'filesize': None,
+                'msg_type': 'friend_chat',
+                'is_avatar': False
+            }
+            flag = 0
+            for i in self.chat_item:
+                if i.chat_id == chat_id:
+                    flag = 1
+                    break
+
+            if flag == 0:
+                self.add_one_list(content)
         pass
 
     def add_one_list(self,content):
@@ -252,15 +256,21 @@ class Main_win(QWidget):
 
     def del_one_list(self,chat_id):
         """在動態List里找到該item的位置"""
+        print("进入了del_one_list")
         ind = 0
         for i in self.chat_item:
             if i.chat_id == chat_id:
                 break
             ind += 1
         #刪掉ui里的東西
+        print(chat_id)
+        print(ind)
         self.chat_item.remove(i)
-        item_to_remove=self.ui.chat_list_view.takeItem(ind)
-        item_to_remove=None
+        try:
+            item_to_remove=self.ui.chat_list_view.takeItem(ind)
+            item_to_remove=None
+        except:
+            print("删除chat_list_item失败")
         pass
 
     def renew_list(self,content):
@@ -326,17 +336,10 @@ class Main_win(QWidget):
             else:
                 print("将打印与此用户的历史消息")
                 msg_list.reverse()
-                for msg in msg_list:
-                    [chat_id, sender_id, msg, _time] = msg
+                for content in msg_list:
                     #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
-                    sender_name = shared_module.client.find_name(chat_id)
-                    avatar_path="test"
-                    timestamp = int(_time)
-                    timeArray = time.localtime(timestamp)
-                    timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
                     self.add_one_message(content)
                     print(chat_id,"的消息列表打印完毕")
-
 
     def add_one_message(self,content):
         """
@@ -350,7 +353,25 @@ class Main_win(QWidget):
         message_item=QListWidgetItem(self.ui.view_box)
         message_item.setSizeHint(show_message.sizeHint())
         self.ui.view_box.setItemWidget(message_item,show_message)
+#以下是聊天窗口的功能函數
 
+#以下是群聊的跳转逻辑
+    def add_new_group(self):
+        """創建群聊
+        
+        这个函数是点击了创建新群聊后调用的函数
+        会调起创建新群组弹窗
+        """
+        print("即将打开新建群聊窗口……")
+        shared_module.new_group.show()
+
+    def manage_group(self):
+        """管理群聊
+        
+        這個函數是點擊群聊管理後調用的函數"""
+        shared_module.manage_group.show()
+
+#以上是群聊的跳转逻辑
 
 
 if __name__ == "__main__":

@@ -7,24 +7,41 @@ from PySide2.QtGui import QTextDocument, QPixmap
 from datetime import datetime
 from lib.public import shared_module
 import os
+import time
 
 class Message_bubble(QWidget):
     # 只用来定义 message_bubble 的行为
     selected = Signal(str)
 
-    def __init__(self, sender_id,name,avatar_path, time, msg):
+    def __init__(self, content):
         super().__init__()
-        
-        if sender_id== shared_module.client.user_id:
+
+        self.sender_id=content["sender"]
+
+        self.chat_id=content["chat_id"]
+
+        self.msg=content["msg"]
+
+        timestamp=int(content["time"])
+        timearray = time.localtime(timestamp)
+        self.time= time.strftime("%Y-%m-%d %H:%M:%S", timearray)
+
+        self.file_path=content["filepath"]
+        self.file_size=content["filesize"]
+
+        self.name=None
+
+        self.image_path=None
+        self.find_avartar(self.sender_id)
+
+        if self.sender_id== shared_module.client.user_id:
+            self.name=shared_module.client.user_name
             self.ui = Ui_chat_bubble_me()
             self.ui.setupUi(self)
         else :
+            self.name=shared_module.client.find_name(self.chat_id)
             self.ui = Ui_chat_bubble_opp()
             self.ui.setupUi(self)
-            
-        self.time = time
-        self.msg = msg
-        self.name = name
 
 
         self.padding=10#如果在样式表里更改了，记得改这里
@@ -56,7 +73,7 @@ class Message_bubble(QWidget):
         #显示头像
         self.avatar_label = QLabel(self.ui.avatar)
         self.avatar_label.setGeometry(QRect(1, 1, 48, 48))
-        image = QPixmap(avatar_path)  # 用实际的图像路径替换
+        image = QPixmap(self.image_path)  # 用实际的图像路径替换
         self.avatar_label.setPixmap(image)
         self.avatar_label.setScaledContents(True)  # 自适应图像大小
 
@@ -64,6 +81,12 @@ class Message_bubble(QWidget):
         self.ui.who.setText(str(self.name))
 
         self.ui.message_bubble.mousePressEvent = self.toggle_selection  # 替换点击事件
+
+    def find_avartar(self,id):
+        """这里写一个找头像路径的函数，下面先用测试路径"""
+        self.img_path = "lib/login_back.png"
+        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
+        pass
 
 
     def toggle_selection(self, event):

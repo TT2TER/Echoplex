@@ -9,6 +9,8 @@ class shared_module:
     add_friend=None
     new_friends=None
     progress_bar=None
+    new_group=None
+    manage_group=None
     #以下是功能实例化对象
     client=None 
     #以下是线程实例化对象

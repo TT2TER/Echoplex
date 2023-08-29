@@ -52,13 +52,24 @@ class New_friend_bar(QWidget):
             chat_id=shared_module.client.user_id*100000+self.opp_id
         else :
             chat_id=shared_module.client.user_id+self.opp_id*100000
-        sender_id=self.opp_id
-        name=self.name
-        now = datetime.now()
-        timestamp = int(datetime.timestamp(now))
-        timeArray = time.localtime(timestamp)
-        timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-        shared_module.main_page.add_one_list(chat_id, sender_id,name,"", timestr , name+"已经成为了您的新好友")
+        # sender_id=self.opp_id
+        # name=self.name
+        # now = datetime.now()
+        # timestamp = datetime.timestamp(now)
+        # timeArray = time.localtime(timestamp)
+        # timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+
+        # content = {
+        #         'chat_id' : chat_id,
+        #         'sender_id': sender_id,
+        #         'time': timestamp,
+        #         'msg': name+"成为您的好友",
+        #         'filepath': None,
+        #         'filesize': None,
+        #         'msg_type': 'friend_chat',
+        #         'is_avatar': False
+        #     }
+        # shared_module.main_page.add_one_list(content)
 
         shared_module.client.friend_chat("我们已经成为好友啦，快来跟我聊天吧！", chat_id)
 

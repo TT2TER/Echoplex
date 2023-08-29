@@ -41,7 +41,7 @@ class FileSendThread(QThread):
                 if not data:
                     break
                 self.socket.sendall(data)
-                data_sent += data
+                data_sent += len(data)
                 self.sent_percentage = data_sent * 100 / self.filesize
         print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
         print("文件发送完毕,准备关闭线程socket")

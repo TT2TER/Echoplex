@@ -631,9 +631,9 @@ class Client:
         else:
             return None
         
-    def append_msg(self, chat_id, sender_id, msg, time):
+    def append_msg(self, content):
         # TODO
-
+        chat_id = content['chat_id']
         filepath = 'files/chats/' + str(chat_id) + '.json'
         if not os.path.exists('files/chats/'):
             os.makedirs('files/chats/')
@@ -648,7 +648,7 @@ class Client:
             with open(filepath, 'r') as files:
                 msg_list = json.load(files)
 
-        msg_list.insert(0, [chat_id, sender_id, msg, time])
+        msg_list.insert(0, content)
         print(msg_list)
         with open(filepath, 'w') as files:
             json.dump(msg_list, files)

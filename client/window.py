@@ -129,6 +129,25 @@ class Main_win(QWidget):
             os.system(f'open "{link}"')  # 适用于macOS系统
         elif sys.platform.startswith('linux'):
             os.system(f'xdg-open "{link}"')  # 适用于Linux系统
+
+    def receive_a_file(self,chat_id,sender_id,time,filepath,filesize):
+        """收到一个文件形式的消息
+        
+        如果发件人是自己，直接显示
+        如果发件人不是自己，直接显示，点击的时候调用 client.receive_file_request
+
+        """
+        print("进入文件处理流程")
+        if sender_id==shared_module.client.user_id:
+            msg="文件发送成功"+filepath+"\n文件大小为:"+filesize
+            self.print_online_message(chat_id,sender_id,time,msg)
+            print("文件发送成功消息已进入消息框处理")
+        else :
+            msg="收到一个文件"+filepath+"\n文件大小为:"+filesize+"点击消息接收"
+            self.print_online_message(chat_id,sender_id,time,msg)
+            print("文件接收消息已进入消息框处理")
+
+
 #以上是发送文件功能
 #以下是收發消息相關函數
     def send(self):

@@ -424,13 +424,18 @@ class Client:
         time = content["time"]
         filepath = content["filepath"]
         filesize = content['filesize']
+        is_avatar=content['is_avatar']
         print("进入了receive_friend_message\n")
         if not filepath:
             #消息
             shared_module.main_page.print_online_message(chat_id, sender_id, time , msg)
-            print("这确实不是个文件")
+            print("收到一条消息，正在处理……")
             pass
-        else :
+        elif  is_avatar==False :
+            shared_module.main_page.receive_a_file(chat_id,sender_id,time,filepath,filesize)
+            print("收到一个文件，正在处理……")
+        elif is_avatar:
+            print("收到一个头像，正在存储……")
             #TODO：
             
             #处理这是一个文件

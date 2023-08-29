@@ -49,7 +49,7 @@ class BackendThread(QThread):
                     try:
                         recv_data = recv_queue.get()
                         self.notify.emit(recv_data)
-                        print("收到服务端消息：", received_data)
+                        print("收到服务端消息：", recv_data)
                     except Exception as e:
                         print("向主线程发送信号时候退出" + str(e))
 

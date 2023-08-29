@@ -1,8 +1,9 @@
 import sys
-from PySide2.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout
+from PySide2.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout,QPushButton, QProgressBar
 from PySide2.QtCore import Qt, Signal, QRect
 from ui.chat_bubble_opp_ui import Ui_chat_bubble_opp
 from ui.chat_bubble_me_ui import Ui_chat_bubble_me
+from ui.file_bubble_ui import Ui_file_bubble
 from PySide2.QtGui import QTextDocument, QPixmap
 from datetime import datetime
 from lib.public import shared_module
@@ -17,31 +18,91 @@ class Message_bubble(QWidget):
         super().__init__()
 
         self.sender_id=content["sender"]
-
         self.chat_id=content["chat_id"]
-
         self.msg=content["msg"]
-
         timestamp=int(content["time"])
         timearray = time.localtime(timestamp)
         self.time= time.strftime("%Y-%m-%d %H:%M:%S", timearray)
-
         self.file_path=content["filepath"]
         self.file_size=content["filesize"]
 
-        self.name=None
+        self.sender_name=None
 
         self.image_path=None
         self.find_avartar(self.sender_id)
 
-        if self.sender_id== shared_module.client.user_id:
-            self.name=shared_module.client.user_name
-            self.ui = Ui_chat_bubble_me()
+        #這個是消息框最大長度
+        self.max_leth=0
+        #是不是文件
+        self.is_file=False
+        #這裡是標記這個文件是否需要接收
+        self.need_recive=False
+
+
+        if self.file_path == None:
+            self.max_leth=500
+            self.is_file=False
+            #如果是文字消息
+            if self.sender_id== shared_module.client.user_id:
+                #如果發件人是自己
+                self.sender_name=shared_module.client.user_name
+                self.ui = Ui_chat_bubble_me()
+                self.ui.setupUi(self)
+            else :
+                #如果發件人是對方
+                self.sender_name=shared_module.client.find_name(self.chat_id)
+                self.ui = Ui_chat_bubble_opp()
+                self.ui.setupUi(self)
+        else:
+            #如果是文件消息
+            self.is_file=True
+            self.max_leth=300
+            self.ui=Ui_file_bubble()
             self.ui.setupUi(self)
-        else :
-            self.name=shared_module.client.find_name(self.chat_id)
-            self.ui = Ui_chat_bubble_opp()
-            self.ui.setupUi(self)
+            if self.sender_id== shared_module.client.user_id:
+                self.sender_name=shared_module.client.user_name
+                #不需要接收
+                self.need_recive=False
+            else :
+                self.sender_name=shared_module.client.find_name(self.chat_id)
+                #需要接受
+                self.need_recive=True
+
+
+        #如果是文件改變消息內容
+        if self.is_file:
+            if self.need_recive:
+                self.msg="收到"+self.sender_name+"發送的文件："+self.file_path+"點擊右側接收"
+                self.file_button = QPushButton("接收文件", self)
+                self.file_button.setGeometry(480, 100, 111, 41)
+                self.file_button.setStyleSheet('''
+                    QPushButton {
+                        background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #D988FF, stop:1 #AF7AC5);
+                        color: white;
+                        border: 1px solid #8e44ad;
+                        border-radius: 5px;
+                        padding: 5px 10px;
+                    }
+                    QPushButton:hover {
+                        background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #AF7AC5, stop:1 #8E44AD);
+                        border: 1px solid #8e44ad;
+                    }
+                    QPushButton:pressed {
+                        background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #7D3C98, stop:1 #6C3483);
+                        border: 1px solid #6c3483;
+                    }
+                ''')
+                # 连接按钮点击事件到 self.receive_file 函数
+                self.file_button.clicked.connect(self.receive_file)
+
+            else:
+                self.msg="發送的文件："+self.file_path+"發送成功"
+
+        if self.is_file:
+            self.progress_bar = QProgressBar(self)
+            self.progress_bar.setGeometry(480, 150, 111, 20)  # 调整进度条位置和大小
+            self.progress_bar.setRange(0, 100)  # 设置进度范围
+            self.progress_bar.setValue(0)  # 初始进度值
 
 
         self.padding=10#如果在样式表里更改了，记得改这里
@@ -52,9 +113,9 @@ class Message_bubble(QWidget):
         
         # 计算文本在最大宽度下的矩形区域
         # 使用字体度量来获取文本在给定宽度内的渲染区域，考虑到自动换行和内边距的影响
-        content_rect = self.ui.message_bubble.fontMetrics().boundingRect(0, 0, 500 - (2 * self.padding), 0, Qt.TextWordWrap, self.msg)
+        content_rect = self.ui.message_bubble.fontMetrics().boundingRect(0, 0, self.max_leth - (2 * self.padding), 0, Qt.TextWordWrap, self.msg)
         # 计算适合的宽度，考虑了内边距的影响
-        content_width = min(content_rect.width() + (2 * self.padding), 500)+ (2 * self.padding)
+        content_width = min(content_rect.width() + (2 * self.padding), self.max_leth)+ (2 * self.padding)
         # 获取文本在上述宽度下的实际高度
         content_height = content_rect.height()
         # 计算消息气泡的总高度，考虑了内边距
@@ -78,7 +139,7 @@ class Message_bubble(QWidget):
         self.avatar_label.setScaledContents(True)  # 自适应图像大小
 
         #顯示發件人
-        self.ui.who.setText(str(self.name))
+        self.ui.who.setText(str(self.sender_name))
 
         self.ui.message_bubble.mousePressEvent = self.toggle_selection  # 替换点击事件
 
@@ -97,7 +158,18 @@ class Message_bubble(QWidget):
         self.ui.message_bubble.style().unpolish(self.ui.message_bubble)
         self.ui.message_bubble.style().polish(self.ui.message_bubble)
         self.ui.message_bubble.update()
+    
+    def receive_file(self):
+        print("接收文件函数被调用了")
+        # 假设在这个函数中会启动一个线程来进行文件接收
+        shared_module.client.receive_file_request(self.chat_id,self.file_path)
+        # 在接收过程中，根据实际的进度更新进度条
+        pass
 
+    def update_progress(self, percentage):
+        if self.is_file :
+            self.progress_bar.setValue(percentage)
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 

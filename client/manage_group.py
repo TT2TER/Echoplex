@@ -18,7 +18,7 @@ class Manage_group(QWidget):
         """这里写调用发送创建群组请求的函数以及消息内容的处理"""
         member_ids=self.ui.group_member_list.toPlainText()
         print(member_ids)
-        #请帮我写一段python代码，用来判断一串字符串的合法性，这串字符串应该满足以下要求：1，由若干1开头的五位数组成。2.五位数个数大于等于两个。3.两个数之间用;分隔
+        #以下是正確性驗證
         pattern = r'^1\d{4}(;1\d{4})*$'
         if re.match(pattern, member_ids)== None:
             QMessageBox.warning(self,"成員不合法","請滿足以下要求：\n1:由若干1开头的五位用戶id组成\n2:两个数之间用英文符號;分隔")

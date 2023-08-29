@@ -28,7 +28,9 @@ class Main_win(QWidget):
         # 用于动态维护的好友列表和消息列表
         self.friend_item = []
         self.chat_item = []
-        
+
+        #用於指向當前加載的消息框
+        self.cur_bubble=None
 
 #以上是最終實現的信號槽
 #以下是測試用的信號槽和函數
@@ -133,25 +135,6 @@ class Main_win(QWidget):
         elif sys.platform.startswith('linux'):
             os.system(f'xdg-open "{link}"')  # 适用于Linux系统
 
-    # def receive_a_file(self,content):
-    #     """收到一个文件形式的消息
-        
-    #     如果发件人是自己，直接显示
-    #     如果发件人不是自己，直接显示，点击的时候调用 client.receive_file_request
-
-    #     """
-    #     print("进入文件处理流程")
-    #     if sender_id==shared_module.client.user_id:
-    #         msg="@T%^gGs!.?y6;"+"文件发送成功;"+filepath+";文件大小为;"+str(filesize)
-    #         print("文件发送成功消息已进入消息框处理")
-    #         self.print_online_message(chat_id,sender_id,time,msg)
-            
-    #     else :
-    #         msg="@T%^gGs!.?y6""收到一个文件"+filepath+"\n文件大小为:"+str(filesize)+"点击消息接收"
-    #         print("文件接收消息已进入消息框处理")
-    #         self.print_online_message(chat_id,sender_id,time,msg)
-            
-
 
 #以上是发送文件功能
 
@@ -176,20 +159,9 @@ class Main_win(QWidget):
         要找name,avatar_path
         """
         print("进入了打印在线消息\n")
-        # time_string = time.strftime("%Y-%m-%d %H:%M:%S")
-        #先把消息存到历史消息里
-        #TODO:
         shared_module.client.append_msg(content)
         #在這裡面找到sender_name和sender_avatar_path
         chat_id = content["chat_id"]
-        #下面是重构的垃圾
-        # sender_name=shared_module.client.find_name(chat_id)
-
-        # self.img_path = "lib/login_back.png"
-        # self.image_path = os.path.join(os.path.dirname(__file__), self.img_path)
-        # timestamp = int(_time)
-        # timeArray = time.localtime(timestamp)
-        # timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
 
         flag = 0
         for i in self.chat_item:
@@ -197,15 +169,11 @@ class Main_win(QWidget):
                 self.renew_list(content)
                 flag=1
                 break
-
+        
         if flag == 0 :
             self.add_one_list(content)
-
-        # sender_avatar_path = self.image_path
-        # if sender_id == shared_module.client.user_id:
-        #     sender_name = shared_module.client.user_name
-        # #在這裡面找到sender_name和sender_avatar_path
         if self.cur_id == chat_id:
+            print(chat_id)
             self.add_one_message(content)
             pass
         else :
@@ -349,11 +317,25 @@ class Main_win(QWidget):
 
         :avatar_path,time为收到该条消息的时间，msg为消息内容
         """
-        show_message=Message_bubble(content)
-        message_item=QListWidgetItem(self.ui.view_box)
-        message_item.setSizeHint(show_message.sizeHint())
-        self.ui.view_box.setItemWidget(message_item,show_message)
-#以下是聊天窗口的功能函數
+        print("向屏幕中打印")
+        try:
+            self.cur_bubble=Message_bubble(content)
+            message_item=QListWidgetItem(self.ui.view_box)
+            message_item.setSizeHint(self.cur_bubble.sizeHint())
+            self.ui.view_box.setItemWidget(message_item,self.cur_bubble)
+            # if self.cur_bubble.is_file:
+            #     for i in range(101):
+            #         self.cur_bubble.update_progress(i)
+            #         time.sleep(0.1)
+        except Exception as e:
+            print("新建消息報錯", e)
+
+#以上是聊天窗口的功能函數
+
+#這個是用來更新percentage的函數，有小的時間順序bug，但已經奇技淫巧解決了
+    def update_percentage(self,percentage):
+        if self.cur_bubble.is_file:
+            self.cur_bubble.update_progress(percentage)
 
 #以下是群聊的跳转逻辑
     def add_new_group(self):

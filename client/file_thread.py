@@ -5,6 +5,7 @@ import socket
 from lib.public import shared_module
 import sys, os
 from tool_function import get_file_extension
+import time
 
 
 # 发文件线程
@@ -33,6 +34,10 @@ class FileSendThread(QThread):
         # 发送文件
         buff_size = 10240
         # 根据文件大小发送文件
+
+        #下面這行代碼不要刪除，否則會出現進度條加載錯誤
+        time.sleep(1)
+        #上面這行代碼不要刪除，否則會出現進度條加載錯誤
         print("Begin sending……")
         with open(self.file_path, 'rb') as file:
             data_sent = 0
@@ -64,8 +69,8 @@ def send_file_handler(emit_data):
         if back_data == '0000':
             print("文件发送成功")
             # 文件发送成功的UI交互，弹窗
-            
-            shared_module.progress_bar.close_progress_bar()
+            #TODO:
+            #shared_module.progress_bar.close_progress_bar()
 
             print("文件发送成功,在",emit_data.get('filepath', None))
 

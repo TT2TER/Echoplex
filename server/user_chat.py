@@ -49,9 +49,7 @@ def user_chat(received_data, socket, address, database):
         if not filepath:
             insert_table_chat(database,sender_id,chat_id,chat_time=time,chat_content=msg,table_name="chat")
         else:
-            print("准备插入文件")
             insert_table_file(database,"file",sender_id,chat_id,time,filepath,filesize)
-            print("结束插入文件")
         json_message = json.dumps(received_data).encode('utf-8')
         for receiver in receivers:
             if receiver in online_clients:

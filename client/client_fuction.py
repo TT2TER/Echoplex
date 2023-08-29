@@ -541,10 +541,9 @@ class Client:
         else:
             opp_id = num1
         opp_name = ''
-        opp_id = str(opp_id)
-        for value in self.friend_list.values():
-            if opp_id in value.keys() :
-                opp_name = value[opp_id]
+        for id, name, part in self.friend_list:
+            if id == opp_id:
+                opp_name = name
         print(opp_name)
         return opp_name
 

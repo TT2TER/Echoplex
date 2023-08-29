@@ -158,6 +158,8 @@ class Main_win(QWidget):
         shared_module.client.append_msg(chat_id, sender_id, msg, _time )
         #在這裡面找到sender_name和sender_avatar_path
         sender_name=shared_module.client.find_name(chat_id)
+        if sender_id == shared_module.client.user_id:
+            sender_name = shared_module.client.user_name
         sender_avatar_path="sender_avatar_path"
         timestamp = int(_time)
         timeArray = time.localtime(timestamp)
@@ -277,13 +279,15 @@ class Main_win(QWidget):
             if len(msg_list) == 0:
                 print("消息记录为空")
             else:
+                print("将打印与此用户的历史消息")
+                msg_list.reverse()
                 for msg in msg_list:
-                    [chat_id, sender_id, msg, time] = msg
+                    [chat_id, sender_id, msg, _time] = msg
                     #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
-                    sender_name=str(sender_id)
+                    sender_name = shared_module.client.find_name(chat_id)
                     avatar_path="test"
-                    time = int(time)
-                    timeArray = datetime.localtime(time)
+                    timestamp = int(_time)
+                    timeArray = time.localtime(timestamp)
                     timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
                     self.add_one_message(sender_id,sender_name,avatar_path, timestr, msg)
                     print(chat_id,"的消息列表打印完毕")

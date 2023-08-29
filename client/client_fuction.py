@@ -63,10 +63,10 @@ class Client:
         # 向服务器发送用户登录请求
         # 包括用户ID和密码
         # 返回状态码以指示登录尝试的结果
-
         data = {
             'type': 'user_login',
             'content': {
+                'token': None,
                 'user_id': user_id,
                 'user_pwd': user_pwd
             }
@@ -74,6 +74,30 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         print("User_login已发送", data )
         self.client_socket.sendall(json_data)
+
+        def auto_login(self):
+            # 向服务器发送用户登录请求
+            # 使用token
+            # 返回状态码以指示登录尝试的结果
+            token_filepath = "files/token/token.txt"
+            try:
+                with open(token_filepath, 'r') as token_file:
+                    token = token_file.read().strip()
+                    print(f"Read token from file: {token}")
+                    data = {
+                        'type': 'user_login',
+                        'content': {
+                            'token': token,
+                            'user_id': None,
+                            'user_pwd': None
+                        }
+                    }
+                    json_data = json.dumps(data).encode('utf-8')
+                    print("Auto_login已发送", data)
+                    self.client_socket.sendall(json_data)
+            except FileNotFoundError:
+                print("Token file not found.")
+
 
     # 向服务端发送注册请求
     def user_register(self, user_name, user_image, user_pwd, user_email):

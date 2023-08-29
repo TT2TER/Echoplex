@@ -3,6 +3,7 @@ from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from ui.login_ui import Ui_Login
 from time import sleep
+import os
 
 class Login(QWidget):
 
@@ -47,7 +48,15 @@ class Login(QWidget):
         #以下部分是信息反馈
         if back_data == "0003":
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
-
+            print("尝试写入token")
+            token = content['token']
+            savepath = "files/token/token.txt"
+            # 如果savepath不存在，创建savepath
+            os.makedirs(os.path.dirname(savepath), exist_ok=True)
+            # 如果token.txt不存在，创建它。往token.txt中写入token
+            with open(savepath, 'w') as token_file:
+                token_file.write(token)
+            print("Token saved to token.txt")
             shared_module.client.user_id = content['user_id']
             shared_module.client.user_name = content['user_name']
             # shared_module.client.pull_friendlist()
@@ -57,6 +66,7 @@ class Login(QWidget):
             shared_module.main_page.show()
             shared_module.main_page.init_chat_list()
             # 关闭自身窗口
+            print("登录窗口要关闭啦！")
             self.close()
         else:
             QMessageBox.warning(self, '登录失败', '用户名或密码错误。')

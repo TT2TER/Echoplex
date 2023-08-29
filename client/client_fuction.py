@@ -15,7 +15,7 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = [(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
+            self.msg_list = []#[(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
             self.add_friend_list = []
             self.friend_list = []
         except Exception as e:
@@ -139,7 +139,7 @@ class Client:
                 "time": timestamp,
 #                "time":now,
                 "filesize": None,
-                "filepath": None,
+                "filepath": None
             }
         }
         # 向服务端发送消息
@@ -559,7 +559,10 @@ class Client:
     def init_msg_list(self, back_data, content):
         if back_data == "0000":
             print("申请消息列表成功")
-            self.msg_list = content["list"].reverse()
+            print(self.msg_list)
+            self.msg_list = content["list"]
+            print(self.msg_list)
+            shared_module.main_page.init_chat_list()
         else:
             print("申请消息列表失败")
 

@@ -23,8 +23,8 @@ class Chating_item(QWidget):
         self.sender_id = sender_id
 
         # 初始化更新姓名
-        self.ui.name.setText(name)
-
+        self.ui.name.setText(self.name)
+        self.ui.message_time.setText(self.time)  
         # 初始化头像
         self.avatar_label = QLabel(self.ui.avatar)
         self.avatar_label.setGeometry(QRect(0, 0, 48, 48))

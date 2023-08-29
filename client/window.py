@@ -219,16 +219,7 @@ class Main_win(QWidget):
         """這個函數用來從登陸界面打開時初始化聊天列表"""
         print(shared_module.client.msg_list)
         for chat_id, sender_id, _time, msg in shared_module.client.msg_list :
-            
-            #TODO：
-            #找到對方名字的函數
-            # name = shared_module.client.find_name(chat_id)
-            # #下面調用之增加一個list的函數
-            # timestamp = int(_time)
-            # timeArray = time.localtime(timestamp)
-            # timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-            # print(timestr)
-            #TODO:lh在这里补一个content
+
             content = {
                 'chat_id' : chat_id,
                 'sender': sender_id,
@@ -239,7 +230,14 @@ class Main_win(QWidget):
                 'msg_type': 'friend_chat',
                 'is_avatar': False
             }
-            self.add_one_list(content)
+            flag = 0
+            for i in self.chat_item:
+                if i.chat_id == chat_id:
+                    flag = 1
+                    break
+
+            if flag == 0:
+                self.add_one_list(content)
         pass
 
     def add_one_list(self,content):

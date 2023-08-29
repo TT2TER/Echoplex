@@ -6,7 +6,7 @@ def create_view_chat(con,view_name="view_chat"):
     """
     
     cursor=con.cursor()
-    sql="CREATE VIEW "+view_name+" (chat_id,sender_id,chat_time,chat_content) AS SELECT chat_id,sender_id,MAX(chat_time),chat_content FROM table_chat GROUP BY chat_id ORDER BY MIN(chat_time) DESC"
+    sql="CREATE VIEW "+view_name+" (chat_id,sender_id,chat_time,chat_content) AS SELECT chat_id,sender_id,MAX(chat_time),chat_content FROM chat GROUP BY chat_id ORDER BY chat_time DESC"
     try:
         cursor.execute(sql)
         con.commit()
@@ -54,8 +54,10 @@ def search_sequence(con,user_id,view_name="view_chat"):
             print(sql+str(chat_id))
             cursor.execute(sql+str(chat_id))
             ret=cursor.fetchone()
+            print(ret)
             if ret:
                 chat.append(ret)
+        chat=sorted(chat,key=lambda x:x[2],reverse=True)
         return chat
     except:
         print("Search Failed")

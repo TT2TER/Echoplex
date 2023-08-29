@@ -112,6 +112,12 @@ class Main_win(QWidget):
             base_name = os.path.basename(full_path)
             file_extension = os.path.splitext(base_name)[1]
             display_text = f'<a href="file:{full_path}">文件名：{base_name}</a><br>文件类型：{file_extension}'
+            shared_module.client.send_file_request(self.cur_id,full_path)
+        else:
+            QMessageBox.warning(self,"发送失败","文件路径获取失败")
+
+    def progress_bar_show(self):
+        shared_module.progress_bar.show()
 
     def update_label(self, text):
         self.text_browser.setHtml(text)
@@ -186,7 +192,9 @@ class Main_win(QWidget):
 #以下是聊天列表的功能函數
     def init_chat_list(self):
         """這個函數用來從登陸界面打開時初始化聊天列表"""
+        print(shared_module.client.msg_list)
         for chat_id, sender_id, _time, msg in shared_module.client.msg_list :
+            
             #TODO：
             #這裡寫找到頭像路徑的函數
             self.img_path = "lib/login_back.png"
@@ -198,11 +206,13 @@ class Main_win(QWidget):
             timestamp = int(_time)
             timeArray = time.localtime(timestamp)
             timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+            print(timestr)
             self.add_one_list(chat_id, sender_id, name,self.image_path, timestr, msg)
         pass
 
     def add_one_list(self,chat_id, sender_id,name,avatar_path, time:str="" , msg:str=""):
         print("实例化了", chat_id)
+        print(time)
         """實例化一個消息列表框"""
         new_chat_bar=Chating_item(chat_id,sender_id,name,avatar_path,time,msg)
         self.chat_item.insert(0,new_chat_bar)

@@ -3,6 +3,7 @@ from PySide2.QtUiTools import QUiLoader
 from lib.public import shared_module
 from ui.login_ui import Ui_Login
 from time import sleep
+import os
 
 class Login(QWidget):
 
@@ -18,7 +19,7 @@ class Login(QWidget):
         self.ui.login_butt.clicked.connect(self.login)
 
         # 按下切换昼夜按钮切换黑夜模式
-        self.ui.dark_mode_butt.clicked.connect(self.toggle_day_night_mode)
+        self.ui.remember_butt.clicked.connect(self.remember_pwd)
 
         # 按下注册按钮跳转到注册界面
         self.ui.reg_butt.clicked.connect(self.show_registration_page)
@@ -47,7 +48,15 @@ class Login(QWidget):
         #以下部分是信息反馈
         if back_data == "0003":
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
-
+            print("尝试写入token")
+            token = content['token']
+            savepath = "files/token/token.txt"
+            # 如果savepath不存在，创建savepath
+            os.makedirs(os.path.dirname(savepath), exist_ok=True)
+            # 如果token.txt不存在，创建它。往token.txt中写入token
+            with open(savepath, 'w') as token_file:
+                token_file.write(token)
+            print("Token saved to token.txt")
             shared_module.client.user_id = content['user_id']
             shared_module.client.user_name = content['user_name']
             shared_module.client.pull_friendlist()
@@ -58,12 +67,13 @@ class Login(QWidget):
             sleep(0.2)
             #shared_module.main_page.init_chat_list()
             # 关闭自身窗口
+            print("登录窗口要关闭啦！")
             self.close()
         else:
             QMessageBox.warning(self, '登录失败', '用户名或密码错误。')
             return
 
-    def toggle_day_night_mode(self):
+    def remember_pwd(self):
         # 这里可以添加切换日夜模式的逻辑
         print("pushed")
         

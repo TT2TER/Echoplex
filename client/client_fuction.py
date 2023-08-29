@@ -15,7 +15,7 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = [(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
+            self.msg_list = []#[(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
             self.add_friend_list = []
             self.friend_list = []
         except Exception as e:
@@ -56,10 +56,10 @@ class Client:
         # 向服务器发送用户登录请求
         # 包括用户ID和密码
         # 返回状态码以指示登录尝试的结果
-
         data = {
             'type': 'user_login',
             'content': {
+                'token': None,
                 'user_id': user_id,
                 'user_pwd': user_pwd
             }
@@ -67,6 +67,30 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         print("User_login已发送", data )
         self.client_socket.sendall(json_data)
+
+        def auto_login(self):
+            # 向服务器发送用户登录请求
+            # 使用token
+            # 返回状态码以指示登录尝试的结果
+            token_filepath = "files/token/token.txt"
+            try:
+                with open(token_filepath, 'r') as token_file:
+                    token = token_file.read().strip()
+                    print(f"Read token from file: {token}")
+                    data = {
+                        'type': 'user_login',
+                        'content': {
+                            'token': token,
+                            'user_id': None,
+                            'user_pwd': None
+                        }
+                    }
+                    json_data = json.dumps(data).encode('utf-8')
+                    print("Auto_login已发送", data)
+                    self.client_socket.sendall(json_data)
+            except FileNotFoundError:
+                print("Token file not found.")
+
 
     # 向服务端发送注册请求
     def user_register(self, user_name, user_image, user_pwd, user_email):
@@ -359,14 +383,17 @@ class Client:
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
-
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
-                shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(send_file_handler)
+                shared_module.file_thread.percentage.connect(shared_module.progress_bar.update_percentage)
+                shared_module.file_thread.start()
+                shared_module.main_page.progress_bar_show()
+                print("窗口打开成功！")
                 # file_thread.wait()
                 print("send_file函数结束了")
             else:
                 print("服务器不允许发送文件，寄了，记载client_function,send_file里头")
+                
         except Exception as e:
             print("send_file寄了，寄在client_function,send_file里头：" + str(e))
 
@@ -379,11 +406,16 @@ class Client:
 
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
-                #写接收进度
+                shared_module.main_page.progress_bar_show()
+                print("窗口打开成功！")
+                shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
+                
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:
             print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
+
+    
 
     def receive_friend_message(self, back_data, content):
         sender_id = content["sender"]
@@ -400,6 +432,7 @@ class Client:
             pass
         else :
             #TODO：
+            
             #处理这是一个文件
             #我得在里面调用receive_file_request
             pass
@@ -521,7 +554,10 @@ class Client:
     def init_msg_list(self, back_data, content):
         if back_data == "0000":
             print("申请消息列表成功")
-            self.msg_list = content["list"].reverse()
+            print(self.msg_list)
+            self.msg_list = content["list"]
+            print(self.msg_list)
+            shared_module.main_page.init_chat_list()
         else:
             print("申请消息列表失败")
 

@@ -42,6 +42,8 @@ def user_send_file(received_data, _socket, address, database):
             filename = os.path.basename(filepath)
             user_id = find_userid_by_socket(_socket)
             system_name = platform.system()
+            received_data["type"]="user_chat"
+            user_chat(received_data, _socket, address, database)
             if is_avatar:
                 windows_savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
             elif chat_id is not None:
@@ -69,7 +71,6 @@ def user_send_file(received_data, _socket, address, database):
         except Exception as e:
             print("An error occurred:", e)
         finally:
-            user_chat(received_data, _socket, address, database)
             receive_socket.close()
 
     send_thread = threading.Thread(target=receive_file,

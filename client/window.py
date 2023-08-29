@@ -20,6 +20,8 @@ class Main_win(QWidget):
         self.ui.add_friend_butt.clicked.connect(self.add_friend)
         self.ui.get_new_friend.clicked.connect(self.check_add_friend)
         self.ui.send_file_butt.clicked.connect(self.show_file_dialog)
+        self.ui.group_manage_butt.clicked.connect(self.)
+        self.ui.new_group_butt.clicked.connect(self.)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -98,7 +100,7 @@ class Main_win(QWidget):
             print("查无此人")
             QMessageBox.information(self,"查无此人","请检查id是否正确")
 
-#以上是添加好友相關函數
+#以上是添加好友相關函數杀人
 
 #以下是发送文件功能
     def show_file_dialog(self):
@@ -152,7 +154,8 @@ class Main_win(QWidget):
 
 
 #以上是发送文件功能
-#以下是收發消息相關函數
+
+#以下是私聊收發消息相關函數（群聊也许能复用
     def send(self):
         # 获取发送框中的文本
         message = self.ui.text_in.toPlainText()
@@ -209,11 +212,7 @@ class Main_win(QWidget):
             print("不是当前窗口，等待用户点击后加载")
             pass
 
-
-
-
-
-#以上是收發消息相關函數
+#以上是私聊收發消息相關函數（群聊也许能复用
 
 #以下是聊天列表的功能函數
     def init_chat_list(self):
@@ -344,7 +343,6 @@ class Main_win(QWidget):
                     self.add_one_message(content)
                     print(chat_id,"的消息列表打印完毕")
 
-
     def add_one_message(self,content):
         """
         調用這個函數來打印消息
@@ -357,7 +355,17 @@ class Main_win(QWidget):
         message_item=QListWidgetItem(self.ui.view_box)
         message_item.setSizeHint(show_message.sizeHint())
         self.ui.view_box.setItemWidget(message_item,show_message)
+#以下是聊天窗口的功能函數
 
+#以下是群聊的跳转逻辑
+    def add_new_group():
+        """这个函数是点击了创建新群聊后调用的函数
+        会调起创建新群组弹窗
+        """
+        print("即将打开新建群聊窗口……")
+        shared_module.new_group.show()
+
+#以上是群聊的跳转逻辑
 
 
 if __name__ == "__main__":

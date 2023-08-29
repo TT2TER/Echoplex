@@ -256,6 +256,13 @@ QTabWidget::pane {
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="group_manage_butt">
+         <property name="text">
+          <string>群组管理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="setting_butt">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">

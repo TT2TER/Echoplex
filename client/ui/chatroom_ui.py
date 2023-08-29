@@ -120,6 +120,11 @@ class Ui_chatroom(object):
 
         self.left.addItem(self.verticalSpacer_2)
 
+        self.group_manage_butt = QPushButton(chatroom)
+        self.group_manage_butt.setObjectName(u"group_manage_butt")
+
+        self.left.addWidget(self.group_manage_butt)
+
         self.setting_butt = QPushButton(chatroom)
         self.setting_butt.setObjectName(u"setting_butt")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -380,6 +385,7 @@ class Ui_chatroom(object):
         chatroom.setWindowTitle(QCoreApplication.translate("chatroom", u"Form", None))
         self.avatar_show.setText(QCoreApplication.translate("chatroom", u"<html><head/><body><p><br/></p></body></html>", None))
         self.avatar_butt.setText(QCoreApplication.translate("chatroom", u"\u70b9\u51fb\u4e0a\u4f20\u5934\u50cf", None))
+        self.group_manage_butt.setText(QCoreApplication.translate("chatroom", u"\u7fa4\u7ec4\u7ba1\u7406", None))
         self.setting_butt.setText(QCoreApplication.translate("chatroom", u"\u8bbe\u7f6e", None))
         self.send_file_butt.setText(QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6587\u4ef6", None))
         self.send_butt.setText(QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6d88\u606f", None))

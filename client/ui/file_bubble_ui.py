@@ -89,7 +89,7 @@ class Ui_file_bubble(object):
         self.who.setGeometry(QRect(220, 20, 67, 17))
         self.file_butt = QPushButton(self.widgetMain)
         self.file_butt.setObjectName(u"file_butt")
-        self.file_butt.setGeometry(QRect(330, 50, 111, 41))
+        self.file_butt.setGeometry(QRect(300, 60, 111, 41))
         self.file_butt.setStyleSheet(u"QPushButton {\n"
 "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #D988FF, stop:1 #AF7AC5); /* \u7d2b\u8272\u6e10\u53d8\u80cc\u666f\u989c\u8272 */\n"
 "    color: white;\n"

@@ -9,6 +9,7 @@ import os
 
 class Message_bubble(QWidget):
     # 只用来定义 message_bubble 的行为
+    # 应该是用不上了
     selected = Signal(str)
 
     def __init__(self, sender_id,name,avatar_path, time, msg):

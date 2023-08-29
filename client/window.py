@@ -139,13 +139,15 @@ class Main_win(QWidget):
         """
         print("进入文件处理流程")
         if sender_id==shared_module.client.user_id:
-            msg="文件发送成功"+filepath+"\n文件大小为:"+filesize
-            self.print_online_message(chat_id,sender_id,time,msg)
+            msg="@T%^gGs!.?y6;"+"文件发送成功;"+filepath+";文件大小为;"+str(filesize)
             print("文件发送成功消息已进入消息框处理")
-        else :
-            msg="收到一个文件"+filepath+"\n文件大小为:"+filesize+"点击消息接收"
             self.print_online_message(chat_id,sender_id,time,msg)
+            
+        else :
+            msg="@T%^gGs!.?y6""收到一个文件"+filepath+"\n文件大小为:"+str(filesize)+"点击消息接收"
             print("文件接收消息已进入消息框处理")
+            self.print_online_message(chat_id,sender_id,time,msg)
+            
 
 
 #以上是发送文件功能

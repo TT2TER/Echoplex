@@ -170,8 +170,8 @@ QLabel#message_bubble[selected=&quot;true&quot;] {
    <widget class="QPushButton" name="file_butt">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>50</y>
+      <x>300</x>
+      <y>60</y>
       <width>111</width>
       <height>41</height>
      </rect>

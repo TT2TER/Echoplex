@@ -14,7 +14,7 @@ class Progress_bar(QWidget):
 
         self.update_button = QPushButton("返回,但不终止文件传输", self)
         self.layout.addWidget(self.update_button)
-        self.update_button.clicked.connect(self.close())
+        self.update_button.clicked.connect(self.close_progress_bar)
 
         self.percentage = 0
 

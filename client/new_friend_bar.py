@@ -5,6 +5,7 @@ from PySide2.QtCore import Signal, Qt, QRect
 from ui.new_friend_bar_ui import Ui_new_friend_bar
 from lib.public import shared_module
 from datetime import datetime
+import time
 
 
 class New_friend_bar(QWidget):
@@ -54,6 +55,11 @@ class New_friend_bar(QWidget):
         sender_id=self.opp_id
         name=self.name
         now = datetime.now()
-        time = datetime.timestamp(now)
-        shared_module.main_page.add_one_list(chat_id, sender_id,name,"", time , name+"已经成为了您的新好友")
+        timestamp = int(datetime.timestamp(now))
+        timeArray = time.localtime(timestamp)
+        timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+        shared_module.main_page.add_one_list(chat_id, sender_id,name,"", timestr , name+"已经成为了您的新好友")
+
+        shared_module.client.friend_chat("我们已经成为好友啦，快来跟我聊天吧！", chat_id)
+
         pass

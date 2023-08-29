@@ -8,6 +8,7 @@ class shared_module:
     setip_page=None
     add_friend=None
     new_friends=None
+    progress_bar=None
     #以下是功能实例化对象
     client=None 
     #以下是线程实例化对象

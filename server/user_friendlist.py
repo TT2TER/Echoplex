@@ -24,6 +24,13 @@ def user_friendlist(received_data, socket, address, database):
         for i,n,par in ret:
             partion.append(par)
         newre = []
+
+
+        for id1,id2,par in ret:
+            re=select_table(database,"user",user_id=id2)
+            name=re[0][1]
+            newre.append(id2,name,par)
+        """
         for par in partion:
             re = select_table(database,"relation",user_id=user_id,partion=par)
             re=sorted(re,key=lambda x:x[1])
@@ -31,6 +38,8 @@ def user_friendlist(received_data, socket, address, database):
                 r=select_table(database,"user",user_id=i)
                 for id,name,pwd,email,image in r:
                     newre.append((i,name,par))
+        """
+        
         #查询id对应的分组，将返回值组织成一个（id,name,partition)的list
         
 

@@ -4,6 +4,7 @@ from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
+from progress_bar import Progress_bar
 from datetime import datetime
 import time
 import os,sys
@@ -73,14 +74,14 @@ class Main_win(QWidget):
         if back_data == "0000":
             
             sender = content["sender"]
-            time = content["time"]
+            _time = content["time"]
             ans = content["ans"]
             name = content["name"]
             print( [sender, time, ans,name])
 
             if ans == "yes":
                 #TODO：添加到好友列表 defult
-                shared_module.client.friend_list['def'][str(sender)] = name
+                shared_module.client.friend_list.append((sender, name, 'default'))
                 #TODO：添加到聊天列表
                 if sender>shared_module.client.user_id:
                     chat_id=shared_module.client.user_id*100000+sender
@@ -112,6 +113,13 @@ class Main_win(QWidget):
             base_name = os.path.basename(full_path)
             file_extension = os.path.splitext(base_name)[1]
             display_text = f'<a href="file:{full_path}">文件名：{base_name}</a><br>文件类型：{file_extension}'
+            shared_module.client.send_file_request(self.cur_id,full_path)
+        else:
+            QMessageBox.warning(self,"发送失败","文件路径获取失败")
+
+    def progress_bar_show(self):
+        shared_module.progress_bar = Progress_bar()
+        shared_module.progress_bar.show()
 
     def update_label(self, text):
         self.text_browser.setHtml(text)
@@ -150,6 +158,8 @@ class Main_win(QWidget):
         shared_module.client.append_msg(chat_id, sender_id, msg, _time )
         #在這裡面找到sender_name和sender_avatar_path
         sender_name=shared_module.client.find_name(chat_id)
+        if sender_id == shared_module.client.user_id:
+            sender_name = shared_module.client.user_name
         sender_avatar_path="sender_avatar_path"
         timestamp = int(_time)
         timeArray = time.localtime(timestamp)
@@ -167,7 +177,7 @@ class Main_win(QWidget):
 #以下是聊天列表的功能函數
     def init_chat_list(self):
         """這個函數用來從登陸界面打開時初始化聊天列表"""
-        for chat_id, sender_id, time, msg in shared_module.client.msg_list :
+        for chat_id, sender_id, _time, msg in shared_module.client.msg_list :
             #TODO：
             #這裡寫找到頭像路徑的函數
             self.img_path = "lib/login_back.png"
@@ -176,8 +186,8 @@ class Main_win(QWidget):
             #找到對方名字的函數
             name = shared_module.client.find_name(chat_id)
             #下面調用之增加一個list的函數
-            time = int(time)
-            timeArray = datetime.localtime(time)
+            timestamp = int(_time)
+            timeArray = time.localtime(timestamp)
             timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
             self.add_one_list(chat_id, sender_id, name,self.image_path, timestr, msg)
 
@@ -269,13 +279,15 @@ class Main_win(QWidget):
             if len(msg_list) == 0:
                 print("消息记录为空")
             else:
+                print("将打印与此用户的历史消息")
+                msg_list.reverse()
                 for msg in msg_list:
-                    [chat_id, sender_id, msg, time] = msg
+                    [chat_id, sender_id, msg, _time] = msg
                     #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
-                    sender_name=str(sender_id)
+                    sender_name = shared_module.client.find_name(chat_id)
                     avatar_path="test"
-                    time = int(time)
-                    timeArray = datetime.localtime(time)
+                    timestamp = int(_time)
+                    timeArray = time.localtime(timestamp)
                     timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
                     self.add_one_message(sender_id,sender_name,avatar_path, timestr, msg)
                     print(chat_id,"的消息列表打印完毕")

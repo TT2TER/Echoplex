@@ -149,19 +149,6 @@ class Ui_chatroom(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
-
-        self.send_file_butt = QPushButton(chatroom)
-        self.send_file_butt.setObjectName(u"send_file_butt")
-        sizePolicy1.setHeightForWidth(self.send_file_butt.sizePolicy().hasHeightForWidth())
-        self.send_file_butt.setSizePolicy(sizePolicy1)
-        self.send_file_butt.setMinimumSize(QSize(80, 20))
-        self.send_file_butt.setMaximumSize(QSize(80, 20))
-
-        self.horizontalLayout_2.addWidget(self.send_file_butt)
-
 
         self.middle.addLayout(self.horizontalLayout_2)
 
@@ -203,6 +190,15 @@ class Ui_chatroom(object):
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.send_file_butt = QPushButton(self.layoutWidget)
+        self.send_file_butt.setObjectName(u"send_file_butt")
+        sizePolicy1.setHeightForWidth(self.send_file_butt.sizePolicy().hasHeightForWidth())
+        self.send_file_butt.setSizePolicy(sizePolicy1)
+        self.send_file_butt.setMinimumSize(QSize(80, 31))
+        self.send_file_butt.setMaximumSize(QSize(80, 31))
+
+        self.horizontalLayout.addWidget(self.send_file_butt)
 
         self.send_butt = PushButton(self.layoutWidget)
         self.send_butt.setObjectName(u"send_butt")
@@ -330,7 +326,7 @@ class Ui_chatroom(object):
         self.toolBox.setGeometry(QRect(9, 46, 274, 278))
         self.page = QWidget()
         self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 88, 88))
+        self.page.setGeometry(QRect(0, 0, 274, 210))
         self.verticalLayout_4 = QVBoxLayout(self.page)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.my_friend = QListWidget(self.page)

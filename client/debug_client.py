@@ -35,6 +35,7 @@ sender_id = None
 filepath = "files/None/image.png"
 shared_module.client.receive_file_request(sender_id, filepath)
 json_data = shared_module.client.client_socket.recv(10240)
+print(json_data)
 data = json.loads(json_data.decode('utf-8'))
 content = data['content']
 back_data = data['back_data']

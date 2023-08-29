@@ -17,14 +17,7 @@ class Client:
             self.user_name = None
             self.msg_list = [(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
             self.add_friend_list = []
-            self.friend_list = {
-                'def': {
-                    '10001': "靈藥",
-                    '10002': "222",
-                    '10003': '3333',
-                    '10004': '4444'
-                }
-            }
+            self.friend_list = []
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
@@ -390,14 +383,17 @@ class Client:
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
-
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(send_file_handler)
+                shared_module.main_page.progress_bar_show()
+                print("窗口打开成功！")
+                shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
                 # file_thread.wait()
                 print("send_file函数结束了")
             else:
                 print("服务器不允许发送文件，寄了，记载client_function,send_file里头")
+                
         except Exception as e:
             print("send_file寄了，寄在client_function,send_file里头：" + str(e))
 
@@ -410,11 +406,16 @@ class Client:
 
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
-                #写接收进度
+                shared_module.main_page.progress_bar_show()
+                print("窗口打开成功！")
+                shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
+                
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:
             print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
+
+    
 
     def receive_friend_message(self, back_data, content):
         sender_id = content["sender"]
@@ -431,6 +432,7 @@ class Client:
             pass
         else :
             #TODO：
+            
             #处理这是一个文件
             #我得在里面调用receive_file_request
             pass
@@ -564,10 +566,9 @@ class Client:
         else:
             opp_id = num1
         opp_name = ''
-        opp_id = str(opp_id)
-        for value in self.friend_list.values():
-            if opp_id in value.keys() :
-                opp_name = value[opp_id]
+        for id, name, part in self.friend_list:
+            if id == opp_id:
+                opp_name = name
         print(opp_name)
         return opp_name
 

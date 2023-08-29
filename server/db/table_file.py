@@ -6,7 +6,8 @@ def create_table_file(con,table_name="file"):
     chat_id : 聊天表编号
     sender_id : 文件发送者编号
     chat_time : 文件发送时间    datetime.now()
-    file : 传输的文件
+    filepath : 传输的文件
+    filesize : 文件大小
     """
     cursor=con.cursor()
     try:
@@ -15,7 +16,7 @@ def create_table_file(con,table_name="file"):
                   "chat_id INT,"
                   "chat_time FLOAT,"
                   "filepath text,"
-                  "filesize text"
+                  "filesize INT,"
                   "PRIMARY KEY(sender_id,chat_id,chat_time))")
         con.commit()
         print("table is created")

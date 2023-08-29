@@ -59,12 +59,13 @@ class Login(QWidget):
             print("Token saved to token.txt")
             shared_module.client.user_id = content['user_id']
             shared_module.client.user_name = content['user_name']
-            # shared_module.client.pull_friendlist()
+            shared_module.client.pull_friendlist()
             shared_module.client.pull_message()
-            #shared_module.client.pull_msg_list()
+            shared_module.client.pull_msg_list()
             # 创建主界面窗口
             shared_module.main_page.show()
-            shared_module.main_page.init_chat_list()
+            sleep(0.2)
+            #shared_module.main_page.init_chat_list()
             # 关闭自身窗口
             print("登录窗口要关闭啦！")
             self.close()

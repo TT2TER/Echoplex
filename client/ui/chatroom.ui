@@ -292,46 +292,7 @@ QTabWidget::pane {
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="send_file_butt">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>发送文件</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <layout class="QHBoxLayout" name="horizontalLayout_2"/>
        </item>
        <item>
         <widget class="QTabWidget" name="tabWidget_2">
@@ -418,6 +379,31 @@ QTabWidget::pane {
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="send_file_butt">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>31</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>31</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>发送文件</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="PushButton" name="send_butt">
@@ -600,8 +586,8 @@ QListWidget::item:selected {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>88</width>
-            <height>88</height>
+            <width>274</width>
+            <height>210</height>
            </rect>
           </property>
           <attribute name="label">

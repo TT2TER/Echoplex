@@ -4,6 +4,7 @@ from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
+from progress_bar import Progress_bar
 from datetime import datetime
 import os,sys
 import json
@@ -111,6 +112,13 @@ class Main_win(QWidget):
             base_name = os.path.basename(full_path)
             file_extension = os.path.splitext(base_name)[1]
             display_text = f'<a href="file:{full_path}">文件名：{base_name}</a><br>文件类型：{file_extension}'
+            shared_module.client.send_file_request(self.cur_id,full_path)
+        else:
+            QMessageBox.warning(self,"发送失败","文件路径获取失败")
+
+    def progress_bar_show(self,percentage):
+        shared_module.progress_bar = Progress_bar()
+        shared_module.progress_bar.show()
 
     def update_label(self, text):
         self.text_browser.setHtml(text)

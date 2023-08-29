@@ -366,14 +366,17 @@ class Client:
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
-
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(send_file_handler)
+                shared_module.main_page.progress_bar_show()
+                print("窗口打开成功！")
+                shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
                 # file_thread.wait()
                 print("send_file函数结束了")
             else:
                 print("服务器不允许发送文件，寄了，记载client_function,send_file里头")
+                
         except Exception as e:
             print("send_file寄了，寄在client_function,send_file里头：" + str(e))
 
@@ -386,11 +389,16 @@ class Client:
 
                 shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
-                #写接收进度
+                shared_module.main_page.progress_bar_show()
+                print("窗口打开成功！")
+                shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
+                
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:
             print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
+
+    
 
     def receive_friend_message(self, back_data, content):
         sender_id = content["sender"]

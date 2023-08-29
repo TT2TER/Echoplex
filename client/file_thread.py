@@ -11,6 +11,7 @@ from tool_function import get_file_extension
 class FileSendThread(QThread):
     # 通过类成员对象定义信号对象  
     notify = Signal(dict)
+    percentage=Signal(int)
 
     def __init__(self, ip, port, file_path, filesize):
         super().__init__()
@@ -41,9 +42,10 @@ class FileSendThread(QThread):
                 if not data:
                     break
                 self.socket.sendall(data)
-                data_sent += data
+                data_sent += len(data)
                 self.sent_percentage = data_sent * 100 / self.filesize
                 #在这里emit进度条
+                self.percentage.emit(self.percentage)
         print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
         print("文件发送完毕,准备关闭线程socket")
         self.socket.close()
@@ -62,6 +64,8 @@ def send_file_handler(emit_data):
         if back_data == '0000':
             print("文件发送成功")
             # 文件发送成功的UI交互，弹窗
+
+            shared_module.progress_bar.close_progress_bar()
 
     except Exception as e:
         print("结束发送文件时候寄了，在file_thread这send_file_handler里头:" + str(e))
@@ -131,7 +135,9 @@ def receive_file_handler(emit_data):
         if back_data == '0000':
             print("文件接收成功，路径是" + emit_data.get('filepath', None))
             # 文件接收成功的UI交互
+            #这里得想个办法变成message发出去
             #写message
+            shared_module.progress_bar.close_progress_bar()
 
     except Exception as e:
         print("结束接收文件时候寄了，在file_thread这receive_file_handler里头:" + str(e))

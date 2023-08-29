@@ -408,6 +408,7 @@ class Client:
             pass
         else :
             #TODO：
+            
             #处理这是一个文件
             #我得在里面调用receive_file_request
             pass

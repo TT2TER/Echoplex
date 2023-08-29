@@ -67,7 +67,7 @@ def send_file_handler(emit_data):
             
             shared_module.progress_bar.close_progress_bar()
 
-            QMessageBox.information("文件发送成功,在",emit_data.get('filepath', None))
+            print("文件发送成功,在",emit_data.get('filepath', None))
 
     except Exception as e:
         print("结束发送文件时候寄了，在file_thread这send_file_handler里头:" + str(e))

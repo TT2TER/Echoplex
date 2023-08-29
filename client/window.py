@@ -4,7 +4,6 @@ from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
-from progress_bar import Progress_bar
 from datetime import datetime
 import time
 import os,sys
@@ -118,7 +117,6 @@ class Main_win(QWidget):
             QMessageBox.warning(self,"发送失败","文件路径获取失败")
 
     def progress_bar_show(self):
-        shared_module.progress_bar = Progress_bar()
         shared_module.progress_bar.show()
 
     def update_label(self, text):

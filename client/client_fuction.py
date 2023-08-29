@@ -360,11 +360,11 @@ class Client:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
-                shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(send_file_handler)
+                shared_module.file_thread.percentage.connect(shared_module.progress_bar.update_percentage)
+                shared_module.file_thread.start()
                 shared_module.main_page.progress_bar_show()
                 print("窗口打开成功！")
-                shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
                 # file_thread.wait()
                 print("send_file函数结束了")
             else:

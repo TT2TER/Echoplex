@@ -4,6 +4,7 @@ from global_data import user_mailboxes
 from db.DataDB import search_member, search_all_user, sql_connection
 from db.table_chat import insert_table_chat
 from db.table_file import insert_table_file
+from tool_fuction import find_friend_id
 def user_chat(received_data, socket, address, database):
     # user_chat可能被user_send_file在别的线程调用，要重新建一个
     database = sql_connection()
@@ -21,16 +22,9 @@ def user_chat(received_data, socket, address, database):
         # 私聊
         if len(chat_id) == 10:
             # 一个是发送者，一个是接收者，但不知道是哪个
-            first_five = int(chat_id[:5])
-            last_five = int(chat_id[5:])
             sender_id = content["sender"]
             filepath=content["filepath"]
-            if first_five == sender_id:
-                receiver_id = last_five
-            elif last_five == sender_id:
-                receiver_id = first_five
-            else:
-                print("无法确定 receiver_id，可能存在错误。")
+            receiver_id = find_friend_id(sender_id, chat_id)
             content["receiver"] = receiver_id
             receivers = [sender_id, receiver_id]
         # 广播

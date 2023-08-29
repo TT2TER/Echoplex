@@ -3,8 +3,9 @@ import json
 import threading
 from datetime import datetime
 from lib.public import shared_module
+from video_chat_thread import *
 from file_thread import FileSendThread, FileReceiveThread, send_file_handler, receive_file_handler
-import os,time
+import os, time
 
 
 class Client:
@@ -15,7 +16,7 @@ class Client:
             self.client_socket.connect(self.server_address)
             self.user_id = None
             self.user_name = None
-            self.msg_list = []#[(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
+            self.msg_list = []  # [(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
             self.add_friend_list = []
             self.friend_list = []
         except Exception as e:
@@ -30,13 +31,15 @@ class Client:
                 'user_send_file': self.send_file,
                 'user_receive_file': self.receive_file,
                 'user_chat': self.receive_friend_message,
-                'user_addfriend': shared_module.main_page.rcv_addfriend,#self.rcv_addfriend,
-                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend, #self.rcv_ans_addfriend
+                'user_addfriend': shared_module.main_page.rcv_addfriend,  # self.rcv_addfriend,
+                'ans_addfriend': shared_module.main_page.rcv_ans_addfriend,  # self.rcv_ans_addfriend
                 'init_msg_list': self.init_msg_list,
                 'user_friendlist': self.rcv_friendlist,
-                'create_group':self.rcv_create_group,
-                'delete_group':self.rcv_delete_group,
-                'add_new_member':self.rcv_add_new_member,
+                'create_group': self.rcv_create_group,
+                'delete_group': self.rcv_delete_group,
+                'add_new_member': self.rcv_add_new_member,
+                'user_video_chat': self.rcv_video_chat,
+                'ans_video_chat': self.ans_video_chat
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -65,7 +68,7 @@ class Client:
             }
         }
         json_data = json.dumps(data).encode('utf-8')
-        print("User_login已发送", data )
+        print("User_login已发送", data)
         self.client_socket.sendall(json_data)
 
         def auto_login(self):
@@ -90,7 +93,6 @@ class Client:
                     self.client_socket.sendall(json_data)
             except FileNotFoundError:
                 print("Token file not found.")
-
 
     # 向服务端发送注册请求
     def user_register(self, user_name, user_image, user_pwd, user_email):
@@ -137,7 +139,7 @@ class Client:
                 "sender": self.user_id,
                 "chat_id": chat_id,
                 "time": timestamp,
-#                "time":now,
+                #                "time":now,
                 "filesize": None,
                 "filepath": None
             }
@@ -162,7 +164,7 @@ class Client:
                 "time": timestamp,
                 # "time":now,
                 "filepath": None,
-                "filesize":None
+                "filesize": None
             }
         }
         # 向服务端发送消息
@@ -185,7 +187,7 @@ class Client:
                 "group_id": group_id,
                 "receiver": receiver,
                 "time": timestamp,
-#                "time": now,
+                #                "time": now,
             }
         }
         # 向服务端发送消息
@@ -205,7 +207,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-    def create_group(self, group_member, group_name,image_path):
+    def create_group(self, group_member, group_name, image_path):
         # 创建一个群组
         # 包括群主的用户ID、成员列表和群组名称
         now = datetime.now()
@@ -217,7 +219,7 @@ class Client:
                 "group_member": group_member,
                 "group_name": group_name,
                 "group_create_time": timestamp,
-                "group_image":image_path
+                "group_image": image_path
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -227,7 +229,7 @@ class Client:
         # 发送添加好友请求
         # 包括发送者的用户ID、接收者的用户ID和时间戳
         # 发送请求添加好友时间
-        #print(target_id)
+        # print(target_id)
         now = datetime.now()
         _time = datetime.timestamp(now)
         data = {
@@ -258,7 +260,7 @@ class Client:
 
         # 发送同意或拒绝请求
         # 搜索自己的昵称
-      
+
         now = datetime.now()
         time = datetime.timestamp(now)
         data = {
@@ -272,7 +274,7 @@ class Client:
                 "name": self.user_name
             }
         }
-        
+
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
         print("all_send")
@@ -291,8 +293,6 @@ class Client:
     #     elif back_data == "0001":
     #         print("查无此人")
 
-
-
     def pull_friendlist(self):
         data = {
             "type": "pull_friendlist",
@@ -303,7 +303,7 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-#以下是发送文件的函数
+    # 以下是发送文件的函数
     def send_file_request(self, chat_id, file_path):
         # 向服务器发送文件发送请求
         # 包括接收者的ID地址、和本机文件路径
@@ -355,7 +355,7 @@ class Client:
 
     def receive_file_request(self, chat_id, file_path):
         # 向服务器发送文件接受请求
-        #file_path是服务器发给我的，我要再发回去
+        # file_path是服务器发给我的，我要再发回去
         # 包括接收者的ID地址、和服务端文件路径
         now = datetime.now()
         timestamp = datetime.timestamp(now)
@@ -379,11 +379,12 @@ class Client:
         # 在从服务器收到允许发文件的答复后，开始发文件线程
 
     def send_file(self, back_data, content):
-        #发送发送文件请求，服务器同意接受，在这里
+        # 发送发送文件请求，服务器同意接受，在这里
         try:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
-                shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"], content["filesize"])
+                shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"],
+                                                           content["filesize"])
                 shared_module.file_thread.notify.connect(send_file_handler)
                 shared_module.file_thread.percentage.connect(shared_module.progress_bar.update_percentage)
                 shared_module.file_thread.start()
@@ -393,7 +394,7 @@ class Client:
                 print("send_file函数结束了")
             else:
                 print("服务器不允许发送文件，寄了，记载client_function,send_file里头")
-                
+
         except Exception as e:
             print("send_file寄了，寄在client_function,send_file里头：" + str(e))
 
@@ -409,22 +410,20 @@ class Client:
                 shared_module.main_page.progress_bar_show()
                 print("窗口打开成功！")
                 shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
-                
+
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:
             print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
 
-    
-
     def receive_friend_message(self, back_data, content):
         sender_id = content["sender"]
-        chat_id=content["chat_id"]
+        chat_id = content["chat_id"]
         msg = content["msg"]
         time = content["time"]
         filepath = content["filepath"]
         filesize = content['filesize']
-        is_avatar=content['is_avatar']
+        is_avatar = content['is_avatar']
         print("进入了receive_friend_message\n")
         # if not filepath:
         #     #消息
@@ -434,16 +433,16 @@ class Client:
         # elif  is_avatar==False :
         #     shared_module.main_page.receive_a_file(content)
         #     print("收到一个文件，正在处理……")
-            #这个是要留的
+        # 这个是要留的
         if is_avatar:
             print("收到一个头像，正在存储……")
-            #TODO：
+            # TODO：
         else:
             shared_module.main_page.print_online_message(content)
             print("收到一条消息/文件，正在处理……")
             pass
-            #处理这是一个文件
-            #我得在里面调用receive_file_request
+            # 处理这是一个文件
+            # 我得在里面调用receive_file_request
         # filepath = content["filepath"]
         # if sender == self.user_id:
         #     if not filepath:
@@ -494,13 +493,13 @@ class Client:
     #     except Exception as e:
     #         print("receive_group_message寄了，寄在client_function,receive_group_message里头：" + str(e))
 
-    def rcv_friendlist(self,back_data,content):
-        
+    def rcv_friendlist(self, back_data, content):
+
         friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
             self.friend_list = friend_list_info
-            #friend_list_info是字典，partition，id,name
+            # friend_list_info是字典，partition，id,name
             print("拉取到了好友列表")
             print(friend_list_info)
 
@@ -512,7 +511,7 @@ class Client:
             # 未知错误
             return None
 
-    def del_friend(self,friend_id):
+    def del_friend(self, friend_id):
         try:
             data = {
                 "type": "del_friend",
@@ -526,8 +525,7 @@ class Client:
         except Exception as e:
             print("del_friend寄了，寄在client_function,del_friend里头：" + str(e))
 
-
-    def delete_group(self,group_id):
+    def delete_group(self, group_id):
         data = {
             "type": "delete_group",
             "content": {
@@ -537,23 +535,22 @@ class Client:
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
-
-    def add_new_member(self,group_id,member_id):
-        data={
-            "type":"add_new_member",
-            "content":{
-                "group_id":group_id,
-                "member_id":member_id
+    def add_new_member(self, group_id, member_id):
+        data = {
+            "type": "add_new_member",
+            "content": {
+                "group_id": group_id,
+                "member_id": member_id
             }
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
 
     def pull_msg_list(self):
-        data={
-            "type":"init_msg_list",
-            "content":{
-                "user_id":self.user_id
+        data = {
+            "type": "init_msg_list",
+            "content": {
+                "user_id": self.user_id
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -583,54 +580,53 @@ class Client:
         print(opp_name)
         return opp_name
 
-
-    def rcv_create_group(self,back_data,content):
-        if back_data=="0000":
+    def rcv_create_group(self, back_data, content):
+        if back_data == "0000":
             pass
-            #群聊创建成功
-            group_id=content['group_id']
-            group_manager=content['group_manager']
-            group_name=content['group_name']
-            group_member=content['group_member']
+            # 群聊创建成功
+            group_id = content['group_id']
+            group_manager = content['group_manager']
+            group_name = content['group_name']
+            group_member = content['group_member']
             #   UI function 
-        elif back_data=="0001":
+        elif back_data == "0001":
             pass
-            #群聊创建失败
+            # 群聊创建失败
             #   UI function
             pass
         else:
             return None
 
-    def rcv_delete_group(self,back_data,content):
-        if back_data=="0000":
+    def rcv_delete_group(self, back_data, content):
+        if back_data == "0000":
             pass
-            #群聊删除成功
+            # 群聊删除成功
             #   UI function 
             pass
-        elif back_data=="0001":
+        elif back_data == "0001":
             pass
-            #群聊删除失败
+            # 群聊删除失败
             #   UI function
             pass
         else:
             return None
 
-    def rcv_add_new_member(self,back_data,content):
-        if back_data=="0000":
+    def rcv_add_new_member(self, back_data, content):
+        if back_data == "0000":
             pass
-            #添加成员成功
-            group_id=content['group_id']
-            group_name=content['group_name']
-            group_member=content['group_member']
+            # 添加成员成功
+            group_id = content['group_id']
+            group_name = content['group_name']
+            group_member = content['group_member']
             #   UI function 
-        elif back_data=="0001": 
+        elif back_data == "0001":
             pass
-            #添加成员失败
+            # 添加成员失败
             #   UI function
             pass
         else:
             return None
-        
+
     def append_msg(self, chat_id, sender_id, msg, time):
         # TODO
 
@@ -652,3 +648,71 @@ class Client:
         print(msg_list)
         with open(filepath, 'w') as files:
             json.dump(msg_list, files)
+
+    def video_chat_request(self, chat_id):
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        data = {
+            "type": "user_video_chat",
+            "content": {
+                "user_id": self.user_id,
+                "chat_id": chat_id,
+                "time": timestamp
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+
+    def rcv_video_chat(self, back_data, content):
+        # 0000，则是视频接受者收到此消息
+        if back_data == "0000":
+            sender_id = content["user_id"]
+            time = content["time"]
+            sender_name = content["username"]
+            # TODO 大概有个弹窗,可能放到window.py下面？
+            print("收到了视频申请", sender_id, time, sender_name)
+            # 把ans填了，然后去掉注释
+            # ans = "yes" or "no"
+            self.ans_video_chat(ans, content)
+            if ans == "yes":
+                ip = content['ip']
+                shared_module.video_thread = VideoChatThread(ip)
+                shared_module.video_thread.start()
+                print(f"receiver开始与{ip}视频聊天啦")
+        # 0001，则是视频发起者接受到此消息，因为接收者不在线
+        elif back_data == "0001":
+            # TODO 大概有个弹窗提示吧
+            print("没这个人，或者好友不在线")
+
+    def ans_video_chat(self, ans, content):
+        # 发送同意或拒绝视频请求
+        now = datetime.now()
+        time = datetime.timestamp(now)
+        content['time'] = time
+        content['ans'] = ans
+        data = {
+            "type": "ans_video_chat",
+            "content": content
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)
+        print("all_send")
+
+    def rcv_ans_addfriend(self, back_data, content):
+        # 对方接收到同意或拒绝添加好友请求的回复
+        # 返回发送者的用户ID、时间戳和回复内容
+        # 对方收到好友请求并确定是否同意
+        sender = content["sender"]
+        time = content["time"]
+        ans = content["ans"]
+        name = content["name"]
+        receiver_ip = content["receiver_ip"]
+        print([sender, time, ans, name, receiver_ip])
+
+        if ans == "yes":
+            # 聊天！
+            shared_module.video_thread = VideoChatThread(receiver_ip)
+            shared_module.video_thread.start()
+            print("收到", name, receiver_ip, "的消息，对方同意，开始视频聊天")
+        else:
+            print("收到", name, "回复，对方拒绝，舔狗舔到最后一无所有")

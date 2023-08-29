@@ -20,7 +20,7 @@ from video_chat import Video_Server, Video_Client,Audio_Server, Audio_Client
 # PORT = args.port
 # VERSION = args.version
 # LEVEL = args.level
-IP = '127.0.0.1'
+IP = '10.194.52.135'
 PORT = 10087
 VERSION = 4
 LEVEL = 1

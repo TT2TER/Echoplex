@@ -33,13 +33,15 @@ class Message_bubble(QWidget):
 
         self.image_path=None
         self.find_avartar(self.sender_id)
-
         if self.sender_id== shared_module.client.user_id:
             self.name=shared_module.client.user_name
             self.ui = Ui_chat_bubble_me()
             self.ui.setupUi(self)
         else :
-            self.name=shared_module.client.find_name(self.chat_id)
+            if len(self.chat_id)==10:
+                self.name=shared_module.client.find_name(self.chat_id)
+            else:
+                self.name=str(self.sender_id)
             self.ui = Ui_chat_bubble_opp()
             self.ui.setupUi(self)
 

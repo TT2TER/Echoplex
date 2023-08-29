@@ -3,7 +3,7 @@ from db.table_chat import *
 from db.table_group_member import *
 from db.DataDB import *
 import json
-
+from global_data import online_clients,user_mailboxes
 
 # from global_data import online_clients
 
@@ -26,7 +26,7 @@ def create_group(data, socket, address, database):
         content = data['content']
         group_manager = content['group_manager']
         group_name = content['group_name']
-        group_member = content['group_member']
+        group_member = int(content['group_member'])
         group_create_time=content['group_create_time']
         group_image=content['group_image']
 
@@ -62,6 +62,7 @@ def create_group(data, socket, address, database):
                 'content':{
                     'succ':succ,
                     'group_id':group_id,
+                    'group_name':group_name,
                     'group_manager':group_manager,
                     'group_member':group_member,    #List
                 }
@@ -69,6 +70,13 @@ def create_group(data, socket, address, database):
             save_new_groupid(new_groupid)
             back_json_data = json.dumps(back_data).encode('utf-8')
             socket.sendall(back_json_data)
+#            receivers = search_member(database, "chat", group_id)
+            for receiver in group_member:
+                if receiver in online_clients:
+                    receiver_socket, _ = online_clients[receiver]
+                    receiver_socket.send(back_json_data)
+#                else:
+#                    user_mailboxes[receiver].append(back_json_data)
         else:
             new_groupid -= 1
             back_data = {
@@ -106,16 +114,28 @@ def add_new_member(data, socket, address, database):
         content = data['content']
         group_id = content['group_id']
         member_id = content['member_id']
-
+        group_name=content['group_name']
         succ=insert_table_group_member(database,"group_member", group_id, member_id)
     except Exception as e:
         print("An error occurred:", e)
     finally:
         if succ:
+            
             back_data={
-                'type':'rcv_add_new_member',
+                'type':'add_new_member',
                 'back_data':"0000",
                 'content':{
-                    
+                    'group_id':group_id,
+                    'group_name':group_name,
                 }
             }
+            back_json_data = json.dumps(back_data).encode('utf-8')
+#            socket.sendall(back_json_data)
+            if member_id in online_clients:
+                receiver_socket, _ = online_clients[member_id]
+                receiver_socket.send(back_json_data)
+            
+        else:
+            pass
+
+

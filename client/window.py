@@ -217,7 +217,7 @@ class Main_win(QWidget):
 #以下是聊天列表的功能函數
     def init_chat_list(self):
         """這個函數用來從登陸界面打開時初始化聊天列表"""
-        print(shared_module.client.msg_list)
+
         for chat_id, sender_id, _time, msg in shared_module.client.msg_list :
 
             content = {

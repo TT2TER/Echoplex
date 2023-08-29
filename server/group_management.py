@@ -95,19 +95,48 @@ def delete_group(data, socket, address, database):
     try:
         content = data['content']
         group_id=content['group_id']
-        succ=delete_table_index(database,"group",group_id=group_id)
+        sender_id=content['sender_id']
+        manager_id=select_table(database,"[group]",group_id=group_id)[0][2]
+        members=search_member(database,"group_member",group_id=group_id)
+        if sender_id==manager_id:
+            succ=delete_table_index(database,"[group]",group_id=group_id)
+            delete_table_index(database,"group_member",group_id=group_id)
+            delete_table_index(database,"chat",chat_id=group_id)
+        else:
+            succ=False
+            print("非管理员无法解散群")
     except Exception as e:
         print("An error occurred:", e)
     finally:
-        back_data={
-            'type':'delete_group',
-            'back_data':"0002",
-            'content':{
-                'succ':succ,
+        if succ == True:
+            back_data={
+                'type':'delete_group',
+                'back_data':"0002",
+                'content':{
+                    'succ':succ,
+                    'group_id':group_id,
+                    'sender_id':sender_id,
+                }
             }
-        }
-        back_json_data = json.dumps(back_data).encode('utf-8')
-        socket.sendall(back_json_data)
+            back_json_data = json.dumps(back_data).encode('utf-8')
+            for member_id in members:
+                if member_id in online_clients:
+                    receiver_socket, _ = online_clients[member_id]
+                    receiver_socket.send(back_json_data)
+                else:
+                    user_mailboxes[member_id].append(back_json_data)
+        else:
+            back_data={
+                'type':'delete_group',
+                'back_data':"0003",
+                'content':{
+                    'succ':succ,
+                    'group_id':group_id,
+                    'sender_id':sender_id,
+                }
+            }
+            back_json_data = json.dumps(back_data).encode('utf-8')
+            socket.sendall(back_json_data)
 
 def add_new_member(data, socket, address, database):
     try:
@@ -115,12 +144,14 @@ def add_new_member(data, socket, address, database):
         group_id = content['group_id']
         member_id = content['member_id']
         group_name=content['group_name']
-        succ=insert_table_group_member(database,"group_member", group_id, member_id)
+
+        for i in member_id:
+            succ = insert_table_group_member(database,"group_member", group_id, i)
+
     except Exception as e:
         print("An error occurred:", e)
     finally:
         if succ:
-            
             back_data={
                 'type':'add_new_member',
                 'back_data':"0000",
@@ -131,10 +162,10 @@ def add_new_member(data, socket, address, database):
             }
             back_json_data = json.dumps(back_data).encode('utf-8')
 #            socket.sendall(back_json_data)
-            if member_id in online_clients:
-                receiver_socket, _ = online_clients[member_id]
-                receiver_socket.send(back_json_data)
-            
+            for member_id in member_id:
+                if member_id in online_clients:
+                    receiver_socket, _ = online_clients[member_id]
+                    receiver_socket.send(back_json_data)                    
         else:
             pass
 

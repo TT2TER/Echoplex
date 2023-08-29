@@ -41,7 +41,8 @@ class Client:
                 'delete_group': self.rcv_delete_group,
                 'add_new_member': self.rcv_add_new_member,
                 'user_video_chat': self.rcv_video_chat,
-                'ans_video_chat': self.ans_video_chat
+                'ans_video_chat': self.ans_video_chat,
+                'delete_group': shared_module.main_page.rcv_delete_group
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -553,7 +554,8 @@ class Client:
         data = {
             "type": "delete_group",
             "content": {
-                "group_id": group_id
+                "group_id": group_id,
+                "sender": self.user_id
             }
         }
         json_data = json.dumps(data).encode('utf-8')

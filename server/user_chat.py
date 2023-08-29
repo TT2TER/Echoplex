@@ -23,7 +23,8 @@ def user_chat(received_data, socket, address, database):
             # 一个是发送者，一个是接收者，但不知道是哪个
             first_five = int(chat_id[:5])
             last_five = int(chat_id[5:])
-            
+            sender_id = content["sender"]
+            filepath=content["filepath"]
             if first_five == sender_id:
                 receiver_id = last_five
             elif last_five == sender_id:
@@ -46,9 +47,9 @@ def user_chat(received_data, socket, address, database):
         print("user_chat寄了，看报错吧", e)
     finally:
         if not filepath:
-            insert_table_chat(database,sender_id,chat_id,chat_time=time,chat_content=msg)
+            insert_table_chat(database,sender_id,chat_id,chat_time=time,chat_content=msg,table_name="chat")
         else:
-            insert_table_file(database,"flie",sender_id,chat_id,time,filepath,filesize)
+            insert_table_file(database,"file",sender_id,chat_id,time,filepath)
         json_message = json.dumps(received_data).encode('utf-8')
         for receiver in receivers:
             if receiver in online_clients:

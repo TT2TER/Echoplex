@@ -17,14 +17,7 @@ class Client:
             self.user_name = None
             self.msg_list = [(1000110004,10001,"test_time","第一條消息"),(1000310004,10004,"test_time","第二條消息"),(100021004,10002,"test_time","第三條消息")]  #(chat_id, sender_id, name, time, msg)
             self.add_friend_list = []
-            self.friend_list = {
-                'def': {
-                    '10001': "靈藥",
-                    '10002': "222",
-                    '10003': '3333',
-                    '10004': '4444'
-                }
-            }
+            self.friend_list = []
         except Exception as e:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 

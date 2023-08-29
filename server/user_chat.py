@@ -12,6 +12,8 @@ def user_chat(received_data, socket, address, database):
         chat_id = content["chat_id"]
         time=content["time"]
         msg=content["msg"]
+        sender_id = content["sender"]
+        filepath = content["filepath"]
         if chat_id is not None:
             chat_id = str(chat_id)
 
@@ -20,8 +22,6 @@ def user_chat(received_data, socket, address, database):
             # 一个是发送者，一个是接收者，但不知道是哪个
             first_five = int(chat_id[:5])
             last_five = int(chat_id[5:])
-            sender_id = content["sender"]
-            filepath=content["filepath"]
             if first_five == sender_id:
                 receiver_id = last_five
             elif last_five == sender_id:

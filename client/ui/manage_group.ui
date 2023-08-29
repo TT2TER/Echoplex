@@ -36,7 +36,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="add_group_butt">
+  <widget class="QPushButton" name="add_member_butt">
    <property name="geometry">
     <rect>
      <x>30</x>

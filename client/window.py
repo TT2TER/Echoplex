@@ -20,8 +20,8 @@ class Main_win(QWidget):
         self.ui.add_friend_butt.clicked.connect(self.add_friend)
         self.ui.get_new_friend.clicked.connect(self.check_add_friend)
         self.ui.send_file_butt.clicked.connect(self.show_file_dialog)
-        self.ui.group_manage_butt.clicked.connect(self.)
-        self.ui.new_group_butt.clicked.connect(self.)
+        self.ui.group_manage_butt.clicked.connect(self.manage_group)
+        self.ui.new_group_butt.clicked.connect(self.add_new_group)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -356,12 +356,20 @@ class Main_win(QWidget):
 #以下是聊天窗口的功能函數
 
 #以下是群聊的跳转逻辑
-    def add_new_group():
-        """这个函数是点击了创建新群聊后调用的函数
+    def add_new_group(self):
+        """創建群聊
+        
+        这个函数是点击了创建新群聊后调用的函数
         会调起创建新群组弹窗
         """
         print("即将打开新建群聊窗口……")
         shared_module.new_group.show()
+
+    def manage_group(self):
+        """管理群聊
+        
+        這個函數是點擊群聊管理後調用的函數"""
+        shared_module.manage_group.show()
 
 #以上是群聊的跳转逻辑
 

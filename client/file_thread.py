@@ -1,5 +1,5 @@
 from PySide2.QtCore import QThread, Signal, QDateTime
-from PySide2.QtWidgets import QApplication, QDialog, QLineEdit
+from PySide2.QtWidgets import QApplication, QDialog, QPlainTextEdit, QMessageBox
 import json
 import socket
 from lib.public import shared_module
@@ -45,7 +45,7 @@ class FileSendThread(QThread):
                 data_sent += len(data)
                 self.sent_percentage = data_sent * 100 / self.filesize
                 #在这里emit进度条
-                self.percentage.emit(self.percentage)
+                self.percentage.emit(self.sent_percentage)
         print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
         print("文件发送完毕,准备关闭线程socket")
         self.socket.close()
@@ -64,8 +64,10 @@ def send_file_handler(emit_data):
         if back_data == '0000':
             print("文件发送成功")
             # 文件发送成功的UI交互，弹窗
-
+            
             shared_module.progress_bar.close_progress_bar()
+
+            QMessageBox.information("文件发送成功,在",emit_data.get('filepath', None))
 
     except Exception as e:
         print("结束发送文件时候寄了，在file_thread这send_file_handler里头:" + str(e))
@@ -77,7 +79,7 @@ def send_file_handler(emit_data):
 class FileReceiveThread(QThread):
     # 通过类成员对象定义信号对象  
     notify = Signal(dict)
-
+    percentage=Signal(int)
     def __init__(self, content):
         super().__init__()
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -111,6 +113,8 @@ class FileReceiveThread(QThread):
                     received_size += len(data)
                     file.write(data)
                     self.received_percentage = received_size * 100 / self.filesize
+                    #在这里emit进度条
+                    self.percentage.emit(self.received_percentage)
 
             print(f"File '{self.filepath}' received and saved")
         except FileExistsError:
@@ -138,6 +142,7 @@ def receive_file_handler(emit_data):
             #这里得想个办法变成message发出去
             #写message
             shared_module.progress_bar.close_progress_bar()
+            QMessageBox.information("文件接受成功,在",emit_data.get('filepath', None))
 
     except Exception as e:
         print("结束接收文件时候寄了，在file_thread这receive_file_handler里头:" + str(e))

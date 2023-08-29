@@ -117,7 +117,7 @@ class Main_win(QWidget):
         else:
             QMessageBox.warning(self,"发送失败","文件路径获取失败")
 
-    def progress_bar_show(self,percentage):
+    def progress_bar_show(self):
         shared_module.progress_bar = Progress_bar()
         shared_module.progress_bar.show()
 

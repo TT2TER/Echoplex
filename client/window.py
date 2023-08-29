@@ -176,9 +176,9 @@ class Main_win(QWidget):
         # time_string = time.strftime("%Y-%m-%d %H:%M:%S")
         #先把消息存到历史消息里
         #TODO:
-        shared_module.client.append_msg(chat_id, sender_id, msg, _time )
+        shared_module.client.append_msg(content)
         #在這裡面找到sender_name和sender_avatar_path
-        chat_id=content["chat_id"]
+        chat_id = content["chat_id"]
         #下面是重构的垃圾
         # sender_name=shared_module.client.find_name(chat_id)
 
@@ -201,7 +201,7 @@ class Main_win(QWidget):
         # if sender_id == shared_module.client.user_id:
         #     sender_name = shared_module.client.user_name
         # #在這裡面找到sender_name和sender_avatar_path
-        if self.cur_id==chat_id:
+        if self.cur_id == chat_id:
             self.add_one_message(content)
             pass
         else :
@@ -221,18 +221,24 @@ class Main_win(QWidget):
         for chat_id, sender_id, _time, msg in shared_module.client.msg_list :
             
             #TODO：
-            #這裡寫找到頭像路徑的函數
-            self.img_path = "lib/login_back.png"
-            self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-            #上面寫找到頭像路徑的函數
             #找到對方名字的函數
-            name = shared_module.client.find_name(chat_id)
-            #下面調用之增加一個list的函數
-            timestamp = int(_time)
-            timeArray = time.localtime(timestamp)
-            timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-            print(timestr)
+            # name = shared_module.client.find_name(chat_id)
+            # #下面調用之增加一個list的函數
+            # timestamp = int(_time)
+            # timeArray = time.localtime(timestamp)
+            # timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+            # print(timestr)
             #TODO:lh在这里补一个content
+            content = {
+                'chat_id' : chat_id,
+                'sender_id': sender_id,
+                'time': _time,
+                'msg': msg,
+                'filepath': None,
+                'filesize': None,
+                'msg_type': 'friend_chat',
+                'is_avatar': False
+            }
             self.add_one_list(content)
         pass
 
@@ -326,14 +332,8 @@ class Main_win(QWidget):
             else:
                 print("将打印与此用户的历史消息")
                 msg_list.reverse()
-                for msg in msg_list:
-                    [chat_id, sender_id, msg, _time] = msg
+                for content in msg_list:
                     #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
-                    sender_name = shared_module.client.find_name(chat_id)
-                    avatar_path="test"
-                    timestamp = int(_time)
-                    timeArray = time.localtime(timestamp)
-                    timestr = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
                     self.add_one_message(content)
                     print(chat_id,"的消息列表打印完毕")
 

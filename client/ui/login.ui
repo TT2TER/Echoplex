@@ -13,60 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="RadioButton" name="dark_mode_butt">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>10</y>
-     <width>85</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>32</red>
-         <green>74</green>
-         <blue>135</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>32</red>
-         <green>74</green>
-         <blue>135</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>190</red>
-         <green>190</green>
-         <blue>190</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="text">
-    <string>黑夜模式</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>130</x>
      <y>60</y>
      <width>144</width>
      <height>236</height>
@@ -613,6 +563,50 @@
       </property>
       <property name="placeholderText">
        <string>请输入密码</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="RadioButton" name="remember_butt">
+      <property name="palette">
+       <palette>
+        <active>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>32</red>
+            <green>74</green>
+            <blue>135</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </active>
+        <inactive>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>32</red>
+            <green>74</green>
+            <blue>135</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </inactive>
+        <disabled>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>190</red>
+            <green>190</green>
+            <blue>190</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </disabled>
+       </palette>
+      </property>
+      <property name="text">
+       <string>记住密码</string>
       </property>
      </widget>
     </item>

@@ -19,7 +19,7 @@ class Login(QWidget):
         self.ui.login_butt.clicked.connect(self.login)
 
         # 按下切换昼夜按钮切换黑夜模式
-        self.ui.dark_mode_butt.clicked.connect(self.toggle_day_night_mode)
+        self.ui.remember_butt.clicked.connect(self.remember_pwd)
 
         # 按下注册按钮跳转到注册界面
         self.ui.reg_butt.clicked.connect(self.show_registration_page)
@@ -73,7 +73,7 @@ class Login(QWidget):
             QMessageBox.warning(self, '登录失败', '用户名或密码错误。')
             return
 
-    def toggle_day_night_mode(self):
+    def remember_pwd(self):
         # 这里可以添加切换日夜模式的逻辑
         print("pushed")
         

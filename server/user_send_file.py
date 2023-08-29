@@ -42,6 +42,7 @@ def user_send_file(received_data, _socket, address, database):
             filename = os.path.basename(filepath)
             user_id = find_userid_by_socket(_socket)
             system_name = platform.system()
+            received_data["type"]="user_chat"
             user_chat(received_data, _socket, address, database)
             if is_avatar:
                 windows_savepath = "files/" + "avatar/" + str(user_id) + "/" + filename

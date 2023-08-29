@@ -13,8 +13,9 @@ def create_table_file(con,table_name="file"):
         cursor.execute("CREATE TABLE "+ table_name+" ("
                   "sender_id INT,"
                   "chat_id INT,"
-                  "chat_time datetime,"
-                  "file BLOB,"
+                  "chat_time FLOAT,"
+                  "filepath text,"
+                  "filesize text"
                   "PRIMARY KEY(sender_id,chat_id,chat_time))")
         con.commit()
         print("table is created")
@@ -30,11 +31,11 @@ def create_table_file(con,table_name="file"):
 
 
 
-def insert_table_file(con,table_name,sender_id,chat_id,chat_time,filename):
+def insert_table_file(con,table_name,sender_id,chat_id,chat_time,filename,filesize):
     cursor=con.cursor()
     try:
-        sql="INSERT INTO "+table_name+" (sender_id,chat_id,chat_time,file) VALUES(?,?,?,?)"
-        cursor.execute(sql,(sender_id,chat_id,chat_time,filename))
+        sql="INSERT INTO "+table_name+" (sender_id,chat_id,chat_time,filepath,filesize) VALUES(?,?,?,?,?)"
+        cursor.execute(sql,(sender_id,chat_id,chat_time,filename,filesize))
         con.commit()
         print("Successfully Insert")
         return True

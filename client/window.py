@@ -230,24 +230,49 @@ class Main_win(QWidget):
         else :  
             self.ui.view_box.clear()
             self.cur_id=chat_id
-            filepath = 'file/chats/' + str(chat_id)
+
+            # TODO 读消息
+
+            # filepath = 'files/chats/' + str(chat_id)
+            # # 如果目录不存在，就创建一个目录
+            # msg_list = []
+            # if not os.path.exists(filepath):
+            #     # 如果文件不存在，创建空文件
+            #     # 往空文件中写入json格式的"[]"
+            #     with open(filepath, 'w') as f:
+            #         msg_list = []
+            # else:
+            #     with open(filepath, 'r') as f:
+            #         msg_list = json.loads(f)
+
+            filepath = 'files/chats/' + str(chat_id) + '.json'
+
+            # 如果目录不存在，就创建一个目录
+            if not os.path.exists('files/chats/'):
+                os.makedirs('files/chats/')
+
             msg_list = []
             if not os.path.exists(filepath):
+                # 如果文件不存在，创建空文件
+                # 往空文件中写入json格式的"[]"
                 with open(filepath, 'w') as f:
-                    msg_list = []
+                    json.dump(msg_list, f)
             else:
                 with open(filepath, 'r') as f:
-                    msg_list = json.loads(f)
+                    msg_list = json.load(f)
+
+
             if len(msg_list) == 0:
                 print("消息记录为空")
             else:
                 for msg in msg_list:
                     [chat_id, sender_id, msg, time] = msg
-                    #chat_id是整数，sender_id是整数，chat_time是timestamp格式，msg是字符串
+                    #chat_id是整数，sender_id是整数，chat_time是datetime格式，msg是字符串
                     sender_name=str(sender_id)
                     avatar_path="test"
                     self.add_one_message(sender_id,sender_name,avatar_path, time, msg)
                     print(chat_id,"的消息列表打印完毕")
+
 
     def add_one_message(self,sender_id,sender_name,sender_avatar_path, time:str="", msg:str=""):
         """

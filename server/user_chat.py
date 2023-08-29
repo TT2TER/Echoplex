@@ -2,14 +2,16 @@ import json
 from global_data import online_clients
 from global_data import user_mailboxes
 from db.DataDB import search_member, search_all_user, sql_connection
-
-
+from db.table_chat import insert_table_chat
+from db.table_file import insert_table_file
 def user_chat(received_data, socket, address, database):
     # user_chat可能被user_send_file在别的线程调用，要重新建一个
     database = sql_connection()
     try:
         content = received_data["content"]
         chat_id = content["chat_id"]
+        time=content["time"]
+        msg=content["msg"]
         if chat_id is not None:
             chat_id = str(chat_id)
 
@@ -19,6 +21,7 @@ def user_chat(received_data, socket, address, database):
             first_five = int(chat_id[:5])
             last_five = int(chat_id[5:])
             sender_id = content["sender"]
+            filepath=content["filepath"]
             if first_five == sender_id:
                 receiver_id = last_five
             elif last_five == sender_id:
@@ -40,6 +43,10 @@ def user_chat(received_data, socket, address, database):
     except Exception as e:
         print("user_chat寄了，看报错吧", e)
     finally:
+        if not filepath:
+            insert_table_chat(database,sender_id,chat_id,chat_time=time,chat_content=msg)
+        else:
+            insert_table_file(database,"flie",sender_id,chat_id,time,filepath)
         json_message = json.dumps(received_data).encode('utf-8')
         for receiver in receivers:
             if receiver in online_clients:

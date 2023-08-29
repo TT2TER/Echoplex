@@ -15,7 +15,7 @@ def create_table_chat(con,table_name="table_chat"):
         cursor.execute("CREATE TABLE "+ table_name+" ("
                   "sender_id INT,"
                   "chat_id INT,"
-                  "chat_time datetime,"
+                  "chat_time FLOAT,"
                   "chat_content text,"
                   "PRIMARY KEY(sender_id,chat_id,chat_time))")
         con.commit()

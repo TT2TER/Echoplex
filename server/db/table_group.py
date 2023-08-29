@@ -18,7 +18,7 @@ def create_table_group(con,table_name="[group]"):
                   "group_id INT PRIMARY KEY,"
                   "group_name text,"
                   "group_leader_id INT UNIQUE,"
-                  "create_time datatime,"
+                  "create_time FLOAT,"
                   "group_image text)")
         con.commit()
         print("table is created")

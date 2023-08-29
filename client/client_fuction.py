@@ -120,8 +120,9 @@ class Client:
                 "sender": self.user_id,
                 "chat_id": chat_id,
                 "time": timestamp,
+#                "time":now,
                 "filesize": None,
-                "filepath": None
+                "filepath": None,
             }
         }
         # 向服务端发送消息
@@ -133,7 +134,7 @@ class Client:
         # 包括消息内容、发送者的用户ID、群组ID和时间戳
         # 发送消息的时间
         now = datetime.now()
-        timestamp = datetime.timestamp(now)
+#        timestamp = datetime.timestamp(now)
         data = {
             "type": "user_chat",
             "content": {
@@ -141,7 +142,8 @@ class Client:
                 "msg": msg,
                 "sender": self.user_id,
                 "chat_id": chat_id,
-                "time": timestamp,
+#                "time": timestamp,
+                "time":now,
                 "filepath": None,
                 "filesize":None
             }
@@ -165,7 +167,8 @@ class Client:
                 "sender": self.user_id,
                 "group_id": group_id,
                 "receiver": receiver,
-                "time": timestamp
+                "time": timestamp,
+#                "time": now,
             }
         }
         # 向服务端发送消息
@@ -188,13 +191,15 @@ class Client:
     def create_group(self, group_member, group_name,image_path):
         # 创建一个群组
         # 包括群主的用户ID、成员列表和群组名称
+        now=datetime.now()
+        timestamp = datetime.timestamp(now)
         data = {
             "type": "create_group",
             "content": {
                 "group_manager": self.user_id,
                 "group_member": group_member,
                 "group_name": group_name,
-                "group_create_time":datetime.now(),
+                "group_create_time":timestamp,
                 "group_image":image_path
             }
         }
@@ -214,6 +219,7 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": _time,
+#                "time":now,
                 "name": self.user_name
             }
         }
@@ -244,6 +250,7 @@ class Client:
                 "sender": self.user_id,
                 "receiver": target_id,
                 "time": time,
+#                "time":now,
                 "ans": ans,
                 "name": self.user_name
             }
@@ -295,6 +302,7 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
+#                "time":now,
                 "filesize": file_size,
                 "is_avatar": False
             }
@@ -319,6 +327,7 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
+#                "time":now,
                 "filesize": file_size,
                 "is_avatar": True,
             }
@@ -342,6 +351,7 @@ class Client:
                 "msg": None,
                 "filepath": file_path,
                 "time": timestamp,
+#                "time":now,
                 "filesize": None,
                 "is_avatar": False
             }
@@ -542,11 +552,16 @@ class Client:
         if back_data=="0000":
             pass
             #群聊创建成功
+            group_id=content['group_id']
+            group_manager=content['group_manager']
+            group_name=content['group_name']
+            group_member=content['group_member']
             #   UI function 
         elif back_data=="0001":
             pass
             #群聊创建失败
             #   UI function
+            pass
         else:
             return None
 
@@ -555,10 +570,12 @@ class Client:
             pass
             #群聊删除成功
             #   UI function 
+            pass
         elif back_data=="0001":
             pass
             #群聊删除失败
             #   UI function
+            pass
         else:
             return None
 
@@ -566,20 +583,31 @@ class Client:
         if back_data=="0000":
             pass
             #添加成员成功
+            group_id=content['group_id']
+            group_name=content['group_name']
+            group_member=content['group_member']
             #   UI function 
         elif back_data=="0001":
             pass
             #添加成员失败
             #   UI function
+            pass
         else:
             return None
         
     def append_msg(self, chat_id, sender_id, msg, time):
-        filepath = 'file/chats/'+str(chat_id)
+        # TODO
+
+        filepath = 'files/chats/' + str(chat_id) + '.json'
+        if not os.path.exists('files/chats/'):
+            os.makedirs('files/chats/')
+        # 如filepath不存在，创建目录
         msg_list = []
         if not os.path.exists(filepath):
+            # 如果文件不存在，创建空文件
+            # 往空文件中写入json格式的"[]"
             with open(filepath, 'w') as files:
-                msg_list = []
+                json.dump(msg_list, files)
         else:
             with open(filepath, 'r') as files:
                 msg_list = json.load(files)

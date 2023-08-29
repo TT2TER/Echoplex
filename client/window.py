@@ -192,8 +192,9 @@ class Main_win(QWidget):
         for i in self.chat_item:
             if i.chat_id == chat_id:
                 self.renew_list(content)
-                flag = 1
-            break
+                flag=1
+                break
+
         if flag == 0 :
             self.add_one_list(content)
 
@@ -231,7 +232,7 @@ class Main_win(QWidget):
             #TODO:lh在这里补一个content
             content = {
                 'chat_id' : chat_id,
-                'sender_id': sender_id,
+                'sender': sender_id,
                 'time': _time,
                 'msg': msg,
                 'filepath': None,
@@ -258,15 +259,21 @@ class Main_win(QWidget):
 
     def del_one_list(self,chat_id):
         """在動態List里找到該item的位置"""
+        print("进入了del_one_list")
         ind = 0
         for i in self.chat_item:
             if i.chat_id == chat_id:
                 break
             ind += 1
         #刪掉ui里的東西
+        print(chat_id)
+        print(ind)
         self.chat_item.remove(i)
-        item_to_remove=self.ui.chat_list_view.takeItem(ind)
-        item_to_remove=None
+        try:
+            item_to_remove=self.ui.chat_list_view.takeItem(ind)
+            item_to_remove=None
+        except:
+            print("删除chat_list_item失败")
         pass
 
     def renew_list(self,content):

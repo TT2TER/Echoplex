@@ -35,7 +35,7 @@ class Message_bubble(QWidget):
         self.find_avartar(self.sender_id)
 
         if self.sender_id== shared_module.client.user_id:
-            self.name=shared_module.client.user_name()
+            self.name=shared_module.client.user_name
             self.ui = Ui_chat_bubble_me()
             self.ui.setupUi(self)
         else :

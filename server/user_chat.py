@@ -12,6 +12,9 @@ def user_chat(received_data, socket, address, database):
         chat_id = content["chat_id"]
         time=content["time"]
         msg=content["msg"]
+        sender_id = content["sender"]
+        filepath=content["filepath"]
+        filesize=content['filesize']
         if chat_id is not None:
             chat_id = str(chat_id)
 
@@ -44,9 +47,9 @@ def user_chat(received_data, socket, address, database):
         print("user_chat寄了，看报错吧", e)
     finally:
         if not filepath:
-            insert_table_chat(database,sender_id,chat_id,chat_time=time,chat_content=msg)
+            insert_table_chat(database,sender_id,chat_id,chat_time=time,chat_content=msg,table_name="chat")
         else:
-            insert_table_file(database,"flie",sender_id,chat_id,time,filepath)
+            insert_table_file(database,"file",sender_id,chat_id,time,filepath)
         json_message = json.dumps(received_data).encode('utf-8')
         for receiver in receivers:
             if receiver in online_clients:

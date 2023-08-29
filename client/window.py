@@ -30,10 +30,12 @@ class Main_win(QWidget):
 #以上是最終實現的信號槽
 #以下是測試用的信號槽和函數
         self.ui.add_new_chat.clicked.connect(self.add_test)
-    
+        self.img_path = "lib/login_back.png"
+        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
     def add_test(self):
             #以下測試
             self.ui.chat_list_view.clear()
+        
 #以上是測試用的函數和槽
 
 
@@ -79,10 +81,16 @@ class Main_win(QWidget):
                 #TODO：添加到好友列表 defult
                 shared_module.client.friend_list['def'][str(sender)]=name
                 #TODO：添加到聊天列表
-
+                if sender>shared_module.client.user_id:
+                    chat_id=shared_module.client.user_id*100000+sender
+                else :
+                    chat_id=shared_module.client.user_id+sender*100000
+                sender_id=sender
+                shared_module.main_page.add_one_list(chat_id, sender_id,name,"", time , name+"已经成为了您的新好友")
                 pass
+                print("收到",name,"的消息，对方同意，已经添加到聊天列表中了")
             else : 
-                #别知道了 ，，或者是在信号由申请列表显示谁谁谁拒绝
+                print("收到",name,"回复，对方拒绝，舔狗舔到最后一无所有")
                 pass
         elif back_data == "0001":
             print("查无此人")
@@ -135,16 +143,22 @@ class Main_win(QWidget):
         """把在線的消息打印出來,如果不是當前窗口，存在文件里。
         要找name,avatar_path
         """
+        print("进入了打印在线消息\n")
+        time_string = time.strftime("%Y-%m-%d %H:%M:%S")
         #先把消息存到历史消息里
         shared_module.client.append_msg(chat_id, sender_id, msg, time )
+        print("从append里出来了\n")
         #在這裡面找到sender_name和sender_avatar_path
         sender_name=shared_module.client.find_name(chat_id)
-        sender_avatar_path="sender_avatar_path"
+        sender_avatar_path=self.image_path
+        print(sender_name,sender_avatar_path,chat_id,self.cur_id)
         #在這裡面找到sender_name和sender_avatar_path
         if self.cur_id==chat_id:
+            print("是当前窗口，直接加载")
             self.add_one_message(sender_id,sender_name,sender_avatar_path, time, msg)
             pass
         else :
+            print("不是当前窗口，等待用户点击后加载")
             pass
 
 #以上是收發消息相關函數

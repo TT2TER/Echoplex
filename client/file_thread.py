@@ -43,6 +43,7 @@ class FileSendThread(QThread):
                 self.socket.sendall(data)
                 data_sent += data
                 self.sent_percentage = data_sent * 100 / self.filesize
+                #在这里emit进度条
         print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
         print("文件发送完毕,准备关闭线程socket")
         self.socket.close()
@@ -60,10 +61,11 @@ def send_file_handler(emit_data):
         back_data = emit_data.get('back_data', None)
         if back_data == '0000':
             print("文件发送成功")
-            # 文件发送成功的UI交互
+            # 文件发送成功的UI交互，弹窗
 
     except Exception as e:
         print("结束发送文件时候寄了，在file_thread这send_file_handler里头:" + str(e))
+        #弹窗失败
     finally:
         print("处理完一个发送文件请求了")
 
@@ -129,6 +131,7 @@ def receive_file_handler(emit_data):
         if back_data == '0000':
             print("文件接收成功，路径是" + emit_data.get('filepath', None))
             # 文件接收成功的UI交互
+            #写message
 
     except Exception as e:
         print("结束接收文件时候寄了，在file_thread这receive_file_handler里头:" + str(e))

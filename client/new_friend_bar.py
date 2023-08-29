@@ -43,7 +43,7 @@ class New_friend_bar(QWidget):
 
 
         #TODO: #把对方放到defult
-        shared_module.client.friend_list['def'][str(self.opp_id)] = self.name
+        shared_module.client.friend_list.append((self.opp_id, self.name, 'default'))
 
 
         #加載新聊天窗口

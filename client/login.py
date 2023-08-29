@@ -56,7 +56,7 @@ class Login(QWidget):
             # 创建主界面窗口
             shared_module.main_page.show()
             sleep(0.2)
-            shared_module.main_page.init_chat_list()
+            #shared_module.main_page.init_chat_list()
             # 关闭自身窗口
             self.close()
         else:

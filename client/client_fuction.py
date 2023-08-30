@@ -38,7 +38,6 @@ class Client:
                 'user_friendlist': self.rcv_friendlist,
                 'group_list':self.rcv_group_list,
                 'create_group': self.rcv_create_group,
-                'delete_group': self.rcv_delete_group,
                 'add_new_member': self.rcv_add_new_member,
                 'user_video_chat': self.rcv_video_chat,
                 'ans_video_chat': self.ans_video_chat,

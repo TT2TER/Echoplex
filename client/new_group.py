@@ -37,7 +37,10 @@ class New_group(QWidget):
 
 
         #調用發送請求，member_ids是“10001;10002;10005”這樣的,members是拆開的
-
+        mem = []
+        for num in members:
+            mem.append(int(num))
+        shared_module.client.create_group(mem, group_name, image_path="")
 
         #以下是清空文本框
         self.ui.new_group_name.clear()

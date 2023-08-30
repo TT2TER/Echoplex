@@ -38,7 +38,7 @@ class Message_bubble(QWidget):
             self.ui = Ui_chat_bubble_me()
             self.ui.setupUi(self)
         else :
-            if len(self.chat_id)==10:
+            if len(str(self.chat_id))==10:
                 self.name=shared_module.client.find_name(self.chat_id)
             else:
                 self.name=str(self.sender_id)

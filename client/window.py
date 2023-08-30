@@ -18,7 +18,7 @@ class Main_win(QWidget):
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui= Ui_chatroom()
         self.ui.setupUi(self)
-        
+        self.need_show_red = False
 #以下是正式的的信號槽和函數
         self.ui.send_butt.clicked.connect(self.send)
         self.ui.add_friend_butt.clicked.connect(self.add_friend)
@@ -144,6 +144,7 @@ class Main_win(QWidget):
     def rcv_addfriend(self, back_data, content):
         # 收到对方的添加好友请求
         # 返回发送者的用户ID和时间戳
+        self.show_friend_red()
         sender = content["sender"]
         time = content["time"]
         name = content["name"]
@@ -267,23 +268,26 @@ class Main_win(QWidget):
         #在這裡面找到sender_name和sender_avatar_path
         chat_id = content["chat_id"]
 
+        self.need_show_red = True
+        if self.cur_id == chat_id:
+            self.need_show_red = False
         flag = 0
         for i in self.chat_item:
             if i.chat_id == chat_id:
                 self.renew_list(content)
                 flag=1
                 break
-        
         if flag == 0 :
             self.add_one_list(content)
+
         if self.cur_id == chat_id:
             print(chat_id)
             self.add_one_message(content)
             pass
         else :
-            #添加小红点
             print("不是当前窗口，等待用户点击后加载")
             pass
+        self.need_show_red = False
 
 #以上是私聊收發消息相關函數（群聊也许能复用
 
@@ -324,6 +328,8 @@ class Main_win(QWidget):
         list_item.setSizeHint(new_chat_bar.sizeHint())
         self.ui.chat_list_view.insertItem(0,list_item)
         self.ui.chat_list_view.setItemWidget(list_item,new_chat_bar)
+        if self.need_show_red == True :
+            new_chat_bar.show_message_red()
         #如果框體被點擊，連接到的函數
         new_chat_bar.itemClicked.connect(self.chating_item_clicked)
 

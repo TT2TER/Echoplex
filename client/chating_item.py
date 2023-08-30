@@ -77,6 +77,7 @@ class Chating_item(QWidget):
         if event.button() == Qt.LeftButton:
             print("Widget clicked")
             # 在这里可以执行选中效果的操作，例如修改颜色、样式等
+            self.hide_message_red()
             #TODO: 最好選中一次後就不能再選中了，點擊到別人再不選中
             self.itemClicked.emit(self.chat_id)
 

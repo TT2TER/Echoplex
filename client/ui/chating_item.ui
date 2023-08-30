@@ -172,19 +172,19 @@
       <property name="styleSheet">
        <string notr="true">QLabel{
 	background-color: transparent;
-	font: 75 14pt &quot;Arial&quot;;
+	font: 75 10pt &quot;Arial&quot;;
 	color: blue
 }</string>
       </property>
       <property name="text">
-       <string>Karson</string>
+       <string>mayu</string>
       </property>
      </widget>
      <widget class="QLabel" name="resent_message">
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>40</y>
+        <y>35</y>
         <width>221</width>
         <height>21</height>
        </rect>
@@ -198,7 +198,7 @@
       <property name="styleSheet">
        <string notr="true">QLabel#resent_message{
 	background-color: transparent;
-	font: 75 11pt &quot;Arial&quot;;
+	font: 75 10pt &quot;Arial&quot;;
 	color: rgb(32, 74, 135);
 }</string>
       </property>
@@ -218,12 +218,12 @@
       <property name="styleSheet">
        <string notr="true">QLabel#message_time{
 	background-color: transparent;
-	font: 75 11pt &quot;Arial&quot;;
+	font: 75 8pt &quot;Arial&quot;;
 	color: #888888;
 }</string>
       </property>
       <property name="text">
-       <string>01/01/2015 09:00:00</string>
+       <string>time</string>
       </property>
      </widget>
     </widget>

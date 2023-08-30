@@ -92,7 +92,7 @@ class Login(QWidget):
                 token_file.write(token)
             print("Token saved to token.txt")
             shared_module.client.user_id = content['user_id']
-            shared_module.main_page.show_my_avatar(1)
+            shared_module.main_page.show_my_avatar(True)
             shared_module.client.user_name = content['user_name']
             shared_module.client.pull_friendlist()
             shared_module.client.pull_grouplist()
@@ -116,11 +116,19 @@ class Login(QWidget):
             return
 
     def remember_pwd(self):
-        # 这里可以添加切换日夜模式的逻辑
-        print("pushed")
-        
-        # 切换界面的颜色、主题等
-        pass
+    # Get the state of the radio button
+        remember_state = self.ui.remember_butt.isChecked()
+
+        if remember_state:
+            # If the radio button is checked, remember the password
+            # For example, you can store the password in a class variable
+            self.remembered_password = self.ui.pwd_in.text()
+            print("Password remembered:", self.remembered_password)
+        else:
+            # If the radio button is unchecked, forget the password
+            # Clear the stored password
+            self.remembered_password = None
+            print("Password forgotten")
 
     def show_registration_page(self):
         # 创建注册窗口

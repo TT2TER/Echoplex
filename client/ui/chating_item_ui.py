@@ -78,12 +78,12 @@ class Ui_chating_item(object):
         self.name.setSizePolicy(sizePolicy)
         self.name.setStyleSheet(u"QLabel{\n"
 "	background-color: transparent;\n"
-"	font: 75 14pt \"Arial\";\n"
+"	font: 75 10pt \"Arial\";\n"
 "	color: blue\n"
 "}")
         self.resent_message = QLabel(self.widgetMain)
         self.resent_message.setObjectName(u"resent_message")
-        self.resent_message.setGeometry(QRect(80, 40, 221, 21))
+        self.resent_message.setGeometry(QRect(80, 35, 221, 21))
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -91,7 +91,7 @@ class Ui_chating_item(object):
         self.resent_message.setSizePolicy(sizePolicy1)
         self.resent_message.setStyleSheet(u"QLabel#resent_message{\n"
 "	background-color: transparent;\n"
-"	font: 75 11pt \"Arial\";\n"
+"	font: 75 10pt \"Arial\";\n"
 "	color: rgb(32, 74, 135);\n"
 "}")
         self.message_time = QLabel(self.widgetMain)
@@ -99,7 +99,7 @@ class Ui_chating_item(object):
         self.message_time.setGeometry(QRect(205, 10, 141, 21))
         self.message_time.setStyleSheet(u"QLabel#message_time{\n"
 "	background-color: transparent;\n"
-"	font: 75 11pt \"Arial\";\n"
+"	font: 75 8pt \"Arial\";\n"
 "	color: #888888;\n"
 "}")
 
@@ -114,8 +114,8 @@ class Ui_chating_item(object):
     def retranslateUi(self, chating_item):
         chating_item.setWindowTitle(QCoreApplication.translate("chating_item", u"Form", None))
         self.massage_num.setText("")
-        self.name.setText(QCoreApplication.translate("chating_item", u"Karson", None))
+        self.name.setText(QCoreApplication.translate("chating_item", u"mayu", None))
         self.resent_message.setText(QCoreApplication.translate("chating_item", u"How do you do?", None))
-        self.message_time.setText(QCoreApplication.translate("chating_item", u"01/01/2015 09:00:00", None))
+        self.message_time.setText(QCoreApplication.translate("chating_item", u"time", None))
     # retranslateUi
 

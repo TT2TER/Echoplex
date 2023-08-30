@@ -119,12 +119,12 @@ class Main_win(QWidget):
             self.find_avatar(shared_module.client.user_id)
         
         #以下用于显示自己的头像
-        print(self.image_path)
+        print("here"+self.image_path)
         self.avatar_label = QLabel(self.ui.avatar_show)
         self.avatar_label.setGeometry(QRect(1, 1, 48, 48))
         image = QPixmap(self.image_path)  # 用实际的图像路径替换
         self.avatar_label.setPixmap(image)
-        self.avatar_label.setScaledContents(True) 
+        self.avatar_label.setScaledContents(True)
 
 #以下是添加好友相關功能
     def add_friend(self):
@@ -240,7 +240,9 @@ class Main_win(QWidget):
             print('Selected Image:', full_path)
             shared_module.client.change_avatar_request(full_path)
             self.image_path=full_path
-            self.show_my_avatar(0)
+            self.ui.avatar_show.hide()
+            self.show_my_avatar(False)
+            self.ui.avatar_show.show()
         else:
             QMessageBox.warning(self, "选择失败", "请选择支持的图片文件")
 

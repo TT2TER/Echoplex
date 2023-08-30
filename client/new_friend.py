@@ -62,4 +62,6 @@ class New_friends(QWidget):
             if j[0] == opp_id:
                 shared_module.client.add_friend_list.remove(j)
                 break
+        if len(shared_module.client.friend_list) == 0:
+            shared_module.main_page.hide_friend_red()
 

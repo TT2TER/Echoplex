@@ -17,7 +17,7 @@ class Ui_chat_bubble_me(object):
     def setupUi(self, chat_bubble_me):
         if not chat_bubble_me.objectName():
             chat_bubble_me.setObjectName(u"chat_bubble_me")
-        chat_bubble_me.resize(818, 147)
+        chat_bubble_me.resize(818, 140)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

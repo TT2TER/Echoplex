@@ -36,7 +36,8 @@ class Message_bubble(QWidget):
         self.is_file=False
         #這裡是標記這個文件是否需要接收
         self.need_recive=False
-
+        #这里标记这个文件是需要进度条
+        self.need_progress=None
 
         if self.file_path == None:
             self.max_leth=500
@@ -65,10 +66,16 @@ class Message_bubble(QWidget):
                 self.sender_name=shared_module.client.user_name
                 #不需要接收
                 self.need_recive=False
+                if shared_module.main_page.is_old:
+                    self.need_progress=False
+                else:
+                    self.need_progress=True
             else :
                 self.sender_name=shared_module.client.find_name(self.chat_id)
                 #需要接受
                 self.need_recive=True
+                #这里如果能加一个本地是否有这个文件的判断就好了，现在暂时认为所有文件都没有，所以要有进度条
+                self.need_progress=True
 
 
         #如果是文件改變消息內容
@@ -100,11 +107,14 @@ class Message_bubble(QWidget):
             else:
                 self.msg="發送的文件："+self.file_path+"發送成功"
 
-        if self.is_file:
+        if self.is_file and self.need_progress and not self.need_recive:
             self.progress_bar = QProgressBar(self)
             self.progress_bar.setGeometry(480, 150, 111, 20)  # 调整进度条位置和大小
             self.progress_bar.setRange(0, 100)  # 设置进度范围
             self.progress_bar.setValue(0)  # 初始进度值
+
+        # if self.is_file and self.need_progress and self.need_recive:
+        #     shared_module.main_page.add_percentage_bar("test")
 
 
         self.padding=10#如果在样式表里更改了，记得改这里
@@ -145,11 +155,25 @@ class Message_bubble(QWidget):
 
         self.ui.message_bubble.mousePressEvent = self.toggle_selection  # 替换点击事件
 
-    def find_avartar(self,id):
-        """这里写一个找头像路径的函数，下面先用测试路径"""
-        self.img_path = "lib/login_back.png"
-        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-        pass
+    # def find_avartar(self,id):
+    #     """这里写一个找头像路径的函数，下面先用测试路径"""
+    #     self.img_path = "lib/"+id+""
+    #     self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
+    #     pass
+    def find_avatar(self, id):
+        """Find the avatar path based on the given ID."""
+        supported_extensions = ['jpg', 'jpeg', 'png']
+        
+        # Search for avatar files with supported extensions
+        for ext in supported_extensions:
+            avatar_filename = f"{id}.{ext}"
+            avatar_path = os.path.join(os.path.dirname(__file__), "files/avatar/", avatar_filename)
+            
+            if os.path.exists(avatar_path):
+                self.image_path=avatar_path
+            else:
+                # If no avatar found, return a default avatar path
+                self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")
 
 
     def toggle_selection(self, event):
@@ -163,10 +187,14 @@ class Message_bubble(QWidget):
     
     def receive_file(self):
         print("接收文件函数被调用了")
-        # 假设在这个函数中会启动一个线程来进行文件接收
         shared_module.client.receive_file_request(self.chat_id,self.file_path)
-        # 在接收过程中，根据实际的进度更新进度条
+        if self.is_file and self.need_progress and self.need_recive:
+            shared_module.main_page.add_percentage_bar("test")
         pass
+
+    
+
+
 
     def update_progress(self, percentage):
         if self.is_file :

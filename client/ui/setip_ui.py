@@ -12,8 +12,8 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-from qfluentwidgets import LineEdit
 from qfluentwidgets import PushButton
+from qfluentwidgets import LineEdit
 from qfluentwidgets import PrimaryPushButton
 from qfluentwidgets import BodyLabel
 
@@ -22,13 +22,64 @@ class Ui_setip(object):
     def setupUi(self, setip):
         if not setip.objectName():
             setip.setObjectName(u"setip")
-        setip.resize(400, 300)
-        self.config_butt = PrimaryPushButton(setip)
-        self.config_butt.setObjectName(u"config_butt")
-        self.config_butt.setGeometry(QRect(110, 200, 142, 31))
+        setip.resize(261, 197)
+        self.verticalLayout = QVBoxLayout(setip)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalSpacer_3 = QSpacerItem(40, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_3)
+
+        self.mini_butt = QPushButton(setip)
+        self.mini_butt.setObjectName(u"mini_butt")
+        self.mini_butt.setStyleSheet(u"QPushButton {\n"
+"        background-color: green;\n"
+"        border: none;\n"
+"        border-radius: 10px;\n"
+"        width: 20px;\n"
+"        height: 20px;\n"
+"        font-size: 14px;\n"
+"        color: white;\n"
+"    }\n"
+"    \n"
+"    QPushButton:hover {\n"
+"        background-color: rgba(0, 128, 0, 0.8);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: rgba(0, 128, 0, 1);\n"
+"    }")
+
+        self.horizontalLayout_4.addWidget(self.mini_butt)
+
+        self.close_butt = QPushButton(setip)
+        self.close_butt.setObjectName(u"close_butt")
+        self.close_butt.setStyleSheet(u"QPushButton {\n"
+"        background-color: red;\n"
+"        border: none;\n"
+"        border-radius: 10px;\n"
+"        width: 20px;\n"
+"        height: 20px;\n"
+"        font-size: 12px;\n"
+"        color: white;\n"
+"    }\n"
+"    \n"
+"    QPushButton:hover {\n"
+"        background-color: rgba(255, 0, 0, 0.8);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: rgba(255, 0, 0, 1);\n"
+"    }")
+
+        self.horizontalLayout_4.addWidget(self.close_butt)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
+
         self.label_3 = BodyLabel(setip)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(110, 70, 142, 23))
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -109,18 +160,22 @@ class Ui_setip(object):
 #endif
         self.label_3.setPalette(palette)
         self.label_3.setMouseTracking(False)
+
+        self.verticalLayout.addWidget(self.label_3)
+
         self.ip_in = LineEdit(setip)
         self.ip_in.setObjectName(u"ip_in")
-        self.ip_in.setGeometry(QRect(110, 100, 142, 25))
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.ip_in.sizePolicy().hasHeightForWidth())
         self.ip_in.setSizePolicy(sizePolicy1)
         self.ip_in.setClearButtonEnabled(True)
+
+        self.verticalLayout.addWidget(self.ip_in)
+
         self.label_4 = BodyLabel(setip)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(110, 130, 142, 23))
         sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
         self.label_4.setSizePolicy(sizePolicy)
         palette1 = QPalette()
@@ -180,12 +235,22 @@ class Ui_setip(object):
 #endif
         self.label_4.setPalette(palette1)
         self.label_4.setMouseTracking(False)
+
+        self.verticalLayout.addWidget(self.label_4)
+
         self.port_in = LineEdit(setip)
         self.port_in.setObjectName(u"port_in")
-        self.port_in.setGeometry(QRect(110, 160, 142, 25))
         sizePolicy1.setHeightForWidth(self.port_in.sizePolicy().hasHeightForWidth())
         self.port_in.setSizePolicy(sizePolicy1)
         self.port_in.setClearButtonEnabled(True)
+
+        self.verticalLayout.addWidget(self.port_in)
+
+        self.config_butt = PrimaryPushButton(setip)
+        self.config_butt.setObjectName(u"config_butt")
+
+        self.verticalLayout.addWidget(self.config_butt)
+
 
         self.retranslateUi(setip)
 
@@ -194,7 +259,8 @@ class Ui_setip(object):
 
     def retranslateUi(self, setip):
         setip.setWindowTitle(QCoreApplication.translate("setip", u"Form", None))
-        self.config_butt.setText(QCoreApplication.translate("setip", u"\u786e\u8ba4\u914d\u7f6e", None))
+        self.mini_butt.setText(QCoreApplication.translate("setip", u"\u2796", None))
+        self.close_butt.setText(QCoreApplication.translate("setip", u"\u2716", None))
         self.label_3.setText(QCoreApplication.translate("setip", u"\u670d\u52a1\u5668ip\u5730\u5740", None))
         self.ip_in.setInputMask("")
         self.ip_in.setText(QCoreApplication.translate("setip", u"127.0.0.1", None))
@@ -203,5 +269,6 @@ class Ui_setip(object):
         self.port_in.setInputMask("")
         self.port_in.setText(QCoreApplication.translate("setip", u"13579", None))
         self.port_in.setPlaceholderText(QCoreApplication.translate("setip", u"\u8bf7\u8f93\u5165\u7aef\u53e3\u53f7", None))
+        self.config_butt.setText(QCoreApplication.translate("setip", u"\u786e\u8ba4\u914d\u7f6e", None))
     # retranslateUi
 

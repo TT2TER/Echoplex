@@ -15,22 +15,73 @@ from PySide2.QtWidgets import *
 from qfluentwidgets import PushButton
 from qfluentwidgets import LineEdit
 from qfluentwidgets import PrimaryPushButton
-from qfluentwidgets import RadioButton
 from qfluentwidgets import BodyLabel
+from qfluentwidgets import RadioButton
 
 
 class Ui_Login(object):
     def setupUi(self, Login):
         if not Login.objectName():
             Login.setObjectName(u"Login")
-        Login.resize(394, 338)
-        self.layoutWidget = QWidget(Login)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(130, 50, 144, 268))
-        self.verticalLayout = QVBoxLayout(self.layoutWidget)
+        Login.resize(220, 314)
+        self.horizontalLayout = QHBoxLayout(Login)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label = BodyLabel(self.layoutWidget)
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalSpacer_3 = QSpacerItem(40, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_3)
+
+        self.mini_butt = QPushButton(Login)
+        self.mini_butt.setObjectName(u"mini_butt")
+        self.mini_butt.setStyleSheet(u"QPushButton {\n"
+"        background-color: green;\n"
+"        border: none;\n"
+"        border-radius: 10px;\n"
+"        width: 20px;\n"
+"        height: 20px;\n"
+"        font-size: 14px;\n"
+"        color: white;\n"
+"    }\n"
+"    \n"
+"    QPushButton:hover {\n"
+"        background-color: rgba(0, 128, 0, 0.8);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: rgba(0, 128, 0, 1);\n"
+"    }")
+
+        self.horizontalLayout_4.addWidget(self.mini_butt)
+
+        self.close_butt = QPushButton(Login)
+        self.close_butt.setObjectName(u"close_butt")
+        self.close_butt.setStyleSheet(u"QPushButton {\n"
+"        background-color: red;\n"
+"        border: none;\n"
+"        border-radius: 10px;\n"
+"        width: 20px;\n"
+"        height: 20px;\n"
+"        font-size: 12px;\n"
+"        color: white;\n"
+"    }\n"
+"    \n"
+"    QPushButton:hover {\n"
+"        background-color: rgba(255, 0, 0, 0.8);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: rgba(255, 0, 0, 1);\n"
+"    }")
+
+        self.horizontalLayout_4.addWidget(self.close_butt)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
+
+        self.label = BodyLabel(Login)
         self.label.setObjectName(u"label")
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -115,23 +166,22 @@ class Ui_Login(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.num_in = LineEdit(self.layoutWidget)
+        self.num_in = LineEdit(Login)
         self.num_in.setObjectName(u"num_in")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.num_in.sizePolicy().hasHeightForWidth())
         self.num_in.setSizePolicy(sizePolicy1)
+        self.num_in.setMinimumSize(QSize(200, 0))
+        self.num_in.setMaximumSize(QSize(200, 16777215))
 
         self.verticalLayout.addWidget(self.num_in)
 
-        self.label_2 = BodyLabel(self.layoutWidget)
+        self.label_2 = BodyLabel(Login)
         self.label_2.setObjectName(u"label_2")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy2)
+        sizePolicy1.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy1)
         palette1 = QPalette()
         palette1.setBrush(QPalette.Active, QPalette.WindowText, brush)
         palette1.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
@@ -142,14 +192,14 @@ class Ui_Login(object):
 
         self.verticalLayout.addWidget(self.label_2)
 
-        self.pwd_in = LineEdit(self.layoutWidget)
+        self.pwd_in = LineEdit(Login)
         self.pwd_in.setObjectName(u"pwd_in")
         self.pwd_in.setCursor(QCursor(Qt.IBeamCursor))
         self.pwd_in.setEchoMode(QLineEdit.Password)
 
         self.verticalLayout.addWidget(self.pwd_in)
 
-        self.remember_butt = RadioButton(self.layoutWidget)
+        self.remember_butt = RadioButton(Login)
         self.remember_butt.setObjectName(u"remember_butt")
         palette2 = QPalette()
         palette2.setBrush(QPalette.Active, QPalette.WindowText, brush)
@@ -159,17 +209,17 @@ class Ui_Login(object):
 
         self.verticalLayout.addWidget(self.remember_butt)
 
-        self.login_butt = PrimaryPushButton(self.layoutWidget)
+        self.login_butt = PrimaryPushButton(Login)
         self.login_butt.setObjectName(u"login_butt")
 
         self.verticalLayout.addWidget(self.login_butt)
 
-        self.reg_butt = PrimaryPushButton(self.layoutWidget)
+        self.reg_butt = PrimaryPushButton(Login)
         self.reg_butt.setObjectName(u"reg_butt")
 
         self.verticalLayout.addWidget(self.reg_butt)
 
-        self.forgot_pwd_butt = QPushButton(self.layoutWidget)
+        self.forgot_pwd_butt = PushButton(Login)
         self.forgot_pwd_butt.setObjectName(u"forgot_pwd_butt")
 
         self.verticalLayout.addWidget(self.forgot_pwd_butt)
@@ -179,6 +229,9 @@ class Ui_Login(object):
         self.verticalLayout.addItem(self.verticalSpacer)
 
 
+        self.horizontalLayout.addLayout(self.verticalLayout)
+
+
         self.retranslateUi(Login)
 
         QMetaObject.connectSlotsByName(Login)
@@ -186,6 +239,8 @@ class Ui_Login(object):
 
     def retranslateUi(self, Login):
         Login.setWindowTitle(QCoreApplication.translate("Login", u"Form", None))
+        self.mini_butt.setText(QCoreApplication.translate("Login", u"\u2796", None))
+        self.close_butt.setText(QCoreApplication.translate("Login", u"\u2716", None))
         self.label.setText(QCoreApplication.translate("Login", u"\u8d26\u53f7", None))
         self.num_in.setInputMask("")
         self.num_in.setText("")

@@ -110,6 +110,7 @@ class FileReceiveThread(QThread):
             if self.is_avatar:
                 file_extension = get_file_extension(self.filepath)
                 savepath = "files/avatar/" + str(self.sender_id) + file_extension
+                print("here")
             elif self.chat_id:
                 savepath = "files/chat_files/" + str(self.chat_id) + "/" + filename
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径

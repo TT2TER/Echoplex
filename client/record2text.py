@@ -25,7 +25,7 @@ def record2text():
                         frames_per_buffer=CHUNK)
 
     print("开始录音...")
-    shared_module.main_page.show_start_record()
+    #shared_module.main_page.show_start_record()
 
     frames = []
 

@@ -1,5 +1,7 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtUiTools import QUiLoader
+from PySide2.QtGui import QMouseEvent
+from PySide2.QtCore import Qt
 from lib.public import shared_module
 from ui.login_ui import Ui_Login
 from time import sleep
@@ -12,6 +14,7 @@ class Login(QWidget):
         super().__init__()
         # 加载界面
         #   self.ui = QUiLoader().load('./ui/login.ui')
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui = Ui_Login()
         self.ui.setupUi(self)
         # 按下登录按钮或回车键执行登录过程
@@ -26,6 +29,30 @@ class Login(QWidget):
 
         #按下按钮弹出找回密码成功
         self.ui.forgot_pwd_butt.clicked.connect(self.get_pwd)
+
+        self.ui.close_butt.clicked.connect(self.close_win)
+        self.ui.mini_butt.clicked.connect(self.minimize_win)
+
+    #以下函数是移动窗口用的
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = True
+            self.offset = event.globalPos() - self.pos()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            self.move(event.globalPos() - self.offset)
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
+
+    def close_win(self):
+        self.close()
+        shared_module.app.quit()
+    def minimize_win(self):
+        #这个是最小化窗口函数
+        self.showMinimized()
 
     def login(self):
 
@@ -65,13 +92,19 @@ class Login(QWidget):
                 token_file.write(token)
             print("Token saved to token.txt")
             shared_module.client.user_id = content['user_id']
-            shared_module.main_page.show_my_avatar(1)
+            shared_module.main_page.show_my_avatar(True)
             shared_module.client.user_name = content['user_name']
             shared_module.client.pull_friendlist()
             shared_module.client.pull_grouplist()
             shared_module.client.pull_message()
             shared_module.client.pull_msg_list()
             # 创建主界面窗口
+
+            screen_geometry = shared_module.app.desktop().screenGeometry()
+            setip_geometry = shared_module.main_page.geometry()
+            center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+            center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+            shared_module.main_page.move(center_x, center_y)
             shared_module.main_page.show()
             sleep(0.2)
             #shared_module.main_page.init_chat_list()
@@ -83,11 +116,19 @@ class Login(QWidget):
             return
 
     def remember_pwd(self):
-        # 这里可以添加切换日夜模式的逻辑
-        print("pushed")
-        
-        # 切换界面的颜色、主题等
-        pass
+    # Get the state of the radio button
+        remember_state = self.ui.remember_butt.isChecked()
+
+        if remember_state:
+            # If the radio button is checked, remember the password
+            # For example, you can store the password in a class variable
+            self.remembered_password = self.ui.pwd_in.text()
+            print("Password remembered:", self.remembered_password)
+        else:
+            # If the radio button is unchecked, forget the password
+            # Clear the stored password
+            self.remembered_password = None
+            print("Password forgotten")
 
     def show_registration_page(self):
         # 创建注册窗口

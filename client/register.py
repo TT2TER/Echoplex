@@ -1,6 +1,8 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtGui import QPixmap
 from PySide2.QtUiTools import QUiLoader
+from PySide2.QtGui import QMouseEvent
+from PySide2.QtCore import Qt
 from lib.public import shared_module
 from ui.register_ui import Ui_reg
 import os
@@ -17,6 +19,10 @@ class Register(QWidget):
         self.ui.reg_confirm.clicked.connect(self.start_registration)
         # 按下reg_cancel返回登陆界面
         self.ui.reg_cancel.clicked.connect(self.return_to_login)
+
+        self.ui.close_butt.clicked.connect(self.close_win)
+        self.ui.mini_butt.clicked.connect(self.minimize_win)
+
         #显示侧边图片
         img_path = "lib/login_back.png"
         image_path=os.path.join(os.path.dirname(__file__), img_path)
@@ -24,6 +30,27 @@ class Register(QWidget):
         self.ui.side_pic.setPixmap(pixmap)
         self.ui.side_pic.setScaledContents(True)  # 图像自动拉伸
 
+        #以下函数是移动窗口用的
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = True
+            self.offset = event.globalPos() - self.pos()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            self.move(event.globalPos() - self.offset)
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
+
+    #以下是关窗口函数
+    def close_win(self):
+        self.close()
+        shared_module.app.quit()
+    def minimize_win(self):
+        #这个是最小化窗口函数
+        self.showMinimized()
         
     def start_registration(self):
         # 以下是判断密码是否重复
@@ -57,6 +84,9 @@ class Register(QWidget):
         if back_data == "0000": 
             print("##############################")
             QMessageBox.information(self, "注册", "注册成功，你的账号是" + str(cocntent["user_id"]))
+            where=self.pos()
+            #print(where)
+            shared_module.login_page.move(where)
             shared_module.login_page.show()
             self.close()
         else:
@@ -67,6 +97,9 @@ class Register(QWidget):
     def return_to_login(self):
         # 返回登录界面的逻辑
         # 你可以关闭当前界面，打开登录界面等
+        where=self.pos()
+        #print(where)
+        shared_module.login_page.move(where)
         shared_module.login_page.show()
         self.close()
         # shared_module.main_page = Login()

@@ -23,6 +23,13 @@ shared_module.progress_bar = Progress_bar()
 shared_module.new_group= New_group()
 shared_module.manage_group = Manage_group()
 shared_module.video_page = Video_request_dialog()
+screen_geometry = shared_module.app.desktop().screenGeometry()
+setip_geometry = shared_module.setip_page.geometry()
+center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+shared_module.setip_page.move(center_x, center_y)
+# Show the setip_page
+shared_module.setip_page.show()
 shared_module.setip_page.show()
 if(shared_module.full_fuction):
     #shared_module.client=Client()

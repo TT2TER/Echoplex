@@ -14,7 +14,7 @@ class FileSendThread(QThread):
     notify = Signal(dict)
     percentage=Signal(int)
 
-    def __init__(self, ip, port, file_path, filesize):
+    def __init__(self, ip, port, file_path, filesize, is_avatar):
         super().__init__()
         try:
             print("开始初始化")
@@ -25,6 +25,7 @@ class FileSendThread(QThread):
             self.file_path = file_path
             self.filesize = filesize
             self.sent_percentage = 0
+            self.is_avatar = is_avatar
             print("初始化完成")
         except Exception as e:
             print("file_thread初始化寄了" + str(e))
@@ -50,7 +51,8 @@ class FileSendThread(QThread):
                 data_sent += len(data)
                 self.sent_percentage = data_sent * 100 / self.filesize
                 #在这里emit进度条
-                self.percentage.emit(self.sent_percentage)
+                if not self.is_avatar:
+                    self.percentage.emit(self.sent_percentage)
         print(f"Sent file '{self.file_path}' of size {self.filesize} bytes.")
         print("文件发送完毕,准备关闭线程socket")
         self.socket.close()
@@ -94,6 +96,7 @@ class FileReceiveThread(QThread):
         self.is_avatar = content["is_avatar"]
         self.sender_id = content["sender"]
         self.received_percentage = 0
+        self.chat_id = content["chat_id"]
         print("FileReceiveThread初始化成功")
 
     # 接收文件
@@ -107,8 +110,8 @@ class FileReceiveThread(QThread):
             if self.is_avatar:
                 file_extension = get_file_extension(self.filepath)
                 savepath = "files/avatar/" + str(self.sender_id) + file_extension
-            else:
-                savepath = "files/chat_files/" + filename
+            elif self.chat_id:
+                savepath = "files/chat_files/" + str(self.chat_id) + "/" + filename
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             with open(savepath, 'wb') as file:
                 received_size = 0
@@ -117,8 +120,9 @@ class FileReceiveThread(QThread):
                     received_size += len(data)
                     file.write(data)
                     self.received_percentage = received_size * 100 / self.filesize
-                    #在这里emit进度条
-                    self.percentage.emit(self.received_percentage)
+                    if not self.is_avatar:
+                        #在这里emit进度条
+                        self.percentage.emit(self.received_percentage)
 
             print(f"File '{self.filepath}' received and saved")
         except FileExistsError:

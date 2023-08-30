@@ -24,7 +24,7 @@ class Client:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
     def back_massage_handler(self, received_data):
-        
+
         # 处理发射回来的信号
         try:
             message_handlers = {
@@ -308,7 +308,7 @@ class Client:
         }
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
-    
+
     def pull_grouplist(self):
         data={
             "type":"pull_group_list",
@@ -371,12 +371,17 @@ class Client:
         self.client_socket.sendall(json_data)
         print("更换头像请求成功发送")
 
-    def receive_file_request(self, chat_id, file_path):
+    def receive_file_request(self, chat_id, file_path, content=None):
         # 向服务器发送文件接受请求
         # file_path是服务器发给我的，我要再发回去
         # 包括接收者的ID地址、和服务端文件路径
         now = datetime.now()
         timestamp = datetime.timestamp(now)
+        is_avatar = False
+        filesize = None
+        if content:
+            is_avatar = True
+            filesize = content['filesize']
         data = {
             'type': 'user_receive_file',
             'content': {
@@ -387,10 +392,12 @@ class Client:
                 "filepath": file_path,
                 "time": timestamp,
                 # "time":now,
-                "filesize": None,
-                "is_avatar": False
+                "filesize": filesize,
+                "is_avatar": is_avatar
             }
         }
+        if content:
+            data["content"]["sender"] = content["sender"]
         json_data = json.dumps(data).encode('utf-8')
         self.client_socket.sendall(json_data)
         print("接收文件请求成功发送")
@@ -402,7 +409,7 @@ class Client:
             if back_data == "0000":
                 print("服务器允许发送文件，准备发送力")
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"],
-                                                           content["filesize"])
+                                                           content["filesize"],content['is_avatar'])
                 shared_module.file_thread.percentage.connect(shared_module.main_page.update_percentage)
                 shared_module.file_thread.start()
                 #shared_module.main_page.progress_bar_show()
@@ -423,7 +430,7 @@ class Client:
                     shared_module.file_thread.notify.connect(receive_file_handler)
                     shared_module.file_thread.percentage.connect(shared_module.main_page.update_mainpage_percentage)
                     #shared_module.main_page.progress_bar_show()
-                    
+
                     shared_module.file_thread.start()
                     print("头像接收完了")
                 else:
@@ -439,14 +446,14 @@ class Client:
             #这个是要留的
         if is_avatar:
             print("收到一个头像，正在存储……")
-            # TODO：
+            self.receive_file_request(chat_id=None, file_path=content["filepath"], content=content)
         else:
             shared_module.main_page.print_online_message(content)
             print("收到一条消息/文件，正在处理……")
             pass
-        
+
     def rcv_friendlist(self,back_data,content):
-        
+
         friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
@@ -544,7 +551,7 @@ class Client:
                 opp_name = name
         print(opp_name)
         return opp_name
-    
+
     def find_oppid(self, chat_id):
         num1 = int(str(chat_id)[0:5])
         num2 = int(str(chat_id)[5:10])
@@ -552,9 +559,9 @@ class Client:
             opp_id = num2
         else:
             opp_id = num1
-        
+
         return opp_id
-    
+
     def find_group_name(self,chat_id):
         n=''
         for group_id,group_name in self.group_list:
@@ -610,14 +617,14 @@ class Client:
             #   UI function 
             self.group_list.append([group_id,group_name])
             self.friend_chat("我已加群！",group_id)
-        elif back_data=="0001": 
+        elif back_data=="0001":
             pass
             # 添加成员失败
             #   UI function
             pass
         else:
             return None
-        
+
     def append_msg(self, content):
         # TODO
         chat_id = content['chat_id']

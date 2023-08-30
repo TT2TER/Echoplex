@@ -40,11 +40,13 @@ def user_send_file(received_data, _socket, address, database):
         try:
             # 分离文件名字、创建目录、根据大小接受文件
             filename = os.path.basename(filepath)
-            user_id = find_userid_by_socket(_socket)
+            # user_id = find_userid_by_socket(_socket)
+            user_id = content['sender']
             system_name = platform.system()
             received_data['type'] = "user_chat"
+            file_extension = os.path.splitext(filename)[1]
             if is_avatar:
-                savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
+                savepath = "files/" + "avatar/" + str(user_id) + file_extension
             elif chat_id is not None:
                 savepath = "files/" + str(chat_id) + "/" + filename
             # linux_savepath = windows_savepath.replace("\\", "/")
@@ -53,20 +55,23 @@ def user_send_file(received_data, _socket, address, database):
             # elif system_name == "Linux":
             #     savepath = linux_savepath
             content['filepath'] = savepath
-            user_chat(received_data, _socket, address, database)
+            if chat_id is not None:
+                user_chat(received_data, _socket, address, database)
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             recv_data = 0
             with open(savepath, 'xb') as file:
                 while True:
                     data = client_socket.recv(10240)
                     if not data:
-                        print("我break了")
+                        # print("我break了")
                         break
                     file.write(data)
                 recv_data += len(data)
 
             print(recv_data)
             print(f"File '{savepath}' received and saved")
+            if is_avatar:
+                user_chat(received_data, _socket, address, database)
         except FileExistsError:
             print(f"File '{savepath}' already exists")
         except Exception as e:

@@ -24,6 +24,7 @@ class Client:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
     def back_massage_handler(self, received_data):
+        
         # 处理发射回来的信号
         try:
             message_handlers = {

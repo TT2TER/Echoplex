@@ -362,6 +362,7 @@ class Main_win(QWidget):
         这个函数是点击了创建新群聊后调用的函数
         会调起创建新群组弹窗
         """
+        
         print("即将打开新建群聊窗口……")
         shared_module.new_group.show()
 

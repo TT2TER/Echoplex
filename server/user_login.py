@@ -57,12 +57,14 @@ def user_login(data, socket, address, con):
                     'user_id': user_id
                 }
             }
+            online_clients[int(user_id)] = (socket, address)
         else:
             back_data = {
                 "type": "user_login",
                 'back_data': "0005",
                 'content': None
             }
+
             print("Token is invalid or expired.")
             token_login = False
     else:

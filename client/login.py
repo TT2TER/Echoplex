@@ -112,7 +112,7 @@ class Login(QWidget):
             print("登录窗口要关闭啦！")
             self.close()
         else:
-            QMessageBox.warning(self, '登录失败', '用户名或密码错误。','也有可能是token过期了')
+            QMessageBox.warning(self, '登录失败', '用户名或密码错误，也有可能是token过期了')
             return
 
     def remember_pwd(self):

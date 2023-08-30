@@ -59,7 +59,7 @@ def user_send_file(received_data, _socket, address, database):
                 user_chat(received_data, _socket, address, database)
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             recv_data = 0
-            with open(savepath, 'xb') as file:
+            with open(savepath, 'wb') as file:
                 while True:
                     data = client_socket.recv(10240)
                     if not data:

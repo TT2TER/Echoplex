@@ -45,14 +45,14 @@ def user_send_file(received_data, _socket, address, database):
             received_data['type'] = "user_chat"
             user_chat(received_data, _socket, address, database)
             if is_avatar:
-                windows_savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
+                savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
             elif chat_id is not None:
-                windows_savepath = "files/" + str(chat_id) + "/" + filename
-            linux_savepath = windows_savepath.replace("\\", "/")
-            if system_name == "Windows":
-                savepath = windows_savepath
-            elif system_name == "Linux":
-                savepath = linux_savepath
+                savepath = "files/" + str(chat_id) + "/" + filename
+            # linux_savepath = windows_savepath.replace("\\", "/")
+            # if system_name == "Windows":
+            #     savepath = windows_savepath
+            # elif system_name == "Linux":
+            #     savepath = linux_savepath
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             recv_data = 0
             with open(savepath, 'xb') as file:

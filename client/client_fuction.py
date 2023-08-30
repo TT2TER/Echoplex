@@ -38,15 +38,16 @@ class Client:
                 'user_friendlist': self.rcv_friendlist,
                 'group_list':self.rcv_group_list,
                 'create_group': self.rcv_create_group,
-                'delete_group': self.rcv_delete_group,
+                'a_delete_group': self.rcv_delete_group,
                 'add_new_member': self.rcv_add_new_member,
                 'user_video_chat': self.rcv_video_chat,
                 'ans_video_chat': self.ans_video_chat,
-                'delete_group': shared_module.main_page.rcv_delete_group
+                'delete_group': shared_module.main_page.recv_delete_group,
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
             content = received_data.get('content', None)
+            print(handler,back_data,content)
             if handler:
                 print("handler为" + getattr(handler, "__name__", "unknown_function"))
                 succ = handler(back_data, content)
@@ -714,7 +715,7 @@ class Client:
             # TODO 大概有个弹窗,可能放到window.py下面？
             print("收到了视频申请", sender_id, time, sender_name)
             # 把ans填了，然后去掉注释
-            # ans = "yes" or "no"
+            ans = "yes" or "no"
             self.ans_video_chat(ans, content)
             if ans == "yes":
                 ip = content['ip']

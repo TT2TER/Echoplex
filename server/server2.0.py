@@ -79,7 +79,7 @@ def handle_client(socket, address):
                     'pull_message': retrieve_messages,
                     'init_msg_list': init_msg_list,
                     'pull_friendlist': user_friendlist,
-                    'pull_grouplist':group_list,
+                    'pull_group_list':group_list,
                     'create_group': create_group,
                     'delete_group': delete_group,
                     'add_new_member': add_new_member,

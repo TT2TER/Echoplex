@@ -371,7 +371,7 @@ class Main_win(QWidget):
         這個函數是點擊群聊管理後調用的函數"""
         shared_module.manage_group.show()
 
-    def revc_delete_group(self, back_data, content):
+    def recv_delete_group(self, back_data, content):
         # 收到对方的添加好友请求
         # 返回发送者的用户ID和时间戳
         if back_data == '0002':

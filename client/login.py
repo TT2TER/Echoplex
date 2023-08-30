@@ -111,8 +111,10 @@ class Login(QWidget):
             # 关闭自身窗口
             print("登录窗口要关闭啦！")
             self.close()
+        elif back_data == "0005":
+            print("token已经过期or没有token")
         else:
-            QMessageBox.warning(self, '登录失败', '用户名或密码错误，也有可能是token过期了')
+            QMessageBox.warning(self, '登录失败', '用户名或密码错误')
             return
 
     def remember_pwd(self):
@@ -134,9 +136,11 @@ class Login(QWidget):
 
     def show_registration_page(self):
         # 创建注册窗口
-        where=self.pos()
-        #print(where)
-        shared_module.reg_page.move(where)
+        screen_geometry = shared_module.app.desktop().screenGeometry()
+        setip_geometry = shared_module.reg_page.geometry()
+        center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+        center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+        shared_module.reg_page.move(center_x, center_y)
         shared_module.reg_page.show()
         # 关闭自身窗口
         self.close()

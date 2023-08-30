@@ -99,9 +99,11 @@ class Register(QWidget):
     def return_to_login(self):
         # 返回登录界面的逻辑
         # 你可以关闭当前界面，打开登录界面等
-        where=self.pos()
-        #print(where)
-        shared_module.login_page.move(where)
+        screen_geometry = shared_module.app.desktop().screenGeometry()
+        setip_geometry = shared_module.login_page.geometry()
+        center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+        center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+        shared_module.login_page.move(center_x, center_y)
         shared_module.login_page.show()
         self.close()
         # shared_module.main_page = Login()

@@ -27,9 +27,9 @@ class Video_request_dialog(QWidget):
     def yes(self):
         # 这里写同意视频请求后待发送的消息
         ans = "yes"
-        self.ans_video_chat(ans, self.content)
+        shared_module.client.ans_video_chat(ans, self.content)
         print("同意视频通话")
-        ip = self.content['ip']
+        ip = self.content['user_ip']
         shared_module.video_thread = VideoChatThread(ip)
         shared_module.video_thread.start()
         print(f"receiver开始与{ip}视频聊天啦")

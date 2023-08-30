@@ -437,6 +437,7 @@ class Main_win(QWidget):
         if self.cur_id!=None:
             #在这里写你的发送视频请求的代码
             #cur_id是当前的十位chat_id
+            shared_module.client.video_chat_request(self.cur_id)
             print(self.cur_id)
 
             print("发送视频申请成功")

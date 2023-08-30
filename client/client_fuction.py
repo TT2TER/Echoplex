@@ -42,7 +42,7 @@ class Client:
                 'add_new_member': self.rcv_add_new_member,
                 'user_video_chat': self.rcv_video_chat,
                 'ans_video_chat': self.ans_video_chat,
-                'delete_group': shared_module.main_page.rcv_delete_group
+                'delete_group': shared_module.main_page.recv_delete_group
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
@@ -67,7 +67,8 @@ class Client:
             'content': {
                 'token': None,
                 'user_id': user_id,
-                'user_pwd': user_pwd
+                'user_pwd': user_pwd,
+                "face": False
             }
         }
         json_data = json.dumps(data).encode('utf-8')
@@ -758,3 +759,13 @@ class Client:
             print("收到", name, receiver_ip, "的消息，对方同意，开始视频聊天")
         else:
             print("收到", name, "回复，对方拒绝，舔狗舔到最后一无所有")
+
+    def retrieve_password_request(self, user_id):
+        data = {
+            "type": "retrieve_password",
+            "content": {
+                "user_id": user_id
+            }
+        }
+        json_data = json.dumps(data).encode('utf-8')
+        self.client_socket.sendall(json_data)

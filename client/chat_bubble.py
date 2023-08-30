@@ -23,7 +23,7 @@ class Message_bubble(QWidget):
         timestamp=int(content["time"])
         timearray = time.localtime(timestamp)
         self.time= time.strftime("%Y-%m-%d %H:%M:%S", timearray)
-        self.file_path=content["savepath"]
+        self.file_path=content["filepath"]
         self.file_size=content["filesize"]
 
         self.sender_name=None

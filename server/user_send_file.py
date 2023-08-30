@@ -43,7 +43,6 @@ def user_send_file(received_data, _socket, address, database):
             user_id = find_userid_by_socket(_socket)
             system_name = platform.system()
             received_data['type'] = "user_chat"
-            user_chat(received_data, _socket, address, database)
             if is_avatar:
                 savepath = "files/" + "avatar/" + str(user_id) + "/" + filename
             elif chat_id is not None:
@@ -53,6 +52,8 @@ def user_send_file(received_data, _socket, address, database):
             #     savepath = windows_savepath
             # elif system_name == "Linux":
             #     savepath = linux_savepath
+            content['filepath'] = savepath
+            user_chat(received_data, _socket, address, database)
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             recv_data = 0
             with open(savepath, 'xb') as file:

@@ -43,7 +43,7 @@ def user_video_chat(received_data, socket, address, database):
         receiver_socket, receiver_address = online_clients[receiver_id]
         receiver_ip, _ = receiver_address
         ret = select_table(database, "user", user_id=user_id)
-        if len(ret) != 0:
+        if ret:
             content['username'] = ret[0][1]
             content['receiver_ip'] = receiver_ip
             data = {

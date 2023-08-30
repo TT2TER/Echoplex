@@ -42,7 +42,7 @@ class Client:
                 'a_delete_group': self.rcv_delete_group,
                 'add_new_member': self.rcv_add_new_member,
                 'user_video_chat': self.rcv_video_chat,
-                'ans_video_chat': self.ans_video_chat,
+                'ans_video_chat': self.rcv_ans_video_chat,
                 'delete_group': shared_module.main_page.recv_delete_group,
             }
             handler = message_handlers.get(received_data['type'], None)
@@ -55,8 +55,8 @@ class Client:
                 print("处理结果：" + str(succ) + "，一般不设返回值所以为none")
             else:
                 print("收到处理不了的类型的消息")
-        except:
-            print("处理消息时候寄了，在client_function这back_message_handler里头")
+        except Exception as e:
+            print("处理消息时候寄了，在client_function这back_message_handler里头", e)
         finally:
             print("处理完一个服务器来的请求了")
 
@@ -678,14 +678,28 @@ class Client:
         self.client_socket.sendall(json_data)
         print("all_send")
 
-    def rcv_ans_addfriend(self, back_data, content):
+    def rcv_ans_video_chat(self, back_data, content):
         # 对方接收到同意或拒绝添加好友请求的回复
         # 返回发送者的用户ID、时间戳和回复内容
         # 对方收到好友请求并确定是否同意
-        sender = content["sender"]
+        """
+            data = {
+                    "type": "user_video_chat",
+                    "content": {
+                        "user_id": self.user_id,
+                        "chat_id": chat_id,
+                        "time": timestamp,
+                        "receiver_id":,
+                        "receiver_ip":,
+                        "user_ip":,
+                        "username"
+                    }
+                }
+            """
+        sender = content["user_id"]
         time = content["time"]
         ans = content["ans"]
-        name = content["name"]
+        name = content["username"]
         receiver_ip = content["receiver_ip"]
         print([sender, time, ans, name, receiver_ip])
 

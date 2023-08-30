@@ -27,6 +27,7 @@ def find_userid_by_socket(socket_to_find):
 
 def find_friend_id(user_id, chat_id):
     print("尝试通过chat_id和user_id找到friend_id……")
+    chat_id = str(chat_id)
     if len(chat_id) == 10:
         first_five = int(chat_id[:5])
         last_five = int(chat_id[5:])

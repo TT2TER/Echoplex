@@ -12,7 +12,7 @@ def ans_video_chat(received_data, socket, address, database):
         "back_data": None,
         "content": content
     }
-    receiver = content['receiver']
+    receiver = content['receiver_id']
     json_message = json.dumps(back_data_video_chat).encode('utf-8')
     if receiver in online_clients:
         receiver_socket, _ = online_clients[receiver]

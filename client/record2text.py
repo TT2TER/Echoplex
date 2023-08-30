@@ -2,6 +2,7 @@ import pyaudio
 import wave
 import os
 import whisper
+from lib.public import shared_module
 
 
 def record2text():
@@ -24,6 +25,7 @@ def record2text():
                         frames_per_buffer=CHUNK)
 
     print("开始录音...")
+    shared_module.main_page.show_start_record()
 
     frames = []
 
@@ -33,7 +35,7 @@ def record2text():
         frames.append(data)
 
     print("录音结束.")
-
+    #shared_module.main_page.hide_start_record()
     # 停止录音流
     stream.stop_stream()
     stream.close()

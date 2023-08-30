@@ -65,6 +65,7 @@ class Login(QWidget):
                 token_file.write(token)
             print("Token saved to token.txt")
             shared_module.client.user_id = content['user_id']
+            shared_module.main_page.show_my_avatar(1)
             shared_module.client.user_name = content['user_name']
             shared_module.client.pull_friendlist()
             shared_module.client.pull_grouplist()

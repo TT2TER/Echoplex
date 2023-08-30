@@ -1,6 +1,6 @@
-from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem, QFileDialog, QProgressBar, QLabel
-from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem, QFileDialog, QProgressBar, QLabel,  QPushButton, QVBoxLayout, QDialog
+from PySide2.QtGui import QPixmap
+from PySide2.QtCore import Qt, QRect
 from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
@@ -27,7 +27,7 @@ class Main_win(QWidget):
         self.ui.new_group_butt.clicked.connect(self.add_new_group)
         self.ui.video_butt.clicked.connect(self.send_an_vedio_request)
         self.ui.wisper_butt.clicked.connect(self.wisper)
-        #self.ui.avatar_butt.clicked.connect(self.show_avatar_dialog)
+        self.ui.avatar_butt.clicked.connect(self.show_avatar_dialog)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -43,6 +43,7 @@ class Main_win(QWidget):
 
         #初始化时没有小红点
         self.hide_friend_red()
+        self.hide_start_record()
 
         #以下用于实例化进度条
          # Instantiate QProgressBar and QLabel for progress bar
@@ -59,6 +60,9 @@ class Main_win(QWidget):
         self.ui.progress_bar_label.setAlignment(Qt.AlignCenter)
         self.ui.progress_bar_label.setWordWrap(True)
 
+        self.image_path=None
+        
+
 #以上是最終實現的信號槽
 #以下是測試用的信號槽和函數
     #     self.ui.add_new_chat.clicked.connect(self.add_test)
@@ -70,6 +74,32 @@ class Main_win(QWidget):
         
 #以上是測試用的函數和槽
 
+#以下是找头像相关功能
+    def find_avatar(self, id):
+        """Find the avatar path based on the given ID."""
+        supported_extensions = ['jpg', 'jpeg', 'png']
+        
+        # Search for avatar files with supported extensions
+        for ext in supported_extensions:
+            avatar_filename = f"{id}.{ext}"
+            avatar_path = os.path.join(os.path.dirname(__file__), "files/avatar/", avatar_filename)
+            
+            if os.path.exists(avatar_path):
+                self.image_path=avatar_path
+            else:
+                # If no avatar found, return a default avatar path
+                self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")
+    
+    def show_my_avatar(self,find):
+        if find:
+            self.find_avatar(shared_module.client.user_id)
+        
+        #以下用于显示自己的头像
+        self.avatar_label = QLabel(self.ui.avatar_show)
+        self.avatar_label.setGeometry(QRect(1, 1, 48, 48))
+        image = QPixmap(self.image_path)  # 用实际的图像路径替换
+        self.avatar_label.setPixmap(image)
+        self.avatar_label.setScaledContents(True) 
 
 #以下是添加好友相關功能
     def add_friend(self):
@@ -183,6 +213,8 @@ class Main_win(QWidget):
         if full_path:
             print('Selected Image:', full_path)
             shared_module.client.change_avatar_request(full_path)
+            self.image_path=full_path
+            self.show_my_avatar(0)
         else:
             QMessageBox.warning(self, "选择失败", "请选择支持的图片文件")
 
@@ -473,6 +505,11 @@ class Main_win(QWidget):
         result = record2text()
         self.ui.text_in.append(result)
 
+    def show_start_record(self):
+        self.ui.start_record.show()
+
+    def hide_start_record(self):
+        self.ui.start_record.hide()
 
 if __name__ == "__main__":
     app = QApplication([])

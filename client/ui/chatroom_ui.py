@@ -196,6 +196,11 @@ class Ui_chatroom(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
+        self.start_record = QLabel(self.layoutWidget)
+        self.start_record.setObjectName(u"start_record")
+
+        self.horizontalLayout.addWidget(self.start_record)
+
         self.wisper_butt = QPushButton(self.layoutWidget)
         self.wisper_butt.setObjectName(u"wisper_butt")
         sizePolicy1.setHeightForWidth(self.wisper_butt.sizePolicy().hasHeightForWidth())
@@ -417,6 +422,7 @@ class Ui_chatroom(object):
         self.avatar_butt.setText(QCoreApplication.translate("chatroom", u"\u70b9\u51fb\u4e0a\u4f20\u5934\u50cf", None))
         self.group_manage_butt.setText(QCoreApplication.translate("chatroom", u"\u7fa4\u7ec4\u7ba1\u7406", None))
         self.setting_butt.setText(QCoreApplication.translate("chatroom", u"\u8bbe\u7f6e", None))
+        self.start_record.setText(QCoreApplication.translate("chatroom", u"\u5f00\u59cb\u5f55\u97f3\u2026\u2026", None))
         self.wisper_butt.setText(QCoreApplication.translate("chatroom", u"\u8f6c\u6587\u5b57", None))
         self.video_butt.setText(QCoreApplication.translate("chatroom", u"\u89c6\u9891\u901a\u8bdd", None))
         self.send_file_butt.setText(QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6587\u4ef6", None))

@@ -53,6 +53,8 @@ class Chating_item(QWidget):
         self.avatar_label.setScaledContents(True)  # 自适应图像大小
         self.ui.resent_message.setText(self.msg)
 
+        self.hide_message_red()
+
 
 #以下按鍵功能僅供測試時使用，測試完畢後請在這裡和ui里刪除這個按鈕
         self.ui.close_butt.clicked.connect(self.close)
@@ -61,6 +63,12 @@ class Chating_item(QWidget):
         shared_module.main_page.del_one_list(self.chat_id)
         pass
 #以上是測試用
+
+    def show_message_red(self):
+        self.ui.new_message.show()
+
+    def hide_message_red(self):
+        self.ui.new_message.hide()
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:

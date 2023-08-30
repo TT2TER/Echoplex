@@ -565,7 +565,7 @@ QTabWidget::pane {
              <item>
               <widget class="QPushButton" name="new_group_butt">
                <property name="text">
-                <string>创建群聊键</string>
+                <string>创建群聊</string>
                </property>
               </widget>
              </item>
@@ -661,8 +661,8 @@ QListWidget::item:selected {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>88</width>
-            <height>88</height>
+            <width>274</width>
+            <height>210</height>
            </rect>
           </property>
           <attribute name="label">
@@ -706,8 +706,15 @@ QListWidget::item:selected {
             <height>17</height>
            </rect>
           </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel#get_new_friend_num{
+	color: white;
+	background-color: transparent;
+	font: 10pt &quot;Airal&quot;;
+}</string>
+          </property>
           <property name="text">
-           <string>99</string>
+           <string/>
           </property>
          </widget>
          <widget class="QPushButton" name="get_new_friend">
@@ -721,6 +728,22 @@ QListWidget::item:selected {
           </property>
           <property name="text">
            <string>新好友</string>
+          </property>
+         </widget>
+         <widget class="QWidget" name="new_friend" native="true">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>0</y>
+            <width>10</width>
+            <height>10</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget#new_friend{
+	border-radius: 5px;
+	background-color: rgb(255, 0, 0);
+}</string>
           </property>
          </widget>
         </widget>

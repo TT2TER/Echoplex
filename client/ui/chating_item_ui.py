@@ -121,7 +121,7 @@ class Ui_chating_item(object):
 
     def retranslateUi(self, chating_item):
         chating_item.setWindowTitle(QCoreApplication.translate("chating_item", u"Form", None))
-        self.massage_num.setText(QCoreApplication.translate("chating_item", u"99", None))
+        self.massage_num.setText("")
         self.name.setText(QCoreApplication.translate("chating_item", u"Karson", None))
         self.resent_message.setText(QCoreApplication.translate("chating_item", u"How do you do?", None))
         self.message_time.setText(QCoreApplication.translate("chating_item", u"01/01/2015 09:00:00", None))

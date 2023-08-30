@@ -41,6 +41,9 @@ class Main_win(QWidget):
         #用於指向當前加載的消息框
         self.cur_bubble=None
 
+        #初始化时没有小红点
+        self.hide_friend_red()
+
         #以下用于实例化进度条
          # Instantiate QProgressBar and QLabel for progress bar
         self.ui.progress_bar_widget = QWidget(self)
@@ -455,7 +458,13 @@ class Main_win(QWidget):
             print (e)
         print("窗口创建成功")
         pass
+    
+    #以下是展示新好友请求小红点
+    def show_friend_red(self):
+        self.ui.new_friend.show()
 
+    def hide_friend_red(self):
+        self.ui.new_friend.hide()
 
 #以下是语音转文字
     def wisper(self):

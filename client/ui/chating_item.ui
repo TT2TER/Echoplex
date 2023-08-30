@@ -145,7 +145,7 @@
 }</string>
          </property>
          <property name="text">
-          <string>99</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

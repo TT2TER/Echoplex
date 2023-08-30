@@ -360,7 +360,7 @@ class Ui_chatroom(object):
         self.toolBox.addItem(self.page, u"\u6211\u7684\u597d\u53cb")
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
-        self.page_2.setGeometry(QRect(0, 0, 88, 88))
+        self.page_2.setGeometry(QRect(0, 0, 274, 210))
         self.verticalLayout_5 = QVBoxLayout(self.page_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.listWidget_3 = QListWidget(self.page_2)
@@ -378,9 +378,21 @@ class Ui_chatroom(object):
         self.get_new_friend_num = QLabel(self.widget)
         self.get_new_friend_num.setObjectName(u"get_new_friend_num")
         self.get_new_friend_num.setGeometry(QRect(0, 0, 21, 17))
+        self.get_new_friend_num.setStyleSheet(u"QLabel#get_new_friend_num{\n"
+"	color: white;\n"
+"	background-color: transparent;\n"
+"	font: 10pt \"Airal\";\n"
+"}")
         self.get_new_friend = QPushButton(self.widget)
         self.get_new_friend.setObjectName(u"get_new_friend")
         self.get_new_friend.setGeometry(QRect(20, 0, 71, 25))
+        self.new_friend = QWidget(self.widget)
+        self.new_friend.setObjectName(u"new_friend")
+        self.new_friend.setGeometry(QRect(20, 0, 10, 10))
+        self.new_friend.setStyleSheet(u"QWidget#new_friend{\n"
+"	border-radius: 5px;\n"
+"	background-color: rgb(255, 0, 0);\n"
+"}")
         self.tabWidget.addTab(self.friend_list, "")
 
         self.horizontalLayout_3.addWidget(self.tabWidget)
@@ -411,13 +423,13 @@ class Ui_chatroom(object):
         self.send_butt.setText(QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6d88\u606f", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.text), QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6d88\u606f", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_2), QCoreApplication.translate("chatroom", u"\u8868\u60c5", None))
-        self.new_group_butt.setText(QCoreApplication.translate("chatroom", u"\u521b\u5efa\u7fa4\u804a\u952e", None))
+        self.new_group_butt.setText(QCoreApplication.translate("chatroom", u"\u521b\u5efa\u7fa4\u804a", None))
         self.add_new_chat.setText(QCoreApplication.translate("chatroom", u"\u8c03\u8bd5\u7528", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.chat_list), QCoreApplication.translate("chatroom", u"\u6d88\u606f\u5217\u8868", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("chatroom", u"\u6211\u7684\u597d\u53cb", None))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("chatroom", u"Page 2", None))
         self.add_friend_butt.setText(QCoreApplication.translate("chatroom", u"\u6dfb\u52a0\u597d\u53cb", None))
-        self.get_new_friend_num.setText(QCoreApplication.translate("chatroom", u"99", None))
+        self.get_new_friend_num.setText("")
         self.get_new_friend.setText(QCoreApplication.translate("chatroom", u"\u65b0\u597d\u53cb", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.friend_list), QCoreApplication.translate("chatroom", u"\u597d\u53cb\u5217\u8868", None))
     # retranslateUi

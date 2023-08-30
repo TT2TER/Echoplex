@@ -102,14 +102,6 @@ class Ui_chating_item(object):
 "	font: 75 11pt \"Arial\";\n"
 "	color: #888888;\n"
 "}")
-        self.close_butt = QPushButton(self.widgetMain)
-        self.close_butt.setObjectName(u"close_butt")
-        self.close_butt.setGeometry(QRect(320, 30, 20, 20))
-        self.close_butt.setStyleSheet(u"QPushButton#close_butt{\n"
-"	border-radius: 10px;\n"
-"	background-color: red;\n"
-"	color: white;\n"
-"}")
 
         self.horizontalLayout.addWidget(self.widgetMain)
 
@@ -125,6 +117,5 @@ class Ui_chating_item(object):
         self.name.setText(QCoreApplication.translate("chating_item", u"Karson", None))
         self.resent_message.setText(QCoreApplication.translate("chating_item", u"How do you do?", None))
         self.message_time.setText(QCoreApplication.translate("chating_item", u"01/01/2015 09:00:00", None))
-        self.close_butt.setText(QCoreApplication.translate("chating_item", u"x", None))
     # retranslateUi
 

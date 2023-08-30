@@ -61,12 +61,12 @@ class Main_win(QWidget):
 
 #以上是最終實現的信號槽
 #以下是測試用的信號槽和函數
-        self.ui.add_new_chat.clicked.connect(self.add_test)
-        self.img_path = "lib/login_back.png"
-        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-    def add_test(self):
-            #以下測試
-            self.ui.chat_list_view.clear()
+    #     self.ui.add_new_chat.clicked.connect(self.add_test)
+    #     self.img_path = "lib/login_back.png"
+    #     self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
+    # def add_test(self):
+    #         #以下測試
+    #         self.ui.chat_list_view.clear()
         
 #以上是測試用的函數和槽
 

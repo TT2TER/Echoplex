@@ -119,6 +119,7 @@ class Main_win(QWidget):
             self.find_avatar(shared_module.client.user_id)
         
         #以下用于显示自己的头像
+        print(self.image_path)
         self.avatar_label = QLabel(self.ui.avatar_show)
         self.avatar_label.setGeometry(QRect(1, 1, 48, 48))
         image = QPixmap(self.image_path)  # 用实际的图像路径替换

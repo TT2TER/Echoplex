@@ -24,6 +24,7 @@ class Client:
             print("不应该在这里报错，这辈子都不能看到这个消息。这个消息在class client inits")
 
     def back_massage_handler(self, received_data):
+        
         # 处理发射回来的信号
         try:
             message_handlers = {
@@ -38,14 +39,16 @@ class Client:
                 'user_friendlist': self.rcv_friendlist,
                 'group_list':self.rcv_group_list,
                 'create_group': self.rcv_create_group,
+                'a_delete_group': self.rcv_delete_group,
                 'add_new_member': self.rcv_add_new_member,
                 'user_video_chat': self.rcv_video_chat,
                 'ans_video_chat': self.ans_video_chat,
-                'delete_group': shared_module.main_page.recv_delete_group
+                'delete_group': shared_module.main_page.recv_delete_group,
             }
             handler = message_handlers.get(received_data['type'], None)
             back_data = received_data.get('back_data', None)
             content = received_data.get('content', None)
+            print(handler,back_data,content)
             if handler:
                 print("handler为" + getattr(handler, "__name__", "unknown_function"))
                 succ = handler(back_data, content)
@@ -323,6 +326,8 @@ class Client:
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         file_size = os.path.getsize(file_path)
+        if chat_id==None:
+            return
         data = {
             'type': 'user_send_file',
             'content': {
@@ -399,10 +404,9 @@ class Client:
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"],
                                                            content["filesize"])
                 shared_module.file_thread.notify.connect(send_file_handler)
-                shared_module.file_thread.percentage.connect(shared_module.progress_bar.update_percentage)
+                shared_module.file_thread.percentage.connect(shared_module.main_page.update_percentage)
                 shared_module.file_thread.start()
-                shared_module.main_page.progress_bar_show()
-                print("窗口打开成功！")
+                #shared_module.main_page.progress_bar_show()
                 # file_thread.wait()
                 print("send_file函数结束了")
             else:
@@ -417,36 +421,20 @@ class Client:
             if back_data == "0000":
                 print("服务器允许接收文件，我准备接收力")
                 shared_module.file_thread = FileReceiveThread(content)
-
-                shared_module.file_thread.start()
                 shared_module.file_thread.notify.connect(receive_file_handler)
-                shared_module.main_page.progress_bar_show()
-                print("窗口打开成功！")
-                shared_module.file_thread.percentage.connext(shared_module.progress_bar.update_percentage)
-
+                #shared_module.main_page.progress_bar_show()
+                shared_module.file_thread.percentage.connext(shared_module.main_page.update_percentage)
+                shared_module.file_thread.start()
+                print("receive_file函数结束了")
             else:
                 print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
         except Exception as e:
             print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
 
     def receive_friend_message(self, back_data, content):
-        sender_id = content["sender"]
-        chat_id = content["chat_id"]
-        msg = content["msg"]
-        time = content["time"]
-        filepath = content["filepath"]
-        filesize = content['filesize']
-        is_avatar = content['is_avatar']
+        is_avatar=content['is_avatar']
         print("进入了receive_friend_message\n")
-        # if not filepath:
-        #     #消息
-        #     shared_module.main_page.print_online_message(content)
-        #     print("收到一条消息，正在处理……")
-        #     pass
-        # elif  is_avatar==False :
-        #     shared_module.main_page.receive_a_file(content)
-        #     print("收到一个文件，正在处理……")
-        # 这个是要留的
+            #这个是要留的
         if is_avatar:
             print("收到一个头像，正在存储……")
             # TODO：
@@ -454,60 +442,9 @@ class Client:
             shared_module.main_page.print_online_message(content)
             print("收到一条消息/文件，正在处理……")
             pass
-            # 处理这是一个文件
-            # 我得在里面调用receive_file_request
-        # filepath = content["filepath"]
-        # if sender == self.user_id:
-        #     if not filepath:
-        #         # 自己的消息发送成功
-        #         # 在聊天窗口打印自己的消息
-        #         # 在文件中写入自己的消息
-        #         print("消息发送成功消息内容是" + msg)
-        #     if not msg:
-        #         # 自己的文件发送成功
-        #         # 在聊天窗口显示人间发送成功
-        #         print("文件发送成功")
-        # else:
-        #     try:
-        #         if not filepath:
-        #             # 收到的是文本消息
-        #             print("收到的是来自" + str(content['sender']) + "文本消息：" + content["msg"])
-        #             # 写入一个文件
-
-        #             # 进行窗口交互
-
-        #         elif not msg:
-        #             print("收到的是来自" + str(content['sender']) + "文件")
-
-        #             # 进行窗口交互
-        #             # 将文件 消息 显示在聊天中
-        #     except Exception as e:
-        #         print("receive_friend_message寄了，寄在client_function,receive_friend_message里头：" + str(e))
-
-    # def receive_group_message(self, back_data, content):
-    #     sender = content["sender"]
-    #     msg = content["msg"]
-    #     time = content["time"]
-    #     group_id = content["group_id"]
-    #     filepath = content["filepath"]
-    #     try:
-    #         if not filepath:
-    #             # 收到的是文本消息
-    #             print("收到的是来自" + str(content['sender']) + "群组文本消息：" + content["msg"])
-    #             # 写入一个文件
-    #
-    #             # 进行窗口交互
-    #
-    #         elif not filepath:
-    #             print("收到的是来自" + str(content['sender']) + "群组文件")
-    #
-    #             # 进行窗口交互
-    #             # 将文件 消息 显示在聊天中
-    #     except Exception as e:
-    #         print("receive_group_message寄了，寄在client_function,receive_group_message里头：" + str(e))
-
-    def rcv_friendlist(self, back_data, content):
-
+        
+    def rcv_friendlist(self,back_data,content):
+        
         friend_list_info = content["friend_list_info"]
         if back_data == "0012":
             # 好友列表获取成功
@@ -709,18 +646,19 @@ class Client:
         # 0000，则是视频接受者收到此消息
         if back_data == "0000":
             sender_id = content["user_id"]
+            sender_ip = content["user_ip"]
             time = content["time"]
             sender_name = content["username"]
-            # TODO 大概有个弹窗,可能放到window.py下面？
-            print("收到了视频申请", sender_id, time, sender_name)
+            # 大概有个弹窗,可能放到window.py下面？
+            shared_module.main_page.receive_an_vedio_request(content)
+            print("收到了视频申请", sender_id, sender_ip, sender_name,time)
             # 把ans填了，然后去掉注释
             # ans = "yes" or "no"
-            self.ans_video_chat(ans, content)
-            if ans == "yes":
-                ip = content['ip']
-                shared_module.video_thread = VideoChatThread(ip)
-                shared_module.video_thread.start()
-                print(f"receiver开始与{ip}视频聊天啦")
+            # self.ans_video_chat(ans, content)
+            # if ans == "yes":
+            #     ip = content['ip']
+            #     shared_module.video_thread = VideoChatThread(ip)
+            #     shared_module.video_thread.start()
         # 0001，则是视频发起者接受到此消息，因为接收者不在线
         elif back_data == "0001":
             # TODO 大概有个弹窗提示吧

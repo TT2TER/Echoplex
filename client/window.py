@@ -9,6 +9,7 @@ from datetime import datetime
 import time
 import os,sys
 import json
+from record2text import record2text
 class Main_win(QWidget):
 
     def __init__(self):
@@ -383,11 +384,13 @@ class Main_win(QWidget):
 
             print("发送视频申请成功")
 
-    def receive_an_vedio_request(self,id,ip):
+    def receive_an_vedio_request(self,content):
         print("点击了视频聊天按钮")
         #调用这个函数的时候要传入id和ip
+        id = content['user_id']
+        ip = content['user_ip']
         try:
-            shared_module.video_page.update_info_label(id,ip)
+            shared_module.video_page.update_info_label(id,ip,content)
             shared_module.video_page.show()
         except Exception as e:
             print (e)
@@ -399,10 +402,7 @@ class Main_win(QWidget):
     def wisper(self):
         #这里调用wisper
         #给我返回一个result
-
-
-        #result=fuc()
-        result="测试消息"
+        result = record2text()
         self.ui.text_in.append(result)
 
 

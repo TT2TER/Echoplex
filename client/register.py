@@ -43,7 +43,7 @@ class Register(QWidget):
             QMessageBox.warning(self, '注册失败', '密码请大于6字符小于20字符，请重新输入。')
             self.ui.pwd_in.clear()
             self.ui.pwd_check.clear()
-            return;
+            return
 
         # 以下是用户输入的数据
         entered_name = self.ui.name_in.text()  # 姓名
@@ -55,6 +55,7 @@ class Register(QWidget):
         
     def recv_register(self, back_data, cocntent):
         if back_data == "0000": 
+            print("##############################")
             QMessageBox.information(self, "注册", "注册成功，你的账号是" + str(cocntent["user_id"]))
             shared_module.login_page.show()
             self.close()

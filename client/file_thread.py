@@ -59,26 +59,24 @@ class FileSendThread(QThread):
             'type': 'user_send_file',
             'back_data': '0000'
         }
-        self.notify.emit(emit_data)
+        self.send_file_handler(emit_data)
 
 
-def send_file_handler(emit_data):
-    # 处理发射回来的信号
-    try:
-        back_data = emit_data.get('back_data', None)
-        if back_data == '0000':
-            print("文件发送成功")
-            # 文件发送成功的UI交互，弹窗
-            #TODO:
-            #shared_module.progress_bar.close_progress_bar()
+    def send_file_handler(self,emit_data):
+        # 处理发射回来的信号
+        try:
+            back_data = emit_data.get('back_data', None)
+            if back_data == '0000':
+                print("文件发送成功")
+                #QMessageBox.information(self,"文件发送成功","在"+emit_data.get('filepath', None))
+                print("文件发送成功,在",emit_data.get('filepath', None))
 
-            print("文件发送成功,在",emit_data.get('filepath', None))
-
-    except Exception as e:
-        print("结束发送文件时候寄了，在file_thread这send_file_handler里头:" + str(e))
-        #弹窗失败
-    finally:
-        print("处理完一个发送文件请求了")
+        except Exception as e:
+            print("结束发送文件时候寄了，在file_thread这send_file_handler里头:" + str(e))
+            #弹窗失败
+            #QMessageBox.warning(self,"文件发送失败","文件发送失败")
+        finally:
+            print("处理完一个发送文件请求了")
 
 
 class FileReceiveThread(QThread):
@@ -102,6 +100,7 @@ class FileReceiveThread(QThread):
     def run(self):
         # 接收文件
         buff_size = 10240
+        time.sleep(1)
         print("开始收到文件啦")
         try:
             filename = os.path.basename(self.filepath)
@@ -143,11 +142,9 @@ def receive_file_handler(emit_data):
         back_data = emit_data.get('back_data', None)
         if back_data == '0000':
             print("文件接收成功，路径是" + emit_data.get('filepath', None))
-            # 文件接收成功的UI交互
-            #这里得想个办法变成message发出去
-            #写message
-            shared_module.progress_bar.close_progress_bar()
-            QMessageBox.information("文件接受成功,在",emit_data.get('filepath', None))
+            shared_module.main_page.del_percentage_bar()
+            #shared_module.progress_bar.close_progress_bar()
+            #QMessageBox.information("文件接受成功,在",emit_data.get('filepath', None))
 
     except Exception as e:
         print("结束接收文件时候寄了，在file_thread这receive_file_handler里头:" + str(e))

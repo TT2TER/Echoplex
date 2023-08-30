@@ -4,7 +4,7 @@ import threading
 from datetime import datetime
 from lib.public import shared_module
 from video_chat_thread import *
-from file_thread import FileSendThread, FileReceiveThread, send_file_handler, receive_file_handler
+from file_thread import FileSendThread, FileReceiveThread, receive_file_handler
 import os, time
 
 
@@ -403,7 +403,6 @@ class Client:
                 print("服务器允许发送文件，准备发送力")
                 shared_module.file_thread = FileSendThread(content["sender_ip"], content["port"], content["filepath"],
                                                            content["filesize"])
-                shared_module.file_thread.notify.connect(send_file_handler)
                 shared_module.file_thread.percentage.connect(shared_module.main_page.update_percentage)
                 shared_module.file_thread.start()
                 #shared_module.main_page.progress_bar_show()
@@ -417,19 +416,22 @@ class Client:
 
     # 在从服务器收到允许接收文件的答复后，开始接收文件线程
     def receive_file(self, back_data, content):
-        try:
-            if back_data == "0000":
-                print("服务器允许接收文件，我准备接收力")
-                shared_module.file_thread = FileReceiveThread(content)
-                shared_module.file_thread.notify.connect(receive_file_handler)
-                #shared_module.main_page.progress_bar_show()
-                shared_module.file_thread.percentage.connext(shared_module.main_page.update_percentage)
-                shared_module.file_thread.start()
-                print("receive_file函数结束了")
-            else:
-                print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
-        except Exception as e:
-            print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
+            try:
+                if back_data == "0000":
+                    print("服务器准备发送文件，我准备接收力！")
+                    shared_module.file_thread = FileReceiveThread(content)
+                    shared_module.file_thread.notify.connect(receive_file_handler)
+                    shared_module.file_thread.percentage.connect(shared_module.main_page.update_mainpage_percentage)
+                    #shared_module.main_page.progress_bar_show()
+                    
+                    shared_module.file_thread.start()
+                    print("头像接收完了")
+                else:
+                    print("服务器不允许接收文件，寄了，记载client_function,receive_file里头")
+            except Exception as e:
+                print("receive_file寄了，寄在client_function,receive_file里头：" + str(e))
+            #调用我的chating_item的函数
+            pass
 
     def receive_friend_message(self, back_data, content):
         is_avatar=content['is_avatar']

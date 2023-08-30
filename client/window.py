@@ -1,5 +1,6 @@
-from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem, QFileDialog
+from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem, QFileDialog, QProgressBar, QLabel
 from PySide2.QtUiTools import QUiLoader
+from PySide2.QtCore import Qt
 from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
@@ -26,8 +27,12 @@ class Main_win(QWidget):
         self.ui.new_group_butt.clicked.connect(self.add_new_group)
         self.ui.video_butt.clicked.connect(self.send_an_vedio_request)
         self.ui.wisper_butt.clicked.connect(self.wisper)
+        #self.ui.avatar_butt.clicked.connect(self.show_file_dialog)
         #維護一個當前顯示的對象id
         self.cur_id =None
+
+        #判断加载出来的消息是不是历史消息,用来决定发送文件的进度条是否显示
+        self.is_old=False
 
         # 用于动态维护的好友列表和消息列表
         self.friend_item = []
@@ -35,6 +40,21 @@ class Main_win(QWidget):
 
         #用於指向當前加載的消息框
         self.cur_bubble=None
+
+        #以下用于实例化进度条
+         # Instantiate QProgressBar and QLabel for progress bar
+        self.ui.progress_bar_widget = QWidget(self)
+        self.ui.progress_bar_widget.setGeometry(700, 630, 111, 41)
+        self.ui.progress_bar_widget.hide()
+
+        self.ui.progress_bar = QProgressBar(self.ui.progress_bar_widget)
+        self.ui.progress_bar.setGeometry(0, 0, 111, 23)
+        self.ui.progress_bar.setValue(0)
+
+        self.ui.progress_bar_label = QLabel(self.ui.progress_bar_widget)
+        self.ui.progress_bar_label.setGeometry(0, 25, 111, 16)
+        self.ui.progress_bar_label.setAlignment(Qt.AlignCenter)
+        self.ui.progress_bar_label.setWordWrap(True)
 
 #以上是最終實現的信號槽
 #以下是測試用的信號槽和函數
@@ -111,6 +131,9 @@ class Main_win(QWidget):
 #以下是发送文件功能
     def show_file_dialog(self):
         """这个函数负责让用户选择要发送的文件并将文件地址提取出来"""
+        if self.cur_id<100000:
+            QMessageBox.warning(self,"群聊不能发送文件","请等待后续版本更新")
+            return
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         full_path, _ = QFileDialog.getOpenFileName(self, 'Open File', '', 'All Files (*)', options=options)
@@ -141,6 +164,24 @@ class Main_win(QWidget):
 
 
 #以上是发送文件功能
+
+#以下是发送头像功能：
+    def show_avatar_dialog(self):
+        """This function allows the user to choose an avatar image and extracts the file path."""
+        options = QFileDialog.Options()
+        options |= QFileDialog.ReadOnly
+
+        # Set the image formats filter
+        image_formats = "Image Files (*.jpg *.jpeg *.png)"
+        
+        full_path, _ = QFileDialog.getOpenFileName(self, 'Open Image', '', image_formats, options=options)
+
+        # Check if the selected file is an image
+        if full_path:
+            print('Selected Image:', full_path)
+            shared_module.client.change_avatar_request(full_path)
+        else:
+            QMessageBox.warning(self, "选择失败", "请选择支持的图片文件")
 
 #以下是私聊收發消息相關函數（群聊也许能复用
     def send(self):
@@ -263,7 +304,7 @@ class Main_win(QWidget):
         #循环加载add_message
         """
         print("Item clicked with value:", chat_id)
-
+        self.is_old=True
         #如果點擊到的列表本身就是窗口里的，pass
         if self.cur_id==chat_id:
             pass
@@ -313,6 +354,8 @@ class Main_win(QWidget):
                     self.add_one_message(content)
                     print(chat_id,"的消息列表打印完毕")
 
+            self.is_old=False
+
     def add_one_message(self,content):
         """
         調用這個函數來打印消息
@@ -340,6 +383,21 @@ class Main_win(QWidget):
     def update_percentage(self,percentage):
         if self.cur_bubble.is_file:
             self.cur_bubble.update_progress(percentage)
+    
+    def add_percentage_bar(self, msg):
+        """Add a file receiving progress bar."""
+        self.ui.progress_bar_widget.show()
+        self.ui.progress_bar_label.setText(f"正在下载文件{msg}")
+        self.ui.progress_bar.setValue(0)
+
+    def del_percentage_bar(self):
+        time.sleep(1)
+        """Remove the file receiving progress bar."""
+        self.ui.progress_bar_widget.hide()
+
+    def update_mainpage_percentage(self, percentage):
+        """Update the file receiving progress bar."""
+        self.ui.progress_bar.setValue(percentage)
 
 #以下是群聊的跳转逻辑
     def add_new_group(self):

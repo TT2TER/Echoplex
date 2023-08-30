@@ -1,12 +1,12 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import Qt
-from PySide2.QtGui import QMouseEvent
+from PySide2.QtGui import QMouseEvent,QPixmap
 from lib.public import shared_module
 from ui.setip_ui import Ui_setip
 from client_fuction import Client
 from backthread import BackendThread
-import re
+import re, os
 
 class Setip(QWidget):
 
@@ -20,6 +20,12 @@ class Setip(QWidget):
         self.ui.config_butt.clicked.connect(self.check_ip_and_port)
         self.ui.close_butt.clicked.connect(self.close_win)
         self.ui.mini_butt.clicked.connect(self.minimize_win)
+
+        img_path = "lib/icon.png"
+        image_path=os.path.join(os.path.dirname(__file__), img_path)
+        pixmap = QPixmap(image_path)
+        self.ui.icon.setPixmap(pixmap)
+        self.ui.icon.setScaledContents(True)  # 图像自动拉伸
 
         #以下函数是移动窗口用的
     def mousePressEvent(self, event: QMouseEvent):

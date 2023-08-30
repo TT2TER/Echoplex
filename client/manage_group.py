@@ -15,6 +15,10 @@ class Manage_group(QWidget):
         self.ui.del_group_butt.clicked.connect(self.del_group)
 
     def add_new_member(self):
+        if shared_module.main_page.cur_id > 100000:
+            QMessageBox.warning(self,"不是群聊","請選擇群聊")
+            return
+
         """这里写调用发送创建群组请求的函数以及消息内容的处理"""
         member_ids=self.ui.group_member_list.toPlainText()
         print(member_ids)
@@ -28,15 +32,22 @@ class Manage_group(QWidget):
         #自己写分开member_id 的函数吧
         #調用發送請求，member_ids是“10001;10002;10005”這樣的
         #自己写分开member_id 的函数吧
+        member_ids = member_ids.split(';')
+        member = []
+        for num in member_ids:
+            member.append(int(num))
+
+        shared_module.client.add_new_member(shared_module.main_page.cur_id, member)
+        
         self.ui.group_member_list.clear()
 
         pass
 
     def del_group(self):
-        """這裡寫刪除group的操作
-        
-        可能需要從shared_module.main_page.cur_id中獲取當前群聊chat_id
-        """
+        if shared_module.main_page.cur_id > 100000:
+            QMessageBox.warning(self,"不是群聊","請選擇群聊")
+            return
+        shared_module.client.delete_group(shared_module.main_page.cur_id)
         print("刪除群聊")
         #這裡添加刪除群聊的函數和邏輯
         pass

@@ -188,7 +188,7 @@ class Main_win(QWidget):
 #以下是聊天列表的功能函數
     def init_chat_list(self):
         """這個函數用來從登陸界面打開時初始化聊天列表"""
-        print(shared_module.client.msg_list)
+
         for chat_id, sender_id, _time, msg in shared_module.client.msg_list :
 
             content = {
@@ -347,6 +347,7 @@ class Main_win(QWidget):
         这个函数是点击了创建新群聊后调用的函数
         会调起创建新群组弹窗
         """
+        
         print("即将打开新建群聊窗口……")
         shared_module.new_group.show()
 
@@ -356,6 +357,18 @@ class Main_win(QWidget):
         這個函數是點擊群聊管理後調用的函數"""
         shared_module.manage_group.show()
 
+    def recv_delete_group(self, back_data, content):
+        # 收到对方的添加好友请求
+        # 返回发送者的用户ID和时间戳
+        if back_data == '0002':
+            for i in shared_module.client.group_list:
+                if i[0] == content['group_id']:
+                    shared_module.client.group_list.remove(i)
+                    break
+            if content['sender_id'] == shared_module.client.user_id:
+                QMessageBox.information(self,"解散成功","群聊已解散")
+        elif back_data == '0003':
+            QMessageBox.information(self,"解散失败","您不是管理员，无法解散群聊")
 #以上是群聊的跳转逻辑
 
 #以下是视频聊天功能

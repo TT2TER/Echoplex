@@ -17,6 +17,7 @@ class shared_module:
     #以下是线程实例化对象
     file_thread = None
     listen_thread=None
+    video_thread = None
 
     #以下是调试参数
     full_fuction=True

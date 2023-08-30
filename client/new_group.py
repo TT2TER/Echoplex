@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QWidget, QMessageBox
 from ui.new_group_ui import Ui_new_group
 from lib.public import shared_module
 
+
 class New_group(QWidget):
     def __init__(self):
         # 继承父类
@@ -37,7 +38,8 @@ class New_group(QWidget):
         
 
         #調用發送請求，member_ids是“10001;10002;10005”這樣的,members是拆開的
-        
+        shared_module.client.create_group(members,group_name,image_path="")
+
 
         #以下是清空文本框
         self.ui.new_group_name.clear()

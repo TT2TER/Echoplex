@@ -15,8 +15,10 @@ from user_chat import user_chat, retrieve_messages
 from global_data import online_clients, server_address
 import queue
 import platform
-from group_management import create_group,delete_group,add_new_member
-
+from group_management import create_group, delete_group, add_new_member
+from group_list import group_list
+from user_video_chat import user_video_chat
+from ans_video_chat import ans_video_chat
 
 socket_queue_dict = {}
 
@@ -76,10 +78,13 @@ def handle_client(socket, address):
                     'ans_addfriend': ans_addfriend,
                     'pull_message': retrieve_messages,
                     'init_msg_list': init_msg_list,
-                    'pull_friendlist':  user_friendlist,
-                    'create_group':create_group,
-                    'delete_group':delete_group,
-                    'add_new_member':add_new_member,
+                    'pull_friendlist': user_friendlist,
+                    'pull_group_list':group_list,
+                    'create_group': create_group,
+                    'delete_group': delete_group,
+                    'add_new_member': add_new_member,
+                    'user_video_chat': user_video_chat,
+                    'ans_video_chat': ans_video_chat
                 }
                 handler = message_handlers.get(received_data['type'])
                 if handler:
@@ -117,13 +122,12 @@ def init_server(database):
     # 划了红色下划线，但是能跑。python，很神奇吧？
     create_table_user(database, "user")
     create_table_user_friend(database, "user_friend")
-    create_table_relation(database,"table_relation")
-    create_table_group(database,"[group]")
-    create_table_group_member(database,"group_member")
-    create_table_chat(database,"chat")
-    create_view_chat(database,"view_chat")
-    create_table_file(database,table_name="file")
-
+    create_table_relation(database, "table_relation")
+    create_table_group(database, "[group]")
+    create_table_group_member(database, "group_member")
+    create_table_chat(database, "chat")
+    create_view_chat(database, "view_chat")
+    create_table_file(database, table_name="file")
 
 
 if __name__ == "__main__":

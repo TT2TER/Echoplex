@@ -29,8 +29,10 @@ class Chating_item(QWidget):
 
         self.file_path=content["filepath"]
         self.file_size=content["filesize"]
-
-        self.name=shared_module.client.find_name(self.chat_id)
+        if len(str(self.chat_id))==10:
+            self.name=shared_module.client.find_name(self.chat_id)
+        else:
+            self.name=shared_module.client.find_group_name(self.chat_id)
 
         self.image_path=None
         self.find_avartar(self.sender_id)

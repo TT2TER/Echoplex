@@ -30,7 +30,6 @@ class Message_bubble(QWidget):
 
         self.image_path=None
         self.find_avartar(self.sender_id)
-
         #這個是消息框最大長度
         self.max_leth=0
         #是不是文件
@@ -50,7 +49,10 @@ class Message_bubble(QWidget):
                 self.ui.setupUi(self)
             else :
                 #如果發件人是對方
-                self.sender_name=shared_module.client.find_name(self.chat_id)
+                if len(str(self.chat_id))==10:
+                    self.sender_name=shared_module.client.find_name(self.chat_id)
+                else:
+                    self.name=str(self.sender_id)
                 self.ui = Ui_chat_bubble_opp()
                 self.ui.setupUi(self)
         else:

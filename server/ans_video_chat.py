@@ -12,11 +12,11 @@ def ans_video_chat(received_data, socket, address, database):
         "back_data": None,
         "content": content
     }
-    receiver = content['receiver_id']
+    user_id = content['user_id']
     json_message = json.dumps(back_data_video_chat).encode('utf-8')
-    if receiver in online_clients:
-        receiver_socket, _ = online_clients[receiver]
-        receiver_socket.sendall(json_message)
+    if user_id in online_clients:
+        user_socket, _ = online_clients[user_id]
+        user_socket.sendall(json_message)
     else:
         # 发起视频的人下线，此贴终结
         pass

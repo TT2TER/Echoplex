@@ -25,10 +25,6 @@ class Ui_reg(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer)
-
         self.side_pic = QLabel(reg)
         self.side_pic.setObjectName(u"side_pic")
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -45,9 +41,58 @@ class Ui_reg(object):
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalSpacer_3 = QSpacerItem(40, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.verticalLayout.addItem(self.verticalSpacer)
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_3)
+
+        self.mini_butt = QPushButton(reg)
+        self.mini_butt.setObjectName(u"mini_butt")
+        self.mini_butt.setStyleSheet(u"QPushButton {\n"
+"        background-color: green;\n"
+"        border: none;\n"
+"        border-radius: 10px;\n"
+"        width: 20px;\n"
+"        height: 20px;\n"
+"        font-size: 14px;\n"
+"        color: white;\n"
+"    }\n"
+"    \n"
+"    QPushButton:hover {\n"
+"        background-color: rgba(0, 128, 0, 0.8);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: rgba(0, 128, 0, 1);\n"
+"    }")
+
+        self.horizontalLayout_4.addWidget(self.mini_butt)
+
+        self.close_butt = QPushButton(reg)
+        self.close_butt.setObjectName(u"close_butt")
+        self.close_butt.setStyleSheet(u"QPushButton {\n"
+"        background-color: red;\n"
+"        border: none;\n"
+"        border-radius: 10px;\n"
+"        width: 20px;\n"
+"        height: 20px;\n"
+"        font-size: 12px;\n"
+"        color: white;\n"
+"    }\n"
+"    \n"
+"    QPushButton:hover {\n"
+"        background-color: rgba(255, 0, 0, 0.8);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: rgba(255, 0, 0, 1);\n"
+"    }")
+
+        self.horizontalLayout_4.addWidget(self.close_butt)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
 
         self.label = QLabel(reg)
         self.label.setObjectName(u"label")
@@ -130,12 +175,6 @@ class Ui_reg(object):
         self.pwd_check.setClearButtonEnabled(True)
 
         self.verticalLayout.addWidget(self.pwd_check)
-
-        self.buttonBox = QDialogButtonBox(reg)
-        self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setStandardButtons(QDialogButtonBox.NoButton)
-
-        self.verticalLayout.addWidget(self.buttonBox)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -245,6 +284,12 @@ class Ui_reg(object):
 
         self.horizontalLayout_3.addLayout(self.horizontalLayout_2)
 
+        self.buttonBox = QDialogButtonBox(reg)
+        self.buttonBox.setObjectName(u"buttonBox")
+        self.buttonBox.setStandardButtons(QDialogButtonBox.NoButton)
+
+        self.horizontalLayout_3.addWidget(self.buttonBox)
+
 
         self.retranslateUi(reg)
 
@@ -254,6 +299,8 @@ class Ui_reg(object):
     def retranslateUi(self, reg):
         reg.setWindowTitle(QCoreApplication.translate("reg", u"Form", None))
         self.side_pic.setText("")
+        self.mini_butt.setText(QCoreApplication.translate("reg", u"\u2796", None))
+        self.close_butt.setText(QCoreApplication.translate("reg", u"\u2716", None))
         self.label.setText(QCoreApplication.translate("reg", u"\u59d3\u540d", None))
         self.name_in.setPlaceholderText(QCoreApplication.translate("reg", u"\u60a8\u7684\u59d3\u540d", None))
         self.label_5.setText(QCoreApplication.translate("reg", u"\u90ae\u7bb1", None))

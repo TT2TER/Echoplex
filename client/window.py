@@ -1,5 +1,5 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem, QFileDialog, QProgressBar, QLabel,  QPushButton, QVBoxLayout, QDialog
-from PySide2.QtGui import QPixmap
+from PySide2.QtGui import QPixmap,  QMouseEvent
 from PySide2.QtCore import Qt, QRect
 from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
@@ -15,6 +15,7 @@ class Main_win(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui= Ui_chatroom()
         self.ui.setupUi(self)
         
@@ -28,6 +29,8 @@ class Main_win(QWidget):
         self.ui.video_butt.clicked.connect(self.send_an_vedio_request)
         self.ui.wisper_butt.clicked.connect(self.wisper)
         self.ui.avatar_butt.clicked.connect(self.show_avatar_dialog)
+        self.ui.close_butt.clicked.connect(self.close_win)
+        self.ui.mini_butt.clicked.connect(self.minimize_win)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -62,6 +65,27 @@ class Main_win(QWidget):
 
         self.image_path=None
         
+        #以下函数是移动窗口用的
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = True
+            self.offset = event.globalPos() - self.pos()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            self.move(event.globalPos() - self.offset)
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
+
+    #以下是关窗口函数
+    def close_win(self):
+        self.close()
+        shared_module.app.quit()
+    def minimize_win(self):
+        #这个是最小化窗口函数
+        self.showMinimized()
 
 #以上是最終實現的信號槽
 #以下是測試用的信號槽和函數

@@ -1,5 +1,7 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtUiTools import QUiLoader
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QMouseEvent
 from lib.public import shared_module
 from ui.setip_ui import Ui_setip
 from client_fuction import Client
@@ -11,10 +13,35 @@ class Setip(QWidget):
     def __init__(self):
         # 继承父类
         super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui = Ui_setip()
         self.ui.setupUi(self)
 
         self.ui.config_butt.clicked.connect(self.check_ip_and_port)
+        self.ui.close_butt.clicked.connect(self.close_win)
+        self.ui.mini_butt.clicked.connect(self.minimize_win)
+
+        #以下函数是移动窗口用的
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = True
+            self.offset = event.globalPos() - self.pos()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            self.move(event.globalPos() - self.offset)
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
+
+    #以下是关窗口函数
+    def close_win(self):
+        self.close()
+        shared_module.app.quit()
+    def minimize_win(self):
+        #这个是最小化窗口函数
+        self.showMinimized()
 
     def check_ip_and_port(self):
         ip = self.ui.ip_in.text()
@@ -53,6 +80,8 @@ class Setip(QWidget):
             #shared_module.listen_thread.stop()用来在任何地方终止这个线程
             shared_module.listen_thread.start()
             print("listen_thread start")
+            where=self.pos()#print(where)
+            shared_module.login_page.move(where)
             shared_module.login_page.show()
             print("在setupip这里可能出bug")
             self.close()

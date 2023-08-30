@@ -22,17 +22,20 @@ def load_new_groupid():
 
 
 def create_group(data, socket, address, database):
+
+    print("##########")
+
     try:
         content = data['content']
         group_manager = content['group_manager']
         group_name = content['group_name']
-        group_member = int(content['group_member'])
+        group_member = content['group_member']
         group_create_time=content['group_create_time']
         group_image=content['group_image']
 
         new_groupid = load_new_groupid() + 1
         group_id = new_groupid
-        group_table_name = "group"
+        group_table_name = "[group]"
         group_member_table_name = "group_member"
 
         succ = insert_table_group(database, group_table_name,group_id,group_name,group_manager,group_create_time,group_image)
@@ -71,6 +74,7 @@ def create_group(data, socket, address, database):
             back_json_data = json.dumps(back_data).encode('utf-8')
             socket.sendall(back_json_data)
 #            receivers = search_member(database, "chat", group_id)
+            print("----------------")
             for receiver in group_member:
                 if receiver in online_clients:
                     receiver_socket, _ = online_clients[receiver]

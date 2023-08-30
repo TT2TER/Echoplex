@@ -14,7 +14,7 @@ def create_table_user(con, table_name="user"):
         cursor.execute("CREATE TABLE "+ table_name+" ("
                   "user_id INT PRIMARY KEY,"
                   "user_name text,"
-                  "user_pwd text,"
+                  "user_pwd BLOB,"
                   "user_email text,"
                   "user_image text)")
         con.commit()

@@ -1,9 +1,11 @@
 from email.header import Header
 from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
-import socket
+from db.DataDB import select_table
 import json
 import smtplib
+import rsa
+from tool_fuction import load_keys
 
 
 def _format_addr(s):
@@ -13,13 +15,16 @@ def _format_addr(s):
 
 def retrieve_password(received_data, socket, address, database):
     from_addr = "fluppyfr@163.com"
-    password = "VXQBWCZGYBRDEGEC"
-    # to_addr = user_email
-    to_addr = "1246132896@qq.com"
     smtp_server = "smtp.163.com"
-
-    user_id = 10001
-    user_pwd = "password"
+    password = "VXQBWCZGYBRDEGEC"
+    content = received_data['content']
+    user_id = content['user_id']
+    ret = select_table(database, "user", user_id=user_id)
+    # to_addr = user_email
+    to_addr = ret[0][3]
+    rsa_pwd = ret[0][2]
+    pubkey, privkey = load_keys()
+    user_pwd = rsa.decrypt(rsa_pwd, privkey).decode()
 
     body = f"""
     尊敬的用户，
@@ -39,18 +44,18 @@ def retrieve_password(received_data, socket, address, database):
 
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['From'] = _format_addr('IMsoftware <%s>' % from_addr)
-    msg['To'] = _format_addr('铸币用户 <%s>' % to_addr)
+    msg['To'] = _format_addr('杂鱼用户 <%s>' % to_addr)
     msg['Subject'] = Header('您似乎忘记了密码……', 'utf-8').encode()
     server = smtplib.SMTP(smtp_server, 25)
     server.set_debuglevel(1)
     server.login(from_addr, password)
     server.sendmail(from_addr, [to_addr], msg.as_string())
     server.quit()
-
-    data = {
-        "type": "retrieve_password",
-        "back_data": "0000",
-        "content": None
-    }
-    json_data = json.dumps(data).encode('utf-8')
-    socket.sendall(json_data)
+    print(f"向{to_addr}发送了邮件")
+    # data = {
+    #     "type": "retrieve_password",
+    #     "back_data": "0000",
+    #     "content": None
+    # }
+    # json_data = json.dumps(data).encode('utf-8')
+    # socket.sendall(json_data)

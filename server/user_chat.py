@@ -34,7 +34,8 @@ def user_chat(received_data, socket, address, database):
             print(receivers)
         # 群聊
         elif len(chat_id) == 5:
-            receivers = search_member(database, "chat", chat_id)
+            receivers = search_member(database, "group_member", chat_id)
+            print(receivers)
         else:
             print(f"chat_id:{chat_id}不符合格式，请检查")
     except Exception as e:

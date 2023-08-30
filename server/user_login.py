@@ -5,14 +5,16 @@ from global_data import online_clients
 from user_chat import retrieve_messages
 import jwt
 import datetime
+import rsa
+from tool_fuction import load_keys
 
 secret_key = "FluppyFR_Asuna"  # 服务器的密钥
 
 
-def get_token(user_id, hashed_user_pwd):
+def get_token(user_id, user_pwd):
     payload = {
         "user_id": user_id,
-        "hashed_user_pwd": hashed_user_pwd,
+        "user_pwd": user_pwd,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=3)  # 令牌有效期
     }
     # secret_key = "FluppyFR_Asuna"  # 服务器的密钥
@@ -43,8 +45,8 @@ def user_login(data, socket, address, con):
         if decoded_payload:
             user_id = decoded_payload["user_id"]
             res = select_table(con, "user", user_id=int(content["user_id"]))
-            hashed_user_pwd = decoded_payload["hashed_user_pwd"]
-            print(f"Authenticated user: {hashed_user_pwd} (ID: {user_id})")
+            user_pwd = decoded_payload["user_pwd"]
+            print(f"Authenticated user: {user_pwd} (ID: {user_id})")
             token_login = True
             back_data = {
                 "type": "user_login",
@@ -73,11 +75,19 @@ def user_login(data, socket, address, con):
             result = "该用户未注册"
         else:
             user_pwd = content["user_pwd"]
-            hashed_user_pwd = hashlib.sha256(user_pwd.encode('utf-8')).hexdigest()
+            # hashed_user_pwd = hashlib.sha256(user_pwd.encode('utf-8')).hexdigest()
+            # 用哈希加密就不能找回密码了，改成RSA加密
+            pubkey, privkey = load_keys()
+            # rsa生成的密文有随机性，解密了再比较
+            res_pwd = rsa.decrypt(res[0][2], privkey).decode()
             # print(res[0][2])
             # print(hashed_user_pwd)
-            if hashed_user_pwd == res[0][2]:
-                token = get_token(int(data["content"]["user_id"]), hashed_user_pwd)
+            # print(res[0][2])
+            # print(rsa_pwd)
+            if user_pwd == res_pwd:
+                # 不能用rsa来get_token，先解码
+                token = get_token(int(data["content"]["user_id"]), res_pwd)
+                print(type(token))
                 back_data = {
                     "type": "user_login",
                     'back_data': "0003",

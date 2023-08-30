@@ -19,6 +19,7 @@ from group_management import create_group, delete_group, add_new_member
 from group_list import group_list
 from user_video_chat import user_video_chat
 from ans_video_chat import ans_video_chat
+from retrieve_password import retrieve_password
 
 socket_queue_dict = {}
 
@@ -79,12 +80,13 @@ def handle_client(socket, address):
                     'pull_message': retrieve_messages,
                     'init_msg_list': init_msg_list,
                     'pull_friendlist': user_friendlist,
-                    'pull_grouplist':group_list,
+                    'pull_group_list': group_list,
                     'create_group': create_group,
                     'delete_group': delete_group,
                     'add_new_member': add_new_member,
                     'user_video_chat': user_video_chat,
-                    'ans_video_chat': ans_video_chat
+                    'ans_video_chat': ans_video_chat,
+                    'retrieve_password': retrieve_password
                 }
                 handler = message_handlers.get(received_data['type'])
                 if handler:

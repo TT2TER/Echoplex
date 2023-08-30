@@ -1,6 +1,8 @@
 import json
 from db.table_user import *
 import hashlib
+from tool_fuction import load_keys
+import rsa
 global new_userid
 
 
@@ -28,7 +30,12 @@ def user_register(data, socket, address, database):
     userpwd = data["content"]["user_pwd"]
     email = data["content"]["user_email"]
     image = data["content"]["user_image"]
-    hashed_userpwd = hashlib.sha256(userpwd.encode('utf-8')).hexdigest()
+    # hashed_userpwd = hashlib.sha256(userpwd.encode('utf-8')).hexdigest()
+    # 用哈希加密就不能找回密码了，改成RSA加密
+    pubkey, privkey = load_keys()
+    rsa_pwd = rsa.encrypt(userpwd.encode(), pubkey)
+
+
     # succ = insert_table_user(database, "user", userid, username, hashed_userpwd, email, image)
     print('id:' + str(userid))
     print('pwd:' + userpwd)
@@ -36,7 +43,9 @@ def user_register(data, socket, address, database):
     # 把数据放进数据库什么的
     try:
         # 判断和限制用户名密码等
-        succ = insert_table_user(database, "user", userid, username, hashed_userpwd, email, image)
+        # succ = insert_table_user(database, "user", userid, username, hashed_userpwd, email, image)
+        succ = insert_table_user(database, "user", userid, username, rsa_pwd, email, image)
+
         if succ:
             back_data = {
                 "type": "user_register",

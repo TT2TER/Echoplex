@@ -1,5 +1,22 @@
 from global_data import online_clients
+import rsa
 
+
+def save_keys(pubkey, privkey):
+    with open('public_key.pem', 'wb') as f:
+        f.write(pubkey.save_pkcs1())
+    with open('private_key.pem', 'wb') as f:
+        f.write(privkey.save_pkcs1())
+
+
+# 从文件中加载公钥和私钥
+def load_keys():
+    with open('public_key.pem', 'rb') as f:
+        pubkey = rsa.PublicKey.load_pkcs1(f.read())
+
+    with open('private_key.pem', 'rb') as f:
+        privkey = rsa.PrivateKey.load_pkcs1(f.read())
+    return pubkey, privkey
 
 def find_userid_by_socket(socket_to_find):
     for socket, userid in online_clients.items():

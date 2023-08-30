@@ -371,6 +371,18 @@ class Main_win(QWidget):
         這個函數是點擊群聊管理後調用的函數"""
         shared_module.manage_group.show()
 
+    def revc_delete_group(self, back_data, content):
+        # 收到对方的添加好友请求
+        # 返回发送者的用户ID和时间戳
+        if back_data == '0002':
+            for i in shared_module.client.group_list:
+                if i[0] == content['group_id']:
+                    shared_module.client.group_list.remove(i)
+                    break
+            if content['sender_id'] == shared_module.client.user_id:
+                QMessageBox.information(self,"解散成功","群聊已解散")
+        elif back_data == '0003':
+            QMessageBox.information(self,"解散失败","您不是管理员，无法解散群聊")
 #以上是群聊的跳转逻辑
 
 

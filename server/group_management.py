@@ -33,6 +33,9 @@ def create_group(data, socket, address, database):
         group_create_time=content['group_create_time']
         group_image=content['group_image']
 
+        if group_manager not in group_member:
+            group_member.append(group_manager)
+
         new_groupid = load_new_groupid() + 1
         group_id = new_groupid
         group_table_name = "[group]"

@@ -5,13 +5,13 @@ import json
 from user_chat import user_chat
 from tool_fuction import find_userid_by_socket
 import platform
-
+from global_data import server_ip
 
 
 
 def user_send_file(received_data, _socket, address, database):
     receive_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    receive_socket.bind(('127.0.0.1', 0))
+    receive_socket.bind((server_ip, 0))
     ip, port = receive_socket.getsockname()
     receive_socket.listen(1)
     print(f"File server listening on {ip}:{port}")
@@ -59,7 +59,7 @@ def user_send_file(received_data, _socket, address, database):
                 user_chat(received_data, _socket, address, database)
             os.makedirs(os.path.dirname(savepath), exist_ok=True)  # 创建文件夹路径
             recv_data = 0
-            with open(savepath, 'xb') as file:
+            with open(savepath, 'wb') as file:
                 while True:
                     data = client_socket.recv(10240)
                     if not data:

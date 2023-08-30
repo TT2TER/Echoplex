@@ -11,7 +11,7 @@ def record2text():
     RATE = 44100  # 采样率：44100 Hz
     CHUNK = 1024  # 每次读取的音频块大小
     RECORD_SECONDS = 5  # 录制时长：5秒
-    OUTPUT_PATH = r"files\recordings"
+    OUTPUT_PATH = "files/recordings"
     OUTPUT_FILENAME = "recorded_audio.wav"
 
     if not os.path.exists(OUTPUT_PATH):
@@ -41,6 +41,7 @@ def record2text():
 
     # 将录制的音频保存为WAV文件
     output_filepath = os.path.join(OUTPUT_PATH, OUTPUT_FILENAME)
+    print(f"output path is {output_filepath}")
     with wave.open(output_filepath, 'wb') as wf:
         wf.setnchannels(CHANNELS)
         wf.setsampwidth(audio.get_sample_size(FORMAT))

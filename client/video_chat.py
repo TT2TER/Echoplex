@@ -26,6 +26,7 @@ def show_myself():
 class Video_Server(threading.Thread):
     def __init__(self, port, version):
         threading.Thread.__init__(self)
+        self.is_running = True
         self.setDaemon(True)
         self.ADDR = ('', port)
         if version == 4:
@@ -35,10 +36,7 @@ class Video_Server(threading.Thread):
 
     def __del__(self):
         self.sock.close()
-        try:
-            cv2.destroyAllWindows()
-        except:
-            pass
+        cv2.destroyAllWindows()
 
     def run(self):
         print("VIDEO server starts...")
@@ -49,7 +47,8 @@ class Video_Server(threading.Thread):
         data = "".encode("utf-8")
         payload_size = struct.calcsize("L")  # 结果为4
         cv2.namedWindow('Remote', cv2.WINDOW_NORMAL)
-        while True:
+        cv2.resizeWindow('Remote', 540, 360)
+        while self.is_running:
             while len(data) < payload_size:
                 data += conn.recv(81920)
             packed_size = data[:payload_size]
@@ -64,7 +63,10 @@ class Video_Server(threading.Thread):
             cv2.imshow('Remote', frame)
             # show_myself()
             if cv2.waitKey(1) & 0xFF == 27:
+                self.is_running = False
                 break
+        cv2.destroyAllWindows()  # 关闭窗口
+
 
 
 class Video_Client(threading.Thread):
@@ -101,6 +103,8 @@ class Video_Client(threading.Thread):
         print("VIDEO client connected...")
 
         cv2.namedWindow('Client', cv2.WINDOW_NORMAL)  # 创建一个窗口
+        cv2.resizeWindow('Client', 540, 360)
+
 
         while self.cap.isOpened():
             ret, frame = self.cap.read()

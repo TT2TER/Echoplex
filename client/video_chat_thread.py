@@ -33,11 +33,10 @@ class VideoChatThread(QThread):
         vserver.start()
         aserver.start()
 
-        while True:
+        while vserver.is_running:
             time.sleep(1)
             if not vserver.is_alive() or not vclient.is_alive() or \
                     not aserver.is_alive() or not aclient.is_alive():
-                self.finished.emit()
                 break
 
 # def on_thread_finished():

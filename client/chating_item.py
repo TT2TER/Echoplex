@@ -29,15 +29,18 @@ class Chating_item(QWidget):
 
         self.file_path=content["filepath"]
         self.file_size=content["filesize"]
+
+        self.image_path = None
         if len(str(self.chat_id))==10:
             self.name=shared_module.client.find_name(self.chat_id)
+            self.opp_id = shared_module.client.find_oppid(self.chat_id)
+            self.find_avatar(self.opp_id)
         else:
             self.name=shared_module.client.find_group_name(self.chat_id)
+            self.image_path = os.path.join(os.path.dirname(__file__), "lib/group.png")
 
-        self.image_path=None
-        self.opp_id=shared_module.client.find_oppid(self.chat_id)
-        
-        self.find_avatar(self.opp_id)
+
+
 
 
         # 初始化更新姓名

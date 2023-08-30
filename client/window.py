@@ -134,9 +134,9 @@ class Main_win(QWidget):
 #以下是发送文件功能
     def show_file_dialog(self):
         """这个函数负责让用户选择要发送的文件并将文件地址提取出来"""
-        if self.cur_id<100000:
-            QMessageBox.warning(self,"群聊不能发送文件","请等待后续版本更新")
-            return
+        # if self.cur_id<100000:
+        #     QMessageBox.warning(self,"群聊不能发送文件","请等待后续版本更新")
+        #     return
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         full_path, _ = QFileDialog.getOpenFileName(self, 'Open File', '', 'All Files (*)', options=options)

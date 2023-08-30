@@ -53,7 +53,7 @@ class Message_bubble(QWidget):
                 if len(str(self.chat_id))==10:
                     self.sender_name=shared_module.client.find_name(self.chat_id)
                 else:
-                    self.name=str(self.sender_id)
+                    self.sender_name=str(self.sender_id)
                 self.ui = Ui_chat_bubble_opp()
                 self.ui.setupUi(self)
         else:
@@ -71,13 +71,16 @@ class Message_bubble(QWidget):
                 else:
                     self.need_progress=True
             else :
-                self.sender_name=shared_module.client.find_name(self.chat_id)
-                #需要接受
-                self.need_recive=True
-                #这里如果能加一个本地是否有这个文件的判断就好了，现在暂时认为所有文件都没有，所以要有进度条
-                self.need_progress=True
-
-
+                if len(str(self.chat_id)) == 10 :
+                    self.sender_name=shared_module.client.find_name(self.chat_id)
+                    #需要接受
+                    self.need_recive=True
+                    #这里如果能加一个本地是否有这个文件的判断就好了，现在暂时认为所有文件都没有，所以要有进度条
+                    self.need_progress=True
+                else:
+                    self.sender_name = str(self.sender_id)
+                    self.need_recive = True
+                    self.need_progress = True
         #如果是文件改變消息內容
         if self.is_file:
             if self.need_recive:

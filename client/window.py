@@ -4,6 +4,7 @@ from lib.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
+from video_request_dialog import Video_request_dialog
 from datetime import datetime
 import time
 import os,sys
@@ -22,6 +23,8 @@ class Main_win(QWidget):
         self.ui.send_file_butt.clicked.connect(self.show_file_dialog)
         self.ui.group_manage_butt.clicked.connect(self.manage_group)
         self.ui.new_group_butt.clicked.connect(self.add_new_group)
+        self.ui.video_butt.clicked.connect(self.send_an_vedio_request)
+        self.ui.wisper_butt.clicked.connect(self.wisper)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -354,6 +357,37 @@ class Main_win(QWidget):
         shared_module.manage_group.show()
 
 #以上是群聊的跳转逻辑
+
+#以下是视频聊天功能
+    def send_an_vedio_request(self):
+        if self.cur_id!=None:
+            #在这里写你的发送视频请求的代码
+            #cur_id是当前的十位chat_id
+            print(self.cur_id)
+
+            print("发送视频申请成功")
+
+    def receive_an_vedio_request(self,id,ip):
+        print("点击了视频聊天按钮")
+        #调用这个函数的时候要传入id和ip
+        try:
+            shared_module.video_page.update_info_label(id,ip)
+            shared_module.video_page.show()
+        except Exception as e:
+            print (e)
+        print("窗口创建成功")
+        pass
+
+
+#以下是语音转文字
+    def wisper(self):
+        #这里调用wisper
+        #给我返回一个result
+
+
+        #result=fuc()
+        result="测试消息"
+        self.ui.text_in.append(result)
 
 
 if __name__ == "__main__":

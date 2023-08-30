@@ -24,6 +24,9 @@ class Login(QWidget):
         # 按下注册按钮跳转到注册界面
         self.ui.reg_butt.clicked.connect(self.show_registration_page)
 
+        #按下按钮弹出找回密码成功
+        self.ui.forgot_pwd_butt.clicked.connect(self.get_pwd)
+
     def login(self):
 
         #获取输入的账号
@@ -47,6 +50,10 @@ class Login(QWidget):
     def recv_login(self,back_data, content):
         #以下部分是信息反馈
         if back_data == "0003":
+            #在这里调起人脸识别的功能
+            #TODO: aym
+
+            #在这里结束调起人脸识别的功能
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
             print("尝试写入token")
             token = content['token']
@@ -88,6 +95,17 @@ class Login(QWidget):
         shared_module.reg_page.show()
         # 关闭自身窗口
         self.close()
+
+    def get_pwd(self):
+        entered_ID=self.ui.num_in.text()
+        if entered_ID==None:
+            QMessageBox.warning(self,"没有id","请先填写正确的用户id")
+        elif len(str(entered_ID)) == 5 and str(entered_ID).startswith('1'):
+            QMessageBox.information(self,"忘记密码","重置成功，请查收您的邮箱")
+            #TODO:
+            #在elif这里放你重置密码的东西
+        else:
+            QMessageBox.warning(self,"id不合法","请先填写正确的用户id")
 
 
 

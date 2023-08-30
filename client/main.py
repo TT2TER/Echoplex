@@ -10,6 +10,7 @@ from register import Register
 from progress_bar import Progress_bar
 from new_group import New_group
 from manage_group import Manage_group
+from video_request_dialog import Video_request_dialog
 
 shared_module.app = QApplication([])
 shared_module.setip_page = Setip()
@@ -21,6 +22,7 @@ shared_module.new_friends=New_friends()
 shared_module.progress_bar = Progress_bar()
 shared_module.new_group= New_group()
 shared_module.manage_group = Manage_group()
+shared_module.video_page = Video_request_dialog()
 shared_module.setip_page.show()
 if(shared_module.full_fuction):
     #shared_module.client=Client()

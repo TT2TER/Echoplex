@@ -26,7 +26,7 @@ class Ui_Login(object):
         Login.resize(394, 338)
         self.layoutWidget = QWidget(Login)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(130, 60, 144, 236))
+        self.layoutWidget.setGeometry(QRect(130, 50, 144, 268))
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -169,6 +169,11 @@ class Ui_Login(object):
 
         self.verticalLayout.addWidget(self.reg_butt)
 
+        self.forgot_pwd_butt = QPushButton(self.layoutWidget)
+        self.forgot_pwd_butt.setObjectName(u"forgot_pwd_butt")
+
+        self.verticalLayout.addWidget(self.forgot_pwd_butt)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer)
@@ -191,5 +196,6 @@ class Ui_Login(object):
         self.remember_butt.setText(QCoreApplication.translate("Login", u"\u8bb0\u4f4f\u5bc6\u7801", None))
         self.login_butt.setText(QCoreApplication.translate("Login", u"\u767b\u9646", None))
         self.reg_butt.setText(QCoreApplication.translate("Login", u"\u6ce8\u518c", None))
+        self.forgot_pwd_butt.setText(QCoreApplication.translate("Login", u"\u627e\u56de\u5bc6\u7801", None))
     # retranslateUi
 

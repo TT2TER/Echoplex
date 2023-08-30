@@ -196,6 +196,24 @@ class Ui_chatroom(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
+        self.wisper_butt = QPushButton(self.layoutWidget)
+        self.wisper_butt.setObjectName(u"wisper_butt")
+        sizePolicy1.setHeightForWidth(self.wisper_butt.sizePolicy().hasHeightForWidth())
+        self.wisper_butt.setSizePolicy(sizePolicy1)
+        self.wisper_butt.setMinimumSize(QSize(80, 31))
+        self.wisper_butt.setMaximumSize(QSize(80, 31))
+
+        self.horizontalLayout.addWidget(self.wisper_butt)
+
+        self.video_butt = QPushButton(self.layoutWidget)
+        self.video_butt.setObjectName(u"video_butt")
+        sizePolicy1.setHeightForWidth(self.video_butt.sizePolicy().hasHeightForWidth())
+        self.video_butt.setSizePolicy(sizePolicy1)
+        self.video_butt.setMinimumSize(QSize(80, 31))
+        self.video_butt.setMaximumSize(QSize(80, 31))
+
+        self.horizontalLayout.addWidget(self.video_butt)
+
         self.send_file_butt = QPushButton(self.layoutWidget)
         self.send_file_butt.setObjectName(u"send_file_butt")
         sizePolicy1.setHeightForWidth(self.send_file_butt.sizePolicy().hasHeightForWidth())
@@ -387,6 +405,8 @@ class Ui_chatroom(object):
         self.avatar_butt.setText(QCoreApplication.translate("chatroom", u"\u70b9\u51fb\u4e0a\u4f20\u5934\u50cf", None))
         self.group_manage_butt.setText(QCoreApplication.translate("chatroom", u"\u7fa4\u7ec4\u7ba1\u7406", None))
         self.setting_butt.setText(QCoreApplication.translate("chatroom", u"\u8bbe\u7f6e", None))
+        self.wisper_butt.setText(QCoreApplication.translate("chatroom", u"\u8f6c\u6587\u5b57", None))
+        self.video_butt.setText(QCoreApplication.translate("chatroom", u"\u89c6\u9891\u901a\u8bdd", None))
         self.send_file_butt.setText(QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6587\u4ef6", None))
         self.send_butt.setText(QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6d88\u606f", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.text), QCoreApplication.translate("chatroom", u"\u53d1\u9001\u6d88\u606f", None))

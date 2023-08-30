@@ -27,7 +27,7 @@ class Main_win(QWidget):
         self.ui.new_group_butt.clicked.connect(self.add_new_group)
         self.ui.video_butt.clicked.connect(self.send_an_vedio_request)
         self.ui.wisper_butt.clicked.connect(self.wisper)
-        #self.ui.avatar_butt.clicked.connect(self.show_file_dialog)
+        #self.ui.avatar_butt.clicked.connect(self.show_avatar_dialog)
         #維護一個當前顯示的對象id
         self.cur_id =None
 
@@ -222,6 +222,7 @@ class Main_win(QWidget):
             self.add_one_message(content)
             pass
         else :
+            #添加小红点
             print("不是当前窗口，等待用户点击后加载")
             pass
 

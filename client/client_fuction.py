@@ -545,6 +545,16 @@ class Client:
         print(opp_name)
         return opp_name
     
+    def find_oppid(self, chat_id):
+        num1 = int(str(chat_id)[0:5])
+        num2 = int(str(chat_id)[5:10])
+        if num1 == self.user_id:
+            opp_id = num2
+        else:
+            opp_id = num1
+        
+        return opp_id
+    
     def find_group_name(self,chat_id):
         n=''
         for group_id,group_name in self.group_list:

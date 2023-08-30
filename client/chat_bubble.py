@@ -29,7 +29,7 @@ class Message_bubble(QWidget):
         self.sender_name=None
 
         self.image_path=None
-        self.find_avartar(self.sender_id)
+        self.find_avatar(self.sender_id)
         #這個是消息框最大長度
         self.max_leth=0
         #是不是文件
@@ -155,25 +155,25 @@ class Message_bubble(QWidget):
 
         self.ui.message_bubble.mousePressEvent = self.toggle_selection  # 替换点击事件
 
-    def find_avartar(self,id):
-        """这里写一个找头像路径的函数，下面先用测试路径"""
-        self.img_path = "lib/login_back.png"
-        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-        pass
-    # def find_avatar(self, id):
-    #     """Find the avatar path based on the given ID."""
-    #     supported_extensions = ['jpg', 'jpeg', 'png']
+    # def find_avartar(self,id):
+    #     """这里写一个找头像路径的函数，下面先用测试路径"""
+    #     self.img_path = "lib/login_back.png"
+    #     self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
+    #     pass
+    def find_avatar(self, id):
+        """Find the avatar path based on the given ID."""
+        supported_extensions = ['jpg', 'jpeg', 'png']
         
-    #     # Search for avatar files with supported extensions
-    #     for ext in supported_extensions:
-    #         avatar_filename = f"{id}.{ext}"
-    #         avatar_path = os.path.join(os.path.dirname(__file__), "files/avatar/", avatar_filename)
+        # Search for avatar files with supported extensions
+        for ext in supported_extensions:
+            avatar_filename = f"{id}.{ext}"
+            avatar_path = os.path.join(os.path.dirname(__file__), "files/avatar/", avatar_filename)
             
-    #         if os.path.exists(avatar_path):
-    #             self.image_path=avatar_path
-    #         else:
-    #             # If no avatar found, return a default avatar path
-    #             self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")
+            if os.path.exists(avatar_path):
+                self.image_path=avatar_path
+            else:
+                # If no avatar found, return a default avatar path
+                self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")
 
 
     def toggle_selection(self, event):

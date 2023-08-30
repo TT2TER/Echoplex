@@ -35,7 +35,9 @@ class Chating_item(QWidget):
             self.name=shared_module.client.find_group_name(self.chat_id)
 
         self.image_path=None
-        self.find_avartar(self.sender_id)
+        self.opp_id=shared_module.client.find_oppid(self.chat_id)
+        
+        self.find_avatar(self.opp_id)
 
 
         # 初始化更新姓名
@@ -67,8 +69,22 @@ class Chating_item(QWidget):
             #TODO: 最好選中一次後就不能再選中了，點擊到別人再不選中
             self.itemClicked.emit(self.chat_id)
 
-    def find_avartar(self,id):
-        """这里写一个找头像路径的函数，下面先用测试路径"""
-        self.img_path = "lib/login_back.png"
-        self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
-        pass
+    # def find_avartar(self,id):
+    #     """这里写一个找头像路径的函数，下面先用测试路径"""
+    #     self.img_path = "lib/login_back.png"
+    #     self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
+    #     pass
+    def find_avatar(self, id):
+        """Find the avatar path based on the given ID."""
+        supported_extensions = ['jpg', 'jpeg', 'png']
+        
+        # Search for avatar files with supported extensions
+        for ext in supported_extensions:
+            avatar_filename = f"{id}.{ext}"
+            avatar_path = os.path.join(os.path.dirname(__file__), "files/avatar/", avatar_filename)
+            
+            if os.path.exists(avatar_path):
+                self.image_path=avatar_path
+            else:
+                # If no avatar found, return a default avatar path
+                self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")

@@ -81,6 +81,7 @@ class Setip(QWidget):
             shared_module.listen_thread.start()
             print("listen_thread start")
             where=self.pos()#print(where)
+            shared_module.client.auto_login()
             shared_module.login_page.move(where)
             shared_module.login_page.show()
             print("在setupip这里可能出bug")

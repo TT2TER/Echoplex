@@ -44,7 +44,8 @@ def user_login(data, socket, address, con):
         decoded_payload = verify_token(request_token, secret_key)
         if decoded_payload:
             user_id = decoded_payload["user_id"]
-            res = select_table(con, "user", user_id=int(content["user_id"]))
+            print(f"user_id is {user_id}")
+            res = select_table(con, "user", user_id=int(user_id))
             user_pwd = decoded_payload["user_pwd"]
             print(f"Authenticated user: {user_pwd} (ID: {user_id})")
             token_login = True

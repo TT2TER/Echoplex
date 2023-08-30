@@ -55,7 +55,6 @@ class Login(QWidget):
         self.showMinimized()
 
     def login(self):
-
         #获取输入的账号
         entered_ID=self.ui.num_in.text()
         # 获取输入的密码
@@ -82,15 +81,16 @@ class Login(QWidget):
 
             #在这里结束调起人脸识别的功能
             QMessageBox.about(self, '登录成功', '欢迎进入系统！')
-            print("尝试写入token")
-            token = content['token']
-            savepath = "files/token/token.txt"
-            # 如果savepath不存在，创建savepath
-            os.makedirs(os.path.dirname(savepath), exist_ok=True)
-            # 如果token.txt不存在，创建它。往token.txt中写入token
-            with open(savepath, 'w') as token_file:
-                token_file.write(token)
-            print("Token saved to token.txt")
+            if shared_module.token_enabled == True:
+                print("尝试写入token")
+                token = content['token']
+                savepath = "files/token/token.txt"
+                # 如果savepath不存在，创建savepath
+                os.makedirs(os.path.dirname(savepath), exist_ok=True)
+                # 如果token.txt不存在，创建它。往token.txt中写入token
+                with open(savepath, 'w') as token_file:
+                    token_file.write(token)
+                print("Token saved to token.txt")
             shared_module.client.user_id = content['user_id']
             shared_module.main_page.show_my_avatar(True)
             shared_module.client.user_name = content['user_name']
@@ -112,7 +112,7 @@ class Login(QWidget):
             print("登录窗口要关闭啦！")
             self.close()
         else:
-            QMessageBox.warning(self, '登录失败', '用户名或密码错误。')
+            QMessageBox.warning(self, '登录失败', '用户名或密码错误。','也有可能是token过期了')
             return
 
     def remember_pwd(self):
@@ -122,12 +122,14 @@ class Login(QWidget):
         if remember_state:
             # If the radio button is checked, remember the password
             # For example, you can store the password in a class variable
-            self.remembered_password = self.ui.pwd_in.text()
-            print("Password remembered:", self.remembered_password)
+            # self.remembered_password = self.ui.pwd_in.text()
+            shared_module.token_enabled = True
+            # print("Password remembered:", self.remembered_password)
         else:
             # If the radio button is unchecked, forget the password
             # Clear the stored password
-            self.remembered_password = None
+            # self.remembered_password = None
+            shared_module.token_enabled = False
             print("Password forgotten")
 
     def show_registration_page(self):

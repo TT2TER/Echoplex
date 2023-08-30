@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'file_bubble.ui'
+## Form generated from reading UI file 'del_file_bubble.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -17,23 +17,16 @@ class Ui_file_bubble(object):
     def setupUi(self, file_bubble):
         if not file_bubble.objectName():
             file_bubble.setObjectName(u"file_bubble")
-        file_bubble.resize(818, 140)
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(file_bubble.sizePolicy().hasHeightForWidth())
-        file_bubble.setSizePolicy(sizePolicy)
-        file_bubble.setMinimumSize(QSize(0, 0))
-        file_bubble.setMaximumSize(QSize(114514, 114514))
+        file_bubble.resize(818, 141)
         self.horizontalLayout = QHBoxLayout(file_bubble)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.widgetMain = QWidget(file_bubble)
         self.widgetMain.setObjectName(u"widgetMain")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.widgetMain.sizePolicy().hasHeightForWidth())
-        self.widgetMain.setSizePolicy(sizePolicy1)
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.widgetMain.sizePolicy().hasHeightForWidth())
+        self.widgetMain.setSizePolicy(sizePolicy)
         self.widgetMain.setMinimumSize(QSize(800, 0))
         self.widgetMain.setMaximumSize(QSize(800, 114514))
         self.widgetMain.setStyleSheet(u"QWidget#widgetMain{\n"
@@ -62,8 +55,11 @@ class Ui_file_bubble(object):
         self.message_bubble = QLabel(self.widgetMain)
         self.message_bubble.setObjectName(u"message_bubble")
         self.message_bubble.setGeometry(QRect(70, 60, 141, 41))
-        sizePolicy.setHeightForWidth(self.message_bubble.sizePolicy().hasHeightForWidth())
-        self.message_bubble.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.message_bubble.sizePolicy().hasHeightForWidth())
+        self.message_bubble.setSizePolicy(sizePolicy1)
         self.message_bubble.setMinimumSize(QSize(0, 0))
         self.message_bubble.setMaximumSize(QSize(16777215, 16777215))
         self.message_bubble.setCursor(QCursor(Qt.PointingHandCursor))

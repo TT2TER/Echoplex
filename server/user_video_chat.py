@@ -21,6 +21,23 @@ def user_video_chat(received_data, socket, address, database):
     chat_id = content['chat_id']
     receiver_id = find_friend_id(user_id, chat_id)
     content['receiver_id'] = receiver_id
+    _, user_address = online_clients[user_id]
+    user_ip, _ = user_address
+    content['user_ip'] = user_ip
+    """
+    data = {
+            "type": "user_video_chat",
+            "content": {
+                "user_id": self.user_id,
+                "chat_id": chat_id,
+                "time": timestamp,
+                "receiver_id":,
+                "receiver_ip":,
+                "user_ip":,
+                "username"
+            }
+        }
+    """
     # 如果对方在线，给对方发
     if receiver_id in online_clients:
         receiver_socket, receiver_address = online_clients[receiver_id]

@@ -11,6 +11,7 @@ class shared_module:
     progress_bar=None
     new_group=None
     manage_group=None
+    video_page=None
     #以下是功能实例化对象
     client=None 
     #以下是线程实例化对象

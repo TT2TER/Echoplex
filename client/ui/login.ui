@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>60</y>
+     <y>50</y>
      <width>144</width>
-     <height>236</height>
+     <height>268</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -621,6 +621,13 @@
      <widget class="PrimaryPushButton" name="reg_butt">
       <property name="text">
        <string>注册</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="forgot_pwd_butt">
+      <property name="text">
+       <string>找回密码</string>
       </property>
      </widget>
     </item>

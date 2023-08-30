@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QWidget, QMessageBox
 from ui.new_group_ui import Ui_new_group
 from lib.public import shared_module
 
+
 class New_group(QWidget):
     def __init__(self):
         # 继承父类
@@ -32,11 +33,12 @@ class New_group(QWidget):
             pass
         else:
             print("字符串不满足要求")
-            QMessageBox.warning(self,"群成員不合法","請滿足以下要求：\n1:由若干1开头的五位用戶id组成\n2:两个数之间用英文符號;分隔")
+            QMessageBox.warning(self,"群成員不合法","請滿足以下要求：\n1:由若干1开头的五位用戶id组成\n2:两个数之间用英文符號;分隔\n3:至少要填兩個id")
             return
-
+        
 
         #調用發送請求，member_ids是“10001;10002;10005”這樣的,members是拆開的
+        shared_module.client.create_group(members,group_name,image_path="")
 
 
         #以下是清空文本框

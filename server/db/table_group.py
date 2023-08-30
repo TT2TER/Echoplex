@@ -17,7 +17,7 @@ def create_table_group(con,table_name="[group]"):
         cursor.execute("CREATE TABLE "+ table_name+" ("
                   "group_id INT PRIMARY KEY,"
                   "group_name text,"
-                  "group_leader_id INT UNIQUE,"
+                  "group_leader_id INT,"
                   "create_time FLOAT,"
                   "group_image text)")
         con.commit()

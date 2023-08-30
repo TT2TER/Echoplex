@@ -381,6 +381,9 @@ class Main_win(QWidget):
                     break
             if content['sender_id'] == shared_module.client.user_id:
                 QMessageBox.information(self,"解散成功","群聊已解散")
+            self.del_one_list(content['group_id'])
+            if not self.chat_item.empty():
+                self.chating_item_clicked(self.chat_item[0].chat_id)
         elif back_data == '0003':
             QMessageBox.information(self,"解散失败","您不是管理员，无法解散群聊")
 #以上是群聊的跳转逻辑

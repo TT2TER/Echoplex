@@ -37,7 +37,7 @@ def create_group(data, socket, address, database):
         group_id = new_groupid
         group_table_name = "[group]"
         group_member_table_name = "group_member"
-
+        print(group_id)
         succ = insert_table_group(database, group_table_name,group_id,group_name,group_manager,group_create_time,group_image)
         if not succ:
             print("创建群表" + group_table_name + "失败")
@@ -99,7 +99,7 @@ def delete_group(data, socket, address, database):
     try:
         content = data['content']
         group_id=content['group_id']
-        sender_id=content['sender_id']
+        sender_id=content['sender']
         manager_id=select_table(database,"[group]",group_id=group_id)[0][2]
         members=search_member(database,"group_member",group_id=group_id)
         if sender_id==manager_id:
@@ -127,8 +127,7 @@ def delete_group(data, socket, address, database):
                 if member_id in online_clients:
                     receiver_socket, _ = online_clients[member_id]
                     receiver_socket.send(back_json_data)
-                else:
-                    user_mailboxes[member_id].append(back_json_data)
+        
         else:
             back_data={
                 'type':'delete_group',
@@ -147,8 +146,9 @@ def add_new_member(data, socket, address, database):
         content = data['content']
         group_id = content['group_id']
         member_id = content['member_id']
-        group_name=content['group_name']
-
+#        group_name=content['group_name']
+        ret=select_table(database,"[group]",group_id=group_id)
+        group_name=ret[0][1]
         for i in member_id:
             succ = insert_table_group_member(database,"group_member", group_id, i)
 

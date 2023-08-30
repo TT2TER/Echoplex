@@ -51,7 +51,7 @@ class Main_win(QWidget):
         #以下用于实例化进度条
          # Instantiate QProgressBar and QLabel for progress bar
         self.ui.progress_bar_widget = QWidget(self)
-        self.ui.progress_bar_widget.setGeometry(700, 630, 111, 41)
+        self.ui.progress_bar_widget.setGeometry(700, 660, 111, 60)
         self.ui.progress_bar_widget.hide()
 
         self.ui.progress_bar = QProgressBar(self.ui.progress_bar_widget)
@@ -59,7 +59,7 @@ class Main_win(QWidget):
         self.ui.progress_bar.setValue(0)
 
         self.ui.progress_bar_label = QLabel(self.ui.progress_bar_widget)
-        self.ui.progress_bar_label.setGeometry(0, 25, 111, 16)
+        self.ui.progress_bar_label.setGeometry(0, 25, 111, 25)
         self.ui.progress_bar_label.setAlignment(Qt.AlignCenter)
         self.ui.progress_bar_label.setWordWrap(True)
 
@@ -128,13 +128,22 @@ class Main_win(QWidget):
 
 #以下是添加好友相關功能
     def add_friend(self):
+        screen_geometry = shared_module.app.desktop().screenGeometry()
+        setip_geometry = shared_module.add_friend.geometry()
+        center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+        center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+        shared_module.add_friend.move(center_x, center_y)
         shared_module.add_friend.show()
 
         #测试成功
         
 
     def check_add_friend(self):
-        
+        screen_geometry = shared_module.app.desktop().screenGeometry()
+        setip_geometry = shared_module.new_friends.geometry()
+        center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+        center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+        shared_module.new_friends.move(center_x, center_y)
         shared_module.new_friends.show()
         shared_module.new_friends.add_message()
         #opp_id。
@@ -231,7 +240,7 @@ class Main_win(QWidget):
         options |= QFileDialog.ReadOnly
 
         # Set the image formats filter
-        image_formats = "Image Files (*.jpg *.jpeg *.png)"
+        image_formats = "Image Files (*.png)"
         
         full_path, _ = QFileDialog.getOpenFileName(self, 'Open Image', '', image_formats, options=options)
 
@@ -439,6 +448,7 @@ class Main_win(QWidget):
             message_item=QListWidgetItem(self.ui.view_box)
             message_item.setSizeHint(self.cur_bubble.sizeHint())
             self.ui.view_box.setItemWidget(message_item,self.cur_bubble)
+            self.ui.view_box.scrollToBottom()
             # if self.cur_bubble.is_file:
             #     for i in range(101):
             #         self.cur_bubble.update_progress(i)
@@ -456,7 +466,7 @@ class Main_win(QWidget):
     def add_percentage_bar(self, msg):
         """Add a file receiving progress bar."""
         self.ui.progress_bar_widget.show()
-        self.ui.progress_bar_label.setText(f"正在下载文件{msg}")
+        self.ui.progress_bar_label.setText(f"正在下载文件"+msg)
         self.ui.progress_bar.setValue(0)
 
     def del_percentage_bar(self):
@@ -477,12 +487,22 @@ class Main_win(QWidget):
         """
         
         print("即将打开新建群聊窗口……")
+        screen_geometry = shared_module.app.desktop().screenGeometry()
+        setip_geometry = shared_module.new_group.geometry()
+        center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+        center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+        shared_module.new_group.move(center_x, center_y)
         shared_module.new_group.show()
 
     def manage_group(self):
         """管理群聊
         
         這個函數是點擊群聊管理後調用的函數"""
+        screen_geometry = shared_module.app.desktop().screenGeometry()
+        setip_geometry = shared_module.manage_group.geometry()
+        center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+        center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+        shared_module.manage_group.move(center_x, center_y)
         shared_module.manage_group.show()
 
     def recv_delete_group(self, back_data, content):
@@ -518,6 +538,11 @@ class Main_win(QWidget):
         ip = content['user_ip']
         try:
             shared_module.video_page.update_info_label(id,ip,content)
+            screen_geometry = shared_module.app.desktop().screenGeometry()
+            setip_geometry = shared_module.video_page.geometry()
+            center_x = (screen_geometry.width() - setip_geometry.width()) / 2
+            center_y = (screen_geometry.height() - setip_geometry.height()) / 2
+            shared_module.video_page.move(center_x, center_y)
             shared_module.video_page.show()
         except Exception as e:
             print (e)

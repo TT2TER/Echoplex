@@ -198,7 +198,7 @@
       <property name="styleSheet">
        <string notr="true">QLabel#resent_message{
 	background-color: transparent;
-	font: 75 10pt &quot;Arial&quot;;
+	font: 75 8pt &quot;Arial&quot;;
 	color: rgb(32, 74, 135);
 }</string>
       </property>

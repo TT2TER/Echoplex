@@ -17,7 +17,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(378, 88)
+        Form.resize(360, 70)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -44,7 +44,7 @@ class Ui_Form(object):
 "")
         self.name = QLabel(self.widgetMain)
         self.name.setObjectName(u"name")
-        self.name.setGeometry(QRect(20, 10, 121, 21))
+        self.name.setGeometry(QRect(20, 13, 121, 21))
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -52,12 +52,12 @@ class Ui_Form(object):
         self.name.setSizePolicy(sizePolicy1)
         self.name.setStyleSheet(u"QLabel{\n"
 "	background-color: transparent;\n"
-"	font: 75 14pt \"Arial\";\n"
+"	font: 75 11pt \"Arial\";\n"
 "	color: blue\n"
 "}")
         self.new_text = QLabel(self.widgetMain)
         self.new_text.setObjectName(u"new_text")
-        self.new_text.setGeometry(QRect(20, 30, 221, 21))
+        self.new_text.setGeometry(QRect(20, 35, 221, 21))
         sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
@@ -65,12 +65,12 @@ class Ui_Form(object):
         self.new_text.setSizePolicy(sizePolicy2)
         self.new_text.setStyleSheet(u"QLabel#new_text{\n"
 "	background-color: transparent;\n"
-"	font: 75 11pt \"Arial\";\n"
+"	font: 75 9pt \"Arial\";\n"
 "	color: rgb(238, 238, 236);\n"
 "}")
         self.config_butt = QPushButton(self.widgetMain)
         self.config_butt.setObjectName(u"config_butt")
-        self.config_butt.setGeometry(QRect(300, 30, 20, 20))
+        self.config_butt.setGeometry(QRect(290, 30, 20, 20))
         self.config_butt.setStyleSheet(u"QPushButton#config_butt{\n"
 "	border-radius: 10px;\n"
 "	background-color: green;\n"

@@ -43,7 +43,7 @@ class Ui_new_friend_bar(object):
 "")
         self.name = QLabel(self.widgetMain)
         self.name.setObjectName(u"name")
-        self.name.setGeometry(QRect(20, 10, 121, 21))
+        self.name.setGeometry(QRect(20, 13, 121, 21))
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -51,12 +51,12 @@ class Ui_new_friend_bar(object):
         self.name.setSizePolicy(sizePolicy1)
         self.name.setStyleSheet(u"QLabel{\n"
 "	background-color: transparent;\n"
-"	font: 75 14pt \"Arial\";\n"
+"	font: 75 7pt \"Arial\";\n"
 "	color: blue\n"
 "}")
         self.new_text = QLabel(self.widgetMain)
         self.new_text.setObjectName(u"new_text")
-        self.new_text.setGeometry(QRect(20, 30, 221, 21))
+        self.new_text.setGeometry(QRect(20, 35, 221, 21))
         sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
@@ -64,7 +64,7 @@ class Ui_new_friend_bar(object):
         self.new_text.setSizePolicy(sizePolicy2)
         self.new_text.setStyleSheet(u"QLabel#new_text{\n"
 "	background-color: transparent;\n"
-"	font: 75 11pt \"Arial\";\n"
+"	font: 75 6pt \"Arial\";\n"
 "	color: rgb(32, 74, 135);\n"
 "}")
         self.close_butt = QPushButton(self.widgetMain)

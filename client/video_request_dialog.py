@@ -2,11 +2,14 @@ from PySide2.QtWidgets import QWidget, QMessageBox, QApplication
 from ui.video_config_ui import Ui_video_config
 from lib.public import shared_module
 from video_chat_thread import VideoChatThread
+from PySide2.QtGui import QMouseEvent
+from PySide2.QtCore import Qt
 
 
 class Video_request_dialog(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui = Ui_video_config()
         self.ui.setupUi(self)
 
@@ -18,6 +21,18 @@ class Video_request_dialog(QWidget):
         self.ui.no.clicked.connect(self.no)
 
         self.update_info_label(self.id, self.ip, self.content)
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = True
+            self.offset = event.globalPos() - self.pos()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            self.move(event.globalPos() - self.offset)
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
 
     def update_info_label(self, id, ip, content):
         info_text = str(id) + "\n地址：" + str(ip) + "\n向您发送视频请求"

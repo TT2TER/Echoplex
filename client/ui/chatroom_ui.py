@@ -678,7 +678,7 @@ class Ui_chatroom(object):
         self.toolBox.addItem(self.page, u"\u6211\u7684\u597d\u53cb")
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
-        self.page_2.setGeometry(QRect(0, 0, 274, 210))
+        self.page_2.setGeometry(QRect(0, 0, 88, 88))
         self.verticalLayout_5 = QVBoxLayout(self.page_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.listWidget_3 = QListWidget(self.page_2)

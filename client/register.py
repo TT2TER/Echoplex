@@ -12,6 +12,8 @@ class Register(QWidget):
 
     def __init__(self):
         super().__init__()
+
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui= Ui_reg()
         self.ui.setupUi(self)
 

@@ -1,16 +1,41 @@
 from PySide2.QtWidgets import QWidget, QMessageBox
 from ui.new_group_ui import Ui_new_group
 from lib.public import shared_module
+from PySide2.QtGui import QMouseEvent
+from PySide2.QtCore import Qt
 
 
 class New_group(QWidget):
     def __init__(self):
         # 继承父类
         super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui = Ui_new_group()
         self.ui.setupUi(self)
 
         self.ui.creat_group_butt.clicked.connect(self.creat_new_group)
+
+        self.ui.close_butt.clicked.connect(self.close_win)
+        self.ui.mini_butt.clicked.connect(self.minimize_win)
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = True
+            self.offset = event.globalPos() - self.pos()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            self.move(event.globalPos() - self.offset)
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
+
+    #以下是关窗口函数
+    def close_win(self):
+        self.close()
+    def minimize_win(self):
+        #这个是最小化窗口函数
+        self.showMinimized()
 
     def creat_new_group(self):
         """这里是点击创建新群聊后调用的函数
@@ -42,7 +67,8 @@ class New_group(QWidget):
         for num in members:
             mem.append(int(num))
         shared_module.client.create_group(mem, group_name, image_path="")
-
+        QMessageBox.information(self,"创建群聊成功","群名为："+group_name)
         #以下是清空文本框
         self.ui.new_group_name.clear()
         self.ui.group_member_list.clear()
+        self.close()

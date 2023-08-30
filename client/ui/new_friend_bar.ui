@@ -69,7 +69,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>10</y>
+        <y>13</y>
         <width>121</width>
         <height>21</height>
        </rect>
@@ -83,7 +83,7 @@
       <property name="styleSheet">
        <string notr="true">QLabel{
 	background-color: transparent;
-	font: 75 14pt &quot;Arial&quot;;
+	font: 75 7pt &quot;Arial&quot;;
 	color: blue
 }</string>
       </property>
@@ -95,7 +95,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>30</y>
+        <y>35</y>
         <width>221</width>
         <height>21</height>
        </rect>
@@ -109,7 +109,7 @@
       <property name="styleSheet">
        <string notr="true">QLabel#new_text{
 	background-color: transparent;
-	font: 75 11pt &quot;Arial&quot;;
+	font: 75 6pt &quot;Arial&quot;;
 	color: rgb(32, 74, 135);
 }</string>
       </property>

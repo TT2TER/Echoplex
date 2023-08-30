@@ -1,5 +1,7 @@
 from PySide2.QtWidgets import QWidget, QMessageBox
 from ui.manage_group_ui import Ui_manage_group
+from PySide2.QtGui import QMouseEvent
+from PySide2.QtCore import Qt
 from lib.public import shared_module
 import re
 
@@ -7,10 +9,13 @@ class Manage_group(QWidget):
     def __init__(self):
         # 继承父类
         super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.ui = Ui_manage_group()
         self.ui.setupUi(self)
 
         
+        self.ui.close_butt.clicked.connect(self.close_win)
+        self.ui.mini_butt.clicked.connect(self.minimize_win)
         self.ui.add_member_butt.clicked.connect(self.add_new_member)
         self.ui.del_group_butt.clicked.connect(self.del_group)
 
@@ -40,6 +45,7 @@ class Manage_group(QWidget):
         shared_module.client.add_new_member(shared_module.main_page.cur_id, member)
         
         self.ui.group_member_list.clear()
+        self.close()
 
         pass
 
@@ -50,4 +56,25 @@ class Manage_group(QWidget):
         shared_module.client.delete_group(shared_module.main_page.cur_id)
         print("刪除群聊")
         #這裡添加刪除群聊的函數和邏輯
+        self.close()
         pass
+
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = True
+            self.offset = event.globalPos() - self.pos()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            self.move(event.globalPos() - self.offset)
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
+
+    #以下是关窗口函数
+    def close_win(self):
+        self.close()
+    def minimize_win(self):
+        #这个是最小化窗口函数
+        self.showMinimized()

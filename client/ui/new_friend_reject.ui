@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>378</width>
-    <height>88</height>
+    <width>360</width>
+    <height>70</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -70,7 +70,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>10</y>
+        <y>13</y>
         <width>121</width>
         <height>21</height>
        </rect>
@@ -84,7 +84,7 @@
       <property name="styleSheet">
        <string notr="true">QLabel{
 	background-color: transparent;
-	font: 75 14pt &quot;Arial&quot;;
+	font: 75 11pt &quot;Arial&quot;;
 	color: blue
 }</string>
       </property>
@@ -96,7 +96,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>30</y>
+        <y>35</y>
         <width>221</width>
         <height>21</height>
        </rect>
@@ -110,7 +110,7 @@
       <property name="styleSheet">
        <string notr="true">QLabel#new_text{
 	background-color: transparent;
-	font: 75 11pt &quot;Arial&quot;;
+	font: 75 9pt &quot;Arial&quot;;
 	color: rgb(238, 238, 236);
 }</string>
       </property>
@@ -121,7 +121,7 @@
      <widget class="QPushButton" name="config_butt">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>290</x>
         <y>30</y>
         <width>20</width>
         <height>20</height>

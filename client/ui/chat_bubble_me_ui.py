@@ -53,10 +53,10 @@ class Ui_chat_bubble_me(object):
 "}")
         self.cur_time = QLabel(self.widgetMain)
         self.cur_time.setObjectName(u"cur_time")
-        self.cur_time.setGeometry(QRect(70, 20, 141, 21))
+        self.cur_time.setGeometry(QRect(160, 15, 130, 21))
         self.cur_time.setStyleSheet(u"QLabel#cur_time{\n"
 "	background-color: transparent;\n"
-"	font: 75 11pt \"Arial\";\n"
+"	font: 75 8pt \"Arial\";\n"
 "	color: #888888;\n"
 "}")
         self.message_bubble = QLabel(self.widgetMain)
@@ -90,7 +90,7 @@ class Ui_chat_bubble_me(object):
 "")
         self.who = QLabel(self.widgetMain)
         self.who.setObjectName(u"who")
-        self.who.setGeometry(QRect(220, 20, 67, 17))
+        self.who.setGeometry(QRect(70, 20, 67, 17))
 
         self.horizontalLayout.addWidget(self.widgetMain)
 

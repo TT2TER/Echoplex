@@ -91,7 +91,7 @@ class Ui_chating_item(object):
         self.resent_message.setSizePolicy(sizePolicy1)
         self.resent_message.setStyleSheet(u"QLabel#resent_message{\n"
 "	background-color: transparent;\n"
-"	font: 75 10pt \"Arial\";\n"
+"	font: 75 8pt \"Arial\";\n"
 "	color: rgb(32, 74, 135);\n"
 "}")
         self.message_time = QLabel(self.widgetMain)

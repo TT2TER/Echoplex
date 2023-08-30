@@ -91,16 +91,16 @@
      <widget class="QLabel" name="cur_time">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>20</y>
-        <width>141</width>
+        <x>160</x>
+        <y>15</y>
+        <width>130</width>
         <height>21</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">QLabel#cur_time{
 	background-color: transparent;
-	font: 75 11pt &quot;Arial&quot;;
+	font: 75 8pt &quot;Arial&quot;;
 	color: #888888;
 }</string>
       </property>
@@ -169,7 +169,7 @@ QLabel#message_bubble[selected=&quot;true&quot;] {
      <widget class="QLabel" name="who">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>70</x>
         <y>20</y>
         <width>67</width>
         <height>17</height>

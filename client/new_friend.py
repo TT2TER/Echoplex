@@ -15,7 +15,9 @@ class New_friends(QWidget):
         self.ui = Ui_new_friends()
         self.ui.setupUi(self)
         
-        self.ui.back_butt.clicked.connect(self.back)
+        self.ui.close_butt.clicked.connect(self.close_win)
+        self.ui.mini_butt.clicked.connect(self.minimize_win)
+        #self.ui.back_butt.clicked.connect(self.back)
         self.item = []
 
     def mousePressEvent(self, event: QMouseEvent):
@@ -31,9 +33,12 @@ class New_friends(QWidget):
         if event.button() == Qt.LeftButton:
             self.dragging = False
 
-    def back(self):
-        self.ui.new_friends_box.clear()
+    #以下是关窗口函数
+    def close_win(self):
         self.close()
+    def minimize_win(self):
+        #这个是最小化窗口函数
+        self.showMinimized()
 
     def add_message(self):
 

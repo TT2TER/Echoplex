@@ -2,10 +2,137 @@
 .idea/
 __pycache__/
 *.py[cod]
-testDB.db
-../__pycache__/
-server/new_userid.txt
+**/__pycache__/
+**/files/
+*.json
+*.db
+*.txt
+*.pem
+*.yml
+**/include/
+**/source/
+*.sh
 
 
-server/test.py
-server/files/1002310024/add_friend.py
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual Environments
+venv/
+env/
+env.bak/
+venv.bak/
+__env__/
+__venv__/
+__pyenv__/
+__tox__/
+.pyenv/
+.Python
+.python-version
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*~
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Build and Compiled Output
+/build/
+/dist/
+/target/
+/out/
+/output/
+/bin/
+/lib/
+/logs/
+*.jar
+*.war
+*.ear
+*.class
+
+# Configuration files
+*.config
+*.conf
+*.cfg
+*.ini
+*.env
+.env.*
+*.properties
+
+# Secrets and Private Information
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+*.csr
+*.jks
+*.gpg
+*.secret
+*.password
+*.token
+*.auth
+
+# Logs and Databases
+*.log
+*.sql
+*.sqlite
+*.db
+*.mdb
+
+# Testing
+/test_data/
+testdata/
+
+# Temporary Files
+*.bak
+*.swp
+*.lock
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Compiled Java files
+*.class
+
+# Compiled C/C++ files
+*.o
+*.out
+*.exe
+
+# Docker
+.docker/
+.dockerignore
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Thumbnails
+*.thumbnails/

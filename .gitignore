@@ -83,7 +83,6 @@ Thumbs.db
 *.properties
 
 # Secrets and Private Information
-*.pem
 *.key
 *.p12
 *.pfx

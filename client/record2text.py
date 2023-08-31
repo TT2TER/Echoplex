@@ -2,7 +2,7 @@ import pyaudio
 import wave
 import os
 import whisper
-from lib.public import shared_module
+from dependencies.public import shared_module
 
 
 def record2text():

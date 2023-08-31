@@ -34,7 +34,7 @@ class Ui_reg(object):
         self.side_pic.setSizePolicy(sizePolicy)
         self.side_pic.setMinimumSize(QSize(1045, 532))
         self.side_pic.setMaximumSize(QSize(1045, 532))
-        self.side_pic.setPixmap(QPixmap(u"../lib/login_back.png"))
+        self.side_pic.setPixmap(QPixmap(u"../dependencies/login_back.png"))
         self.side_pic.setScaledContents(True)
 
         self.horizontalLayout_2.addWidget(self.side_pic)

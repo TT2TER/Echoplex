@@ -87,7 +87,7 @@ class Ui_setip(object):
         self.icon.setSizePolicy(sizePolicy)
         self.icon.setMinimumSize(QSize(150, 55))
         self.icon.setMaximumSize(QSize(20, 55))
-        self.icon.setPixmap(QPixmap(u"../lib/icon.png"))
+        self.icon.setPixmap(QPixmap(u"../dependencies/icon.png"))
         self.icon.setScaledContents(True)
 
         self.verticalLayout.addWidget(self.icon, 0, Qt.AlignHCenter)

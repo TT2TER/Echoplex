@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QApplication, QMessageBox, QWidget
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtGui import QMouseEvent
 from PySide2.QtCore import Qt
-from lib.public import shared_module
+from dependencies.public import shared_module
 from ui.login_ui import Ui_Login
 from time import sleep
 import os

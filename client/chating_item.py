@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QLabel
 from PySide2.QtGui import QPixmap
 from PySide2.QtCore import Signal, Qt, QRect
 from ui.chating_item_ui import Ui_chating_item
-from lib.public import shared_module
+from dependencies.public import shared_module
 import time,os
 
 
@@ -37,7 +37,7 @@ class Chating_item(QWidget):
             self.find_avatar(self.opp_id)
         else:
             self.name=shared_module.client.find_group_name(self.chat_id)
-            self.image_path = os.path.join(os.path.dirname(__file__), "lib/group.png")
+            self.image_path = os.path.join(os.path.dirname(__file__), "dependencies/group.png")
 
 
 
@@ -83,7 +83,7 @@ class Chating_item(QWidget):
 
     # def find_avartar(self,id):
     #     """这里写一个找头像路径的函数，下面先用测试路径"""
-    #     self.img_path = "lib/login_back.png"
+    #     self.img_path = "dependencies/login_back.png"
     #     self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
     #     pass
     def find_avatar(self, id):
@@ -99,4 +99,4 @@ class Chating_item(QWidget):
                 self.image_path=avatar_path
             else:
                 # If no avatar found, return a default avatar path
-                self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")
+                self.image_path = os.path.join(os.path.dirname(__file__), "dependencies/login_back.png")

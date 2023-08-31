@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QWidget, QMessageBox, QApplication
 from ui.video_config_ui import Ui_video_config
-from lib.public import shared_module
+from dependencies.public import shared_module
 from video_chat_thread import VideoChatThread
 from PySide2.QtGui import QMouseEvent
 from PySide2.QtCore import Qt

@@ -1,7 +1,7 @@
 from PySide2.QtWidgets import QApplication, QMessageBox, QWidget, QListWidgetItem, QFileDialog, QProgressBar, QLabel,  QPushButton, QVBoxLayout, QDialog
 from PySide2.QtGui import QPixmap,  QMouseEvent
 from PySide2.QtCore import Qt, QRect
-from lib.public import shared_module
+from dependencies.public import shared_module
 from ui.chatroom_ui import Ui_chatroom
 from chating_item import Chating_item
 from chat_bubble import Message_bubble
@@ -90,7 +90,7 @@ class Main_win(QWidget):
 #以上是最終實現的信號槽
 #以下是測試用的信號槽和函數
     #     self.ui.add_new_chat.clicked.connect(self.add_test)
-    #     self.img_path = "lib/login_back.png"
+    #     self.img_path = "dependencies/login_back.png"
     #     self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
     # def add_test(self):
     #         #以下測試
@@ -112,7 +112,7 @@ class Main_win(QWidget):
                 self.image_path=avatar_path
             else:
                 # If no avatar found, return a default avatar path
-                self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")
+                self.image_path = os.path.join(os.path.dirname(__file__), "dependencies/login_back.png")
     
     def show_my_avatar(self,find):
         if find:

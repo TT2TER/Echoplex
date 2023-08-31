@@ -4,7 +4,7 @@ from PySide2.QtCore import Qt, Signal, QRect
 from ui.file_bubble_ui import Ui_file_bubble
 from PySide2.QtGui import QTextDocument, QPixmap
 from datetime import datetime
-from lib.public import shared_module
+from dependencies.public import shared_module
 import os
 
 class Message_bubble(QWidget):
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     # 格式化为字符串
     time_string = current_time.strftime("%Y-%m-%d %H:%M:%S")
     
-    img_path = "lib/login_back.png"
+    img_path = "dependencies/login_back.png"
     image_path=os.path.join(os.path.dirname(__file__), img_path)
     
     who="others"

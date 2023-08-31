@@ -1,7 +1,7 @@
 from PySide2.QtCore import QThread, Signal, QDateTime
 from PySide2.QtWidgets import QApplication, QDialog, QLineEdit
 import json
-from lib.public import shared_module
+from dependencies.public import shared_module
 import queue
 
 

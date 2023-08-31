@@ -2,7 +2,7 @@ import socket
 import json
 import threading
 from datetime import datetime
-from lib.public import shared_module
+from dependencies.public import shared_module
 from video_chat_thread import *
 from file_thread import FileSendThread, FileReceiveThread, receive_file_handler
 import os, time

@@ -3,7 +3,7 @@ from PySide2.QtGui import QPixmap
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtGui import QMouseEvent
 from PySide2.QtCore import Qt
-from lib.public import shared_module
+from dependencies.public import shared_module
 from ui.register_ui import Ui_reg
 import os
 
@@ -26,7 +26,7 @@ class Register(QWidget):
         self.ui.mini_butt.clicked.connect(self.minimize_win)
 
         #显示侧边图片
-        img_path = "lib/login_back.png"
+        img_path = "dependencies/login_back.png"
         image_path=os.path.join(os.path.dirname(__file__), img_path)
         pixmap = QPixmap(image_path)
         self.ui.side_pic.setPixmap(pixmap)

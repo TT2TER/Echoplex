@@ -6,7 +6,7 @@ from ui.chat_bubble_me_ui import Ui_chat_bubble_me
 from ui.file_bubble_ui import Ui_file_bubble
 from PySide2.QtGui import QTextDocument, QPixmap
 from datetime import datetime
-from lib.public import shared_module
+from dependencies.public import shared_module
 import os
 import time
 
@@ -160,7 +160,7 @@ class Message_bubble(QWidget):
 
     # def find_avartar(self,id):
     #     """这里写一个找头像路径的函数，下面先用测试路径"""
-    #     self.img_path = "lib/login_back.png"
+    #     self.img_path = "dependencies/login_back.png"
     #     self.image_path=os.path.join(os.path.dirname(__file__), self.img_path)
     #     pass
     def find_avatar(self, id):
@@ -176,7 +176,7 @@ class Message_bubble(QWidget):
                 self.image_path=avatar_path
             else:
                 # If no avatar found, return a default avatar path
-                self.image_path = os.path.join(os.path.dirname(__file__), "lib/login_back.png")
+                self.image_path = os.path.join(os.path.dirname(__file__), "dependencies/login_back.png")
 
 
     def toggle_selection(self, event):
@@ -212,7 +212,7 @@ if __name__ == "__main__":
     # 格式化为字符串
     time_string = current_time.strftime("%Y-%m-%d %H:%M:%S")
     
-    img_path = "lib/login_back.png"
+    img_path = "dependencies/login_back.png"
     image_path=os.path.join(os.path.dirname(__file__), img_path)
     
     who="others"

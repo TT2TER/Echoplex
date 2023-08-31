@@ -40,7 +40,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../lib/login_back.png</pixmap>
+        <pixmap>../dependencies/login_back.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

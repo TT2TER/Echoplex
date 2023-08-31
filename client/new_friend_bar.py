@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QLabel
 from PySide2.QtGui import QPixmap
 from PySide2.QtCore import Signal, Qt, QRect
 from ui.new_friend_bar_ui import Ui_new_friend_bar
-from lib.public import shared_module
+from dependencies.public import shared_module
 from datetime import datetime
 import time
 

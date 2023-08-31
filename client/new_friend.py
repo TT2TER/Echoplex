@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QWidget, QListWidgetItem
 from ui.new_friends_ui import Ui_new_friends
-from lib.public import shared_module
+from dependencies.public import shared_module
 from new_friend_bar import New_friend_bar
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QMouseEvent

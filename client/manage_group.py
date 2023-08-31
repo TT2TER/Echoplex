@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QWidget, QMessageBox
 from ui.manage_group_ui import Ui_manage_group
 from PySide2.QtGui import QMouseEvent
 from PySide2.QtCore import Qt
-from lib.public import shared_module
+from dependencies.public import shared_module
 import re
 
 class Manage_group(QWidget):

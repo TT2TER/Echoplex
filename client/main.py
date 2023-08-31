@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QApplication, QMessageBox
 from PySide2.QtUiTools import QUiLoader
-from lib.public import shared_module
+from dependencies.public import shared_module
 from setip import Setip
 from login import Login
 from window import Main_win

@@ -16,7 +16,7 @@ def _format_addr(s):
 def retrieve_password(received_data, socket, address, database):
     from_addr = "fluppyfr@163.com"
     smtp_server = "smtp.163.com"
-    password = "VXQBWCZGYBRDEGEC"
+    password = ""
     content = received_data['content']
     user_id = content['user_id']
     ret = select_table(database, "user", user_id=user_id)
